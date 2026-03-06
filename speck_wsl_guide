@@ -1,0 +1,12 @@
+To connect to speck in Windows 11 OS:
+
+1. Download WSL 2 & usbipd and set them up
+2. install Ubuntu in WSL 2
+3. Open Powershell (admin)
+4. `usbipd list`  and then bind speck with the bus id provided from the list `usbipd bind --busid 1-6`
+5. Open Ubuntu or WSL
+6. Once your linux terminal is activate
+7. Go back to your Powershell (admin) and type in  `usbipd attach --wsl --busid 1-6`
+8. Open your Speck environment - `source speck/bin/activate`
+9. Go to Directory : `cd ~/tactile-sensing/speck_con`
+10. run the output Visualizer : `python3 speck_dvs_output.py`
