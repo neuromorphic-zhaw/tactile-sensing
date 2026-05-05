@@ -1,0 +1,4 @@
+tactile_cache_fast/
+   tactile_env/
+   *.pt
+   __pycache__/
