@@ -2,3 +2,6 @@ tactile_cache_fast/
    tactile_env/
    *.pt
    __pycache__/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
