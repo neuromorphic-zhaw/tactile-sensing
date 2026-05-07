@@ -5,3 +5,9 @@ tactile_cache_fast/
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+dataset_curv/
+Slurm-*/
+tactile_cache_*/
+*.pt
+tactile_cache_80bins/
+tactile_cache_*/
