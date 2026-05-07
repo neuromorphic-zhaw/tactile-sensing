@@ -13,16 +13,17 @@ import sinabs
 import sinabs.layers as sl
 
 # --- 1. CONFIGURATION (THE FAST LEVERS) ---
-DATA_PATH = "/home/ronald/speck_project/curv/dataset_curv"
-BATCH_SIZE = 64            
-NUM_WORKERS = 8             
+DATA_PATH = "./dataset_curv" 
+BATCH_SIZE = 4             # Keep low for 80 bins
+NUM_WORKERS = 16            # Increased for faster gzip unpacking
 EPOCHS = 50
 LEARNING_RATE = 1e-3
 DEVICE = torch.device("cuda")
+BINS = 80                  # Your specific requirement
 
-# FAST LEVER 1: Lock the time dimension to 10 bins!
+# FAST LEVER 1: Set to 80 bins
 transform = T.Compose([
-    T.ToFrame(sensor_size=(128, 128, 2), n_time_bins=10),
+    T.ToFrame(sensor_size=(128, 128, 2), n_time_bins=BINS),
 ])
 
 # 2.1 Identify folder paths
@@ -64,16 +65,15 @@ class CustomTonicDataset(torch.utils.data.Dataset):
 
 full_dataset = CustomTonicDataset(all_filepaths, labels, transform=transform)
 
-# FAST LEVER 2: Cache the dataset so Epoch 2+ is instant
-# (Make sure you have a few GB of space on your drive!)
-full_dataset = tonic.DiskCachedDataset(full_dataset, cache_path='./tactile_cache_fast')
+# Cache on scratch
+full_dataset = tonic.DiskCachedDataset(full_dataset, cache_path='./tactile_cache_80bins')
 
 # Splits
 indices = list(range(len(full_dataset)))
 train_val_idx, test_idx = train_test_split(indices, test_size=0.15, stratify=labels, random_state=42)
-train_idx, val_idx = train_test_split(train_val_idx, test_size=0.176, stratify=[labels[i] for i in train_val_idx], random_state=42)
+train_val_labels = [labels[i] for i in train_val_idx]
+train_idx, val_idx = train_test_split(train_val_idx, test_size=0.176, stratify=train_val_labels, random_state=42)
 
-# FAST LEVER 3: No more padding needed because every sample is exactly 10 bins long!
 LOADER_ARGS = {
     'batch_size': BATCH_SIZE,
     'num_workers': NUM_WORKERS,
@@ -89,9 +89,9 @@ class SpeckTactileSNN(nn.Module):
         super().__init__()
         self.model = nn.Sequential(
             nn.Conv2d(2, 32, 3, padding=1, bias=False), 
-            nn.BatchNorm2d(32),        # <-- FIX 1: Auto-scales voltage perfectly
+            nn.BatchNorm2d(32),        
             sl.LIF(tau_mem=20.0), 
-            nn.MaxPool2d(2),           # <-- FIX 2: Preserves binary spikes!
+            nn.MaxPool2d(2),           
             
             nn.Conv2d(32, 64, 3, padding=1, bias=False), 
             nn.BatchNorm2d(64),
@@ -105,7 +105,7 @@ class SpeckTactileSNN(nn.Module):
             
             nn.Flatten(),
             nn.Linear(128 * 16 * 16, 512, bias=False), 
-            nn.BatchNorm1d(512),       # <-- 1D Batch Norm for Linear layers
+            nn.BatchNorm1d(512),       
             sl.LIF(tau_mem=20.0),
             
             nn.Linear(512, 2, bias=False)
@@ -113,10 +113,14 @@ class SpeckTactileSNN(nn.Module):
 
     def forward(self, x):
         sinabs.utils.reset_states(self.model)
-        out = []
+        acc_output = None
         for t in range(x.shape[1]):
-            out.append(self.model(x[:, t]))
-        return torch.stack(out).sum(dim=0)
+            out = self.model(x[:, t])
+            if acc_output is None:
+                acc_output = out
+            else:
+                acc_output = acc_output + out
+        return acc_output
 
 model = SpeckTactileSNN().to(DEVICE)
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -125,7 +129,9 @@ scaler = torch.amp.GradScaler('cuda')
 
 # --- 4. TRAINING LOOP ---
 best_val_acc = 0
-print("🚀 LAUNCHING 'GOLDILOCKS' SNN SCRIPT...")
+best_model_path = ""
+
+print(f"🚀 LAUNCHING 'GOLDILOCKS' SNN (Bins: {BINS}, Batch: {BATCH_SIZE})...")
 
 for epoch in range(EPOCHS):
     start_time = time.time()
@@ -133,12 +139,10 @@ for epoch in range(EPOCHS):
     total_loss = 0
     
     for batch_idx, (data, target) in enumerate(train_loader):
-        # 🚫 REMOVED the * 50.0 boost. Let BatchNorm do the heavy lifting!
         data = data.to(DEVICE, non_blocking=True).float() 
         target = target.to(DEVICE, non_blocking=True)
         
         optimizer.zero_grad(set_to_none=True) 
-        
         output = model(data)
         loss = criterion(output, target)
         
@@ -152,7 +156,7 @@ for epoch in range(EPOCHS):
     correct = 0
     with torch.no_grad():
         for data, target in val_loader:
-            data = data.to(DEVICE).float() # 🚫 Removed boost here too
+            data = data.to(DEVICE).float()
             target = target.to(DEVICE)
             output = model(data)
             correct += output.argmax(1).eq(target).sum().item()
@@ -160,9 +164,22 @@ for epoch in range(EPOCHS):
     val_acc = 100. * correct / len(val_idx)
     duration = time.time() - start_time
     
+    # SAVE LOGIC
+    if val_acc > best_val_acc:
+        # Delete old best model file if it exists to save space
+        if best_model_path and os.path.exists(best_model_path):
+            os.remove(best_model_path)
+            
+        best_val_acc = val_acc
+        best_model_path = f"speck_best_bins{BINS}_batch{BATCH_SIZE}_acc{val_acc:.2f}.pt"
+        torch.save(model.state_dict(), best_model_path)
+        print(f"🌟 New Best Model Saved: {best_model_path}")
+    
     print(f"Epoch {epoch+1} | Loss: {total_loss/len(train_loader):.4f} | Val Acc: {val_acc:.2f}% | Time: {duration:.2f}s")
+    torch.cuda.empty_cache()
+
 print("\n" + "="*30)
 print(f"🎉 Training Complete!")
-print(f"🏆 Best Accuracy: {best_val_acc:.2f}%")
-print(f"📅 Achieved at Epoch: {best_epoch}")
+print(f"🏆 Final Best Accuracy: {best_val_acc:.2f}%")
+print(f"💾 File: {best_model_path}")
 print("="*30)
