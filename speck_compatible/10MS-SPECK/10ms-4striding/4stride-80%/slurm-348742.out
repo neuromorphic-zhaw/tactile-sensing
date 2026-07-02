@@ -1,0 +1,260 @@
+✅ Sinabs loaded successfully
+🧹 Wiping all previous session artifacts from the cluster node...
+✅ Node disk and OS memory caches cleared cleanly.
+🚀 Baseline Training started on node301 at Tue Jun 30 19:59:01 CEST 2026
+📦 Dataset initialized with 200 fully uniform, padded samples.
+📊 Dataset splits mapped cleanly -> Train: 140 | Val: 30 | Test: 30
+🚀 TRAINING START: Silicon-Native 9-Core SNN
+   ⏳ [TRAIN HEARTBEAT] Epoch 01 | Progress: 64.3% (9/14) | Batch Loss: 0.7018 | Job Runtime: 2.0m
+⏱️ Epoch 01/100 | Avg Train Loss: 0.8181 | Val Acc: 63.33% | Best: 63.33% | Epoch Time: 186.0s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 02 | Progress: 35.7% (5/14) | Batch Loss: 0.6531 | Job Runtime: 4.1m
+⏱️ Epoch 02/100 | Avg Train Loss: 0.6620 | Val Acc: 43.33% | Best: 63.33% | Epoch Time: 169.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 03 | Progress: 7.1% (1/14) | Batch Loss: 0.5757 | Job Runtime: 6.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 03 | Progress: 85.7% (12/14) | Batch Loss: 0.6533 | Job Runtime: 8.3m
+⏱️ Epoch 03/100 | Avg Train Loss: 0.6521 | Val Acc: 53.33% | Best: 63.33% | Epoch Time: 169.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 04 | Progress: 57.1% (8/14) | Batch Loss: 0.6615 | Job Runtime: 10.4m
+⏱️ Epoch 04/100 | Avg Train Loss: 0.6479 | Val Acc: 56.67% | Best: 63.33% | Epoch Time: 171.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 05 | Progress: 28.6% (4/14) | Batch Loss: 0.7104 | Job Runtime: 12.5m
+⏱️ Epoch 05/100 | Avg Train Loss: 0.6879 | Val Acc: 66.67% | Best: 66.67% | Epoch Time: 172.4s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 06 | Progress: 7.1% (1/14) | Batch Loss: 0.7416 | Job Runtime: 14.8m
+   ⏳ [TRAIN HEARTBEAT] Epoch 06 | Progress: 85.7% (12/14) | Batch Loss: 1.0393 | Job Runtime: 16.8m
+⏱️ Epoch 06/100 | Avg Train Loss: 0.6162 | Val Acc: 53.33% | Best: 66.67% | Epoch Time: 170.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 07 | Progress: 57.1% (8/14) | Batch Loss: 0.9533 | Job Runtime: 18.9m
+⏱️ Epoch 07/100 | Avg Train Loss: 0.6050 | Val Acc: 63.33% | Best: 66.67% | Epoch Time: 171.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 08 | Progress: 28.6% (4/14) | Batch Loss: 0.5667 | Job Runtime: 21.0m
+⏱️ Epoch 08/100 | Avg Train Loss: 0.6118 | Val Acc: 63.33% | Best: 66.67% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 09 | Progress: 7.1% (1/14) | Batch Loss: 0.6526 | Job Runtime: 23.3m
+   ⏳ [TRAIN HEARTBEAT] Epoch 09 | Progress: 85.7% (12/14) | Batch Loss: 0.7924 | Job Runtime: 25.4m
+⏱️ Epoch 09/100 | Avg Train Loss: 0.5498 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 171.1s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 10 | Progress: 57.1% (8/14) | Batch Loss: 1.1618 | Job Runtime: 27.5m
+⏱️ Epoch 10/100 | Avg Train Loss: 0.7052 | Val Acc: 70.00% | Best: 73.33% | Epoch Time: 171.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 11 | Progress: 28.6% (4/14) | Batch Loss: 0.5539 | Job Runtime: 29.6m
+⏱️ Epoch 11/100 | Avg Train Loss: 0.5316 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 170.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 12 | Progress: 7.1% (1/14) | Batch Loss: 0.5378 | Job Runtime: 31.9m
+   ⏳ [TRAIN HEARTBEAT] Epoch 12 | Progress: 85.7% (12/14) | Batch Loss: 0.5235 | Job Runtime: 33.9m
+⏱️ Epoch 12/100 | Avg Train Loss: 0.4926 | Val Acc: 63.33% | Best: 73.33% | Epoch Time: 172.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 13 | Progress: 57.1% (8/14) | Batch Loss: 0.2744 | Job Runtime: 36.0m
+⏱️ Epoch 13/100 | Avg Train Loss: 0.4562 | Val Acc: 70.00% | Best: 73.33% | Epoch Time: 171.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 14 | Progress: 28.6% (4/14) | Batch Loss: 0.2462 | Job Runtime: 38.1m
+⏱️ Epoch 14/100 | Avg Train Loss: 0.5229 | Val Acc: 56.67% | Best: 73.33% | Epoch Time: 169.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 15 | Progress: 7.1% (1/14) | Batch Loss: 0.3042 | Job Runtime: 40.4m
+   ⏳ [TRAIN HEARTBEAT] Epoch 15 | Progress: 85.7% (12/14) | Batch Loss: 0.4488 | Job Runtime: 42.5m
+⏱️ Epoch 15/100 | Avg Train Loss: 0.3878 | Val Acc: 56.67% | Best: 73.33% | Epoch Time: 171.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 16 | Progress: 57.1% (8/14) | Batch Loss: 0.3505 | Job Runtime: 44.5m
+⏱️ Epoch 16/100 | Avg Train Loss: 0.4167 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 169.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 17 | Progress: 28.6% (4/14) | Batch Loss: 0.3581 | Job Runtime: 46.6m
+⏱️ Epoch 17/100 | Avg Train Loss: 0.3429 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 168.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 18 | Progress: 7.1% (1/14) | Batch Loss: 0.9797 | Job Runtime: 48.9m
+   ⏳ [TRAIN HEARTBEAT] Epoch 18 | Progress: 85.7% (12/14) | Batch Loss: 0.2453 | Job Runtime: 51.0m
+⏱️ Epoch 18/100 | Avg Train Loss: 0.3578 | Val Acc: 63.33% | Best: 73.33% | Epoch Time: 172.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 19 | Progress: 57.1% (8/14) | Batch Loss: 0.5316 | Job Runtime: 53.0m
+⏱️ Epoch 19/100 | Avg Train Loss: 0.3345 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 170.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 20 | Progress: 28.6% (4/14) | Batch Loss: 0.4258 | Job Runtime: 55.2m
+⏱️ Epoch 20/100 | Avg Train Loss: 0.3309 | Val Acc: 66.67% | Best: 73.33% | Epoch Time: 172.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 21 | Progress: 7.1% (1/14) | Batch Loss: 0.1302 | Job Runtime: 57.5m
+   ⏳ [TRAIN HEARTBEAT] Epoch 21 | Progress: 85.7% (12/14) | Batch Loss: 0.8587 | Job Runtime: 59.5m
+⏱️ Epoch 21/100 | Avg Train Loss: 0.4042 | Val Acc: 73.33% | Best: 73.33% | Epoch Time: 172.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 22 | Progress: 57.1% (8/14) | Batch Loss: 0.0421 | Job Runtime: 61.7m
+⏱️ Epoch 22/100 | Avg Train Loss: 0.3745 | Val Acc: 60.00% | Best: 73.33% | Epoch Time: 171.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 23 | Progress: 28.6% (4/14) | Batch Loss: 0.1594 | Job Runtime: 63.7m
+⏱️ Epoch 23/100 | Avg Train Loss: 0.2966 | Val Acc: 56.67% | Best: 73.33% | Epoch Time: 169.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 24 | Progress: 7.1% (1/14) | Batch Loss: 0.0764 | Job Runtime: 66.0m
+   ⏳ [TRAIN HEARTBEAT] Epoch 24 | Progress: 85.7% (12/14) | Batch Loss: 0.3043 | Job Runtime: 68.1m
+⏱️ Epoch 24/100 | Avg Train Loss: 0.1949 | Val Acc: 80.00% | Best: 80.00% | Epoch Time: 170.8s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 25 | Progress: 57.1% (8/14) | Batch Loss: 0.0748 | Job Runtime: 70.2m
+⏱️ Epoch 25/100 | Avg Train Loss: 0.2261 | Val Acc: 60.00% | Best: 80.00% | Epoch Time: 171.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 26 | Progress: 28.6% (4/14) | Batch Loss: 0.5389 | Job Runtime: 72.3m
+⏱️ Epoch 26/100 | Avg Train Loss: 0.6708 | Val Acc: 56.67% | Best: 80.00% | Epoch Time: 172.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 27 | Progress: 7.1% (1/14) | Batch Loss: 0.1413 | Job Runtime: 74.6m
+   ⏳ [TRAIN HEARTBEAT] Epoch 27 | Progress: 85.7% (12/14) | Batch Loss: 0.2871 | Job Runtime: 76.7m
+⏱️ Epoch 27/100 | Avg Train Loss: 0.3154 | Val Acc: 73.33% | Best: 80.00% | Epoch Time: 171.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 28 | Progress: 57.1% (8/14) | Batch Loss: 0.0996 | Job Runtime: 78.7m
+⏱️ Epoch 28/100 | Avg Train Loss: 0.1382 | Val Acc: 83.33% | Best: 83.33% | Epoch Time: 168.9s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 29 | Progress: 28.6% (4/14) | Batch Loss: 0.8944 | Job Runtime: 80.8m
+⏱️ Epoch 29/100 | Avg Train Loss: 0.4799 | Val Acc: 76.67% | Best: 83.33% | Epoch Time: 170.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 30 | Progress: 7.1% (1/14) | Batch Loss: 0.1015 | Job Runtime: 83.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 30 | Progress: 85.7% (12/14) | Batch Loss: 1.2515 | Job Runtime: 85.2m
+⏱️ Epoch 30/100 | Avg Train Loss: 0.3589 | Val Acc: 70.00% | Best: 83.33% | Epoch Time: 172.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 31 | Progress: 57.1% (8/14) | Batch Loss: 0.2833 | Job Runtime: 87.3m
+⏱️ Epoch 31/100 | Avg Train Loss: 0.3725 | Val Acc: 60.00% | Best: 83.33% | Epoch Time: 170.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 32 | Progress: 28.6% (4/14) | Batch Loss: 0.0006 | Job Runtime: 89.4m
+⏱️ Epoch 32/100 | Avg Train Loss: 0.2008 | Val Acc: 83.33% | Best: 83.33% | Epoch Time: 172.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 33 | Progress: 7.1% (1/14) | Batch Loss: 0.0640 | Job Runtime: 91.7m
+   ⏳ [TRAIN HEARTBEAT] Epoch 33 | Progress: 85.7% (12/14) | Batch Loss: 0.5015 | Job Runtime: 93.8m
+⏱️ Epoch 33/100 | Avg Train Loss: 0.1686 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 34 | Progress: 57.1% (8/14) | Batch Loss: 0.1143 | Job Runtime: 95.8m
+⏱️ Epoch 34/100 | Avg Train Loss: 0.4810 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 170.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 35 | Progress: 28.6% (4/14) | Batch Loss: 0.0981 | Job Runtime: 97.9m
+⏱️ Epoch 35/100 | Avg Train Loss: 0.2385 | Val Acc: 53.33% | Best: 83.33% | Epoch Time: 169.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 36 | Progress: 7.1% (1/14) | Batch Loss: 0.8206 | Job Runtime: 100.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 36 | Progress: 85.7% (12/14) | Batch Loss: 0.0028 | Job Runtime: 102.2m
+⏱️ Epoch 36/100 | Avg Train Loss: 0.2790 | Val Acc: 60.00% | Best: 83.33% | Epoch Time: 169.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 37 | Progress: 57.1% (8/14) | Batch Loss: 0.0008 | Job Runtime: 104.4m
+⏱️ Epoch 37/100 | Avg Train Loss: 0.3806 | Val Acc: 60.00% | Best: 83.33% | Epoch Time: 172.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 38 | Progress: 28.6% (4/14) | Batch Loss: 0.6961 | Job Runtime: 106.4m
+⏱️ Epoch 38/100 | Avg Train Loss: 0.1595 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 169.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 39 | Progress: 7.1% (1/14) | Batch Loss: 0.0532 | Job Runtime: 108.7m
+   ⏳ [TRAIN HEARTBEAT] Epoch 39 | Progress: 85.7% (12/14) | Batch Loss: 0.6070 | Job Runtime: 110.7m
+⏱️ Epoch 39/100 | Avg Train Loss: 0.5507 | Val Acc: 60.00% | Best: 83.33% | Epoch Time: 168.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 40 | Progress: 57.1% (8/14) | Batch Loss: 0.7593 | Job Runtime: 112.8m
+⏱️ Epoch 40/100 | Avg Train Loss: 1.1470 | Val Acc: 80.00% | Best: 83.33% | Epoch Time: 170.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 41 | Progress: 28.6% (4/14) | Batch Loss: 1.0690 | Job Runtime: 114.9m
+⏱️ Epoch 41/100 | Avg Train Loss: 0.2842 | Val Acc: 56.67% | Best: 83.33% | Epoch Time: 169.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 42 | Progress: 7.1% (1/14) | Batch Loss: 1.8529 | Job Runtime: 117.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 42 | Progress: 85.7% (12/14) | Batch Loss: 0.0382 | Job Runtime: 119.3m
+⏱️ Epoch 42/100 | Avg Train Loss: 0.5715 | Val Acc: 56.67% | Best: 83.33% | Epoch Time: 171.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 43 | Progress: 57.1% (8/14) | Batch Loss: 0.0022 | Job Runtime: 121.4m
+⏱️ Epoch 43/100 | Avg Train Loss: 0.3538 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 169.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 44 | Progress: 28.6% (4/14) | Batch Loss: 0.0429 | Job Runtime: 123.4m
+⏱️ Epoch 44/100 | Avg Train Loss: 0.1643 | Val Acc: 80.00% | Best: 83.33% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 45 | Progress: 7.1% (1/14) | Batch Loss: 0.3632 | Job Runtime: 125.7m
+   ⏳ [TRAIN HEARTBEAT] Epoch 45 | Progress: 85.7% (12/14) | Batch Loss: 0.7799 | Job Runtime: 127.8m
+⏱️ Epoch 45/100 | Avg Train Loss: 0.3414 | Val Acc: 80.00% | Best: 83.33% | Epoch Time: 170.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 46 | Progress: 57.1% (8/14) | Batch Loss: 0.0002 | Job Runtime: 129.9m
+⏱️ Epoch 46/100 | Avg Train Loss: 0.1136 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 169.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 47 | Progress: 28.6% (4/14) | Batch Loss: 0.2805 | Job Runtime: 131.9m
+⏱️ Epoch 47/100 | Avg Train Loss: 0.2389 | Val Acc: 76.67% | Best: 83.33% | Epoch Time: 168.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 48 | Progress: 7.1% (1/14) | Batch Loss: 0.0245 | Job Runtime: 134.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 48 | Progress: 85.7% (12/14) | Batch Loss: 0.0371 | Job Runtime: 136.3m
+⏱️ Epoch 48/100 | Avg Train Loss: 0.1150 | Val Acc: 76.67% | Best: 83.33% | Epoch Time: 171.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 49 | Progress: 57.1% (8/14) | Batch Loss: 0.1868 | Job Runtime: 138.4m
+⏱️ Epoch 49/100 | Avg Train Loss: 0.2342 | Val Acc: 76.67% | Best: 83.33% | Epoch Time: 169.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 50 | Progress: 28.6% (4/14) | Batch Loss: 0.0595 | Job Runtime: 140.5m
+⏱️ Epoch 50/100 | Avg Train Loss: 0.1735 | Val Acc: 73.33% | Best: 83.33% | Epoch Time: 170.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 51 | Progress: 7.1% (1/14) | Batch Loss: 0.0003 | Job Runtime: 142.8m
+   ⏳ [TRAIN HEARTBEAT] Epoch 51 | Progress: 85.7% (12/14) | Batch Loss: 1.7131 | Job Runtime: 144.8m
+⏱️ Epoch 51/100 | Avg Train Loss: 0.4042 | Val Acc: 66.67% | Best: 83.33% | Epoch Time: 172.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 52 | Progress: 57.1% (8/14) | Batch Loss: 0.8192 | Job Runtime: 146.9m
+⏱️ Epoch 52/100 | Avg Train Loss: 0.1546 | Val Acc: 70.00% | Best: 83.33% | Epoch Time: 170.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 53 | Progress: 28.6% (4/14) | Batch Loss: 1.7241 | Job Runtime: 149.0m
+⏱️ Epoch 53/100 | Avg Train Loss: 0.5066 | Val Acc: 86.67% | Best: 86.67% | Epoch Time: 168.2s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 54 | Progress: 7.1% (1/14) | Batch Loss: 0.5104 | Job Runtime: 151.3m
+   ⏳ [TRAIN HEARTBEAT] Epoch 54 | Progress: 85.7% (12/14) | Batch Loss: 0.1213 | Job Runtime: 153.3m
+⏱️ Epoch 54/100 | Avg Train Loss: 0.2603 | Val Acc: 60.00% | Best: 86.67% | Epoch Time: 171.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 55 | Progress: 57.1% (8/14) | Batch Loss: 0.0328 | Job Runtime: 155.4m
+⏱️ Epoch 55/100 | Avg Train Loss: 0.4190 | Val Acc: 83.33% | Best: 86.67% | Epoch Time: 169.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 56 | Progress: 28.6% (4/14) | Batch Loss: 1.0835 | Job Runtime: 157.5m
+⏱️ Epoch 56/100 | Avg Train Loss: 0.4137 | Val Acc: 80.00% | Best: 86.67% | Epoch Time: 170.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 57 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 159.8m
+   ⏳ [TRAIN HEARTBEAT] Epoch 57 | Progress: 85.7% (12/14) | Batch Loss: 1.4444 | Job Runtime: 161.8m
+⏱️ Epoch 57/100 | Avg Train Loss: 0.1046 | Val Acc: 80.00% | Best: 86.67% | Epoch Time: 170.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 58 | Progress: 57.1% (8/14) | Batch Loss: 0.3637 | Job Runtime: 164.0m
+⏱️ Epoch 58/100 | Avg Train Loss: 0.0528 | Val Acc: 80.00% | Best: 86.67% | Epoch Time: 171.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 59 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 166.1m
+⏱️ Epoch 59/100 | Avg Train Loss: 0.0038 | Val Acc: 90.00% | Best: 90.00% | Epoch Time: 172.0s 🌟 [SAVED NEW BEST!]
+   ⏳ [TRAIN HEARTBEAT] Epoch 60 | Progress: 7.1% (1/14) | Batch Loss: 2.1395 | Job Runtime: 168.4m
+   ⏳ [TRAIN HEARTBEAT] Epoch 60 | Progress: 85.7% (12/14) | Batch Loss: 0.3518 | Job Runtime: 170.4m
+⏱️ Epoch 60/100 | Avg Train Loss: 0.4417 | Val Acc: 73.33% | Best: 90.00% | Epoch Time: 171.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 61 | Progress: 57.1% (8/14) | Batch Loss: 0.0979 | Job Runtime: 172.5m
+⏱️ Epoch 61/100 | Avg Train Loss: 0.2154 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 170.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 62 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 174.6m
+⏱️ Epoch 62/100 | Avg Train Loss: 0.0394 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 169.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 63 | Progress: 7.1% (1/14) | Batch Loss: 0.0002 | Job Runtime: 176.9m
+   ⏳ [TRAIN HEARTBEAT] Epoch 63 | Progress: 85.7% (12/14) | Batch Loss: 0.1484 | Job Runtime: 179.0m
+⏱️ Epoch 63/100 | Avg Train Loss: 0.1141 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 170.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 64 | Progress: 57.1% (8/14) | Batch Loss: 0.7127 | Job Runtime: 181.0m
+⏱️ Epoch 64/100 | Avg Train Loss: 0.0891 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 170.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 65 | Progress: 28.6% (4/14) | Batch Loss: 0.0004 | Job Runtime: 183.1m
+⏱️ Epoch 65/100 | Avg Train Loss: 0.0023 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 66 | Progress: 7.1% (1/14) | Batch Loss: 0.0001 | Job Runtime: 185.4m
+   ⏳ [TRAIN HEARTBEAT] Epoch 66 | Progress: 85.7% (12/14) | Batch Loss: 0.3033 | Job Runtime: 187.4m
+⏱️ Epoch 66/100 | Avg Train Loss: 0.3755 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 169.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 67 | Progress: 57.1% (8/14) | Batch Loss: 0.0071 | Job Runtime: 189.6m
+⏱️ Epoch 67/100 | Avg Train Loss: 0.1981 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 173.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 68 | Progress: 28.6% (4/14) | Batch Loss: 0.0006 | Job Runtime: 191.7m
+⏱️ Epoch 68/100 | Avg Train Loss: 0.0766 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 171.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 69 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 193.9m
+   ⏳ [TRAIN HEARTBEAT] Epoch 69 | Progress: 85.7% (12/14) | Batch Loss: 1.3929 | Job Runtime: 196.0m
+⏱️ Epoch 69/100 | Avg Train Loss: 0.3503 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 169.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 70 | Progress: 57.1% (8/14) | Batch Loss: 0.7703 | Job Runtime: 198.1m
+⏱️ Epoch 70/100 | Avg Train Loss: 0.1184 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 71 | Progress: 28.6% (4/14) | Batch Loss: 0.0005 | Job Runtime: 200.2m
+⏱️ Epoch 71/100 | Avg Train Loss: 0.4852 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 172.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 72 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 202.5m
+   ⏳ [TRAIN HEARTBEAT] Epoch 72 | Progress: 85.7% (12/14) | Batch Loss: 1.5528 | Job Runtime: 204.5m
+⏱️ Epoch 72/100 | Avg Train Loss: 0.3987 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 73 | Progress: 57.1% (8/14) | Batch Loss: 0.0023 | Job Runtime: 206.6m
+⏱️ Epoch 73/100 | Avg Train Loss: 0.2230 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 171.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 74 | Progress: 28.6% (4/14) | Batch Loss: 0.0005 | Job Runtime: 208.7m
+⏱️ Epoch 74/100 | Avg Train Loss: 0.0908 | Val Acc: 90.00% | Best: 90.00% | Epoch Time: 171.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 75 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 211.0m
+   ⏳ [TRAIN HEARTBEAT] Epoch 75 | Progress: 85.7% (12/14) | Batch Loss: 0.0129 | Job Runtime: 213.1m
+⏱️ Epoch 75/100 | Avg Train Loss: 0.1898 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 171.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 76 | Progress: 57.1% (8/14) | Batch Loss: 0.0004 | Job Runtime: 215.2m
+⏱️ Epoch 76/100 | Avg Train Loss: 0.0687 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 172.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 77 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 217.3m
+⏱️ Epoch 77/100 | Avg Train Loss: 0.4959 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 170.1s
+   ⏳ [TRAIN HEARTBEAT] Epoch 78 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 219.6m
+   ⏳ [TRAIN HEARTBEAT] Epoch 78 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 221.6m
+⏱️ Epoch 78/100 | Avg Train Loss: 0.0159 | Val Acc: 73.33% | Best: 90.00% | Epoch Time: 169.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 79 | Progress: 57.1% (8/14) | Batch Loss: 0.0000 | Job Runtime: 223.7m
+⏱️ Epoch 79/100 | Avg Train Loss: 0.1425 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 170.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 80 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 225.8m
+⏱️ Epoch 80/100 | Avg Train Loss: 0.0009 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 170.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 81 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 228.1m
+   ⏳ [TRAIN HEARTBEAT] Epoch 81 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 230.1m
+⏱️ Epoch 81/100 | Avg Train Loss: 0.0649 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 169.8s
+   ⏳ [TRAIN HEARTBEAT] Epoch 82 | Progress: 57.1% (8/14) | Batch Loss: 0.0001 | Job Runtime: 232.2m
+⏱️ Epoch 82/100 | Avg Train Loss: 0.5988 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 169.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 83 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 234.3m
+⏱️ Epoch 83/100 | Avg Train Loss: 1.0662 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 171.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 84 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 236.6m
+   ⏳ [TRAIN HEARTBEAT] Epoch 84 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 238.6m
+⏱️ Epoch 84/100 | Avg Train Loss: 0.5725 | Val Acc: 73.33% | Best: 90.00% | Epoch Time: 170.3s
+   ⏳ [TRAIN HEARTBEAT] Epoch 85 | Progress: 57.1% (8/14) | Batch Loss: 0.0000 | Job Runtime: 240.8m
+⏱️ Epoch 85/100 | Avg Train Loss: 0.2960 | Val Acc: 83.33% | Best: 90.00% | Epoch Time: 172.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 86 | Progress: 28.6% (4/14) | Batch Loss: 1.3273 | Job Runtime: 242.9m
+⏱️ Epoch 86/100 | Avg Train Loss: 0.2179 | Val Acc: 70.00% | Best: 90.00% | Epoch Time: 170.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 87 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 245.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 87 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 247.2m
+⏱️ Epoch 87/100 | Avg Train Loss: 0.0042 | Val Acc: 70.00% | Best: 90.00% | Epoch Time: 171.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 88 | Progress: 57.1% (8/14) | Batch Loss: 0.3780 | Job Runtime: 249.3m
+⏱️ Epoch 88/100 | Avg Train Loss: 0.3729 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 168.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 89 | Progress: 28.6% (4/14) | Batch Loss: 1.4595 | Job Runtime: 251.4m
+⏱️ Epoch 89/100 | Avg Train Loss: 0.3246 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 170.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 90 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 253.7m
+   ⏳ [TRAIN HEARTBEAT] Epoch 90 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 255.7m
+⏱️ Epoch 90/100 | Avg Train Loss: 1.4294 | Val Acc: 90.00% | Best: 90.00% | Epoch Time: 172.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 91 | Progress: 57.1% (8/14) | Batch Loss: 0.0000 | Job Runtime: 257.9m
+⏱️ Epoch 91/100 | Avg Train Loss: 0.6419 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 171.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 92 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 260.0m
+⏱️ Epoch 92/100 | Avg Train Loss: 0.2258 | Val Acc: 73.33% | Best: 90.00% | Epoch Time: 172.6s
+   ⏳ [TRAIN HEARTBEAT] Epoch 93 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 262.2m
+   ⏳ [TRAIN HEARTBEAT] Epoch 93 | Progress: 85.7% (12/14) | Batch Loss: 3.1463 | Job Runtime: 264.3m
+⏱️ Epoch 93/100 | Avg Train Loss: 0.9752 | Val Acc: 90.00% | Best: 90.00% | Epoch Time: 168.7s
+   ⏳ [TRAIN HEARTBEAT] Epoch 94 | Progress: 57.1% (8/14) | Batch Loss: 3.8444 | Job Runtime: 266.4m
+⏱️ Epoch 94/100 | Avg Train Loss: 1.0360 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 170.2s
+   ⏳ [TRAIN HEARTBEAT] Epoch 95 | Progress: 28.6% (4/14) | Batch Loss: 0.0000 | Job Runtime: 268.5m
+⏱️ Epoch 95/100 | Avg Train Loss: 0.0302 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 170.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 96 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 270.8m
+   ⏳ [TRAIN HEARTBEAT] Epoch 96 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 272.8m
+⏱️ Epoch 96/100 | Avg Train Loss: 0.1668 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 171.5s
+   ⏳ [TRAIN HEARTBEAT] Epoch 97 | Progress: 57.1% (8/14) | Batch Loss: 0.0000 | Job Runtime: 274.9m
+⏱️ Epoch 97/100 | Avg Train Loss: 0.9869 | Val Acc: 86.67% | Best: 90.00% | Epoch Time: 170.0s
+   ⏳ [TRAIN HEARTBEAT] Epoch 98 | Progress: 28.6% (4/14) | Batch Loss: 1.4069 | Job Runtime: 277.0m
+⏱️ Epoch 98/100 | Avg Train Loss: 0.6227 | Val Acc: 90.00% | Best: 90.00% | Epoch Time: 169.4s
+   ⏳ [TRAIN HEARTBEAT] Epoch 99 | Progress: 7.1% (1/14) | Batch Loss: 0.0000 | Job Runtime: 279.3m
+   ⏳ [TRAIN HEARTBEAT] Epoch 99 | Progress: 85.7% (12/14) | Batch Loss: 0.0000 | Job Runtime: 281.3m
+⏱️ Epoch 99/100 | Avg Train Loss: 0.2492 | Val Acc: 76.67% | Best: 90.00% | Epoch Time: 168.9s
+   ⏳ [TRAIN HEARTBEAT] Epoch 100 | Progress: 57.1% (8/14) | Batch Loss: 0.0000 | Job Runtime: 283.4m
+⏱️ Epoch 100/100 | Avg Train Loss: 0.6463 | Val Acc: 80.00% | Best: 90.00% | Epoch Time: 169.8s
+
+🔍 Training complete. Loading best checkpoint for final validation testing...
+🚀 Running Unbiased Test Set Evaluation (3 batches)...
+
+🏆 FINAL UNBIASED TEST ACCURACY: 80.00%
+
+📝 Final Test Classification Report:
+              precision    recall  f1-score   support
+
+        Flat       0.86      0.75      0.80        16
+      Curved       0.75      0.86      0.80        14
+
+    accuracy                           0.80        30
+   macro avg       0.80      0.80      0.80        30
+weighted avg       0.81      0.80      0.80        30
+
+✅ Training finished at Wed Jul  1 00:46:08 CEST 2026
+🧹 Post-run cleanup: Erasing transient compiler artifacts...
+Unable to disable persistence mode for GPU 00000000:CC:00.0: Insufficient Permissions
+✅ All post-session caches wiped cleanly.
