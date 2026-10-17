@@ -1,15 +1,13 @@
 tactile_cache_fast/
-   tactile_env/
-   *.pt
-   __pycache__/
+tactile_env/
+*.pt
+__pycache__/
 # pixi environments
 .pixi/*
 !.pixi/config.toml
 dataset_curv/
 Slurm-*/
 tactile_cache_*/
-*.pt
-tactile_cache_80bins/
-tactile_cache_*/
 data/
 10ms_hpc1/
+.agent/
