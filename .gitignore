@@ -12,3 +12,4 @@ data/
 10ms_hpc1/
 .agent/
 *_standalone*.bin
+imgui.ini
