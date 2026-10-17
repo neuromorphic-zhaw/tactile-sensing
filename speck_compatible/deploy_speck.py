@@ -90,7 +90,8 @@ def main():
 
     # --- 3. optional standalone flash binary ---
     if args.flash:
-        cfg = hw.get_configuration()
+        cfg = hw.make_config(device=args.device, chip_layers_ordering="auto",
+                             monitor_layers=["dvs", -1])
         cfg.factory_config.io_sel = 24          # route readout pins (errata/standalone)
         binary = samna.speck2f.configuration_to_flash_binary(cfg)
         with open("speck_standalone_tactile.bin", "wb") as f:
