@@ -100,9 +100,10 @@ def _iaf(target_batch_size):
 class SpeckFittingTrainer(nn.Module):
     """9 DynapcnnLayers: 8 conv blocks + Linear readout.
 
+    Channel taper = MAX verified by demo/maximize.py sweep:
+    (16, 64, 32, 32, 32, 64, 64, 64) — 6/9 cores at 100% kernel memory.
     Per-layer fit vs per-core limits (kernel/neuron KiB):
         core0-2: 16/64 | core3-4: 32/32 | core5-6: 64/16 | core7-8: 16/16
-    Verified mapping: {1:0, 2:1, 3:2, 4:8, 5:4, 6:3, 7:6, 8:5, 9:7}
     """
 
     def __init__(self, target_batch_size):
@@ -110,9 +111,9 @@ class SpeckFittingTrainer(nn.Module):
         self.spiking_backbone = nn.Sequential(
             nn.Conv2d(2, 16, kernel_size=4, stride=2, padding=1, bias=False),   # 128->64  n:64Ki k:0.5Ki -> c0-2
             _iaf(target_batch_size),
-            nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=1, bias=False),  # 64->32   n:32Ki k:8Ki  -> c0-4
+            nn.Conv2d(16, 64, kernel_size=4, stride=2, padding=1, bias=False),  # 64->32   n:64Ki k:16Ki -> c1 (MAX)
             _iaf(target_batch_size),
-            nn.Conv2d(32, 32, kernel_size=4, stride=2, padding=1, bias=False),  # 32->16   n:8Ki  k:16Ki
+            nn.Conv2d(64, 32, kernel_size=4, stride=2, padding=1, bias=False),  # 32->16   n:8Ki  k:32Ki -> c3/4
             _iaf(target_batch_size),
             nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1, bias=False),  # 16->16   n:8Ki  k:16Ki
             _iaf(target_batch_size),

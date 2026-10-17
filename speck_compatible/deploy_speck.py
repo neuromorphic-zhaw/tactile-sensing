@@ -34,27 +34,30 @@ def _iaf():
 
 
 class SpeckFittingTrainer(nn.Module):
-    """Must match speck_compatible/train_speck_fitting.py exactly."""
-    def __init__(self):
+    """Rebuilt from the checkpoint's own conv weight shapes — no hardcoded
+    taper, so it always matches whatever train_speck_fitting.py produced."""
+    def __init__(self, channels):
         super().__init__()
-        self.spiking_backbone = nn.Sequential(
-            nn.Conv2d(2, 16, kernel_size=4, stride=2, padding=1, bias=False), _iaf(),
-            nn.Conv2d(16, 32, kernel_size=4, stride=2, padding=1, bias=False), _iaf(),
-            nn.Conv2d(32, 32, kernel_size=4, stride=2, padding=1, bias=False), _iaf(),
-            nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1, bias=False), _iaf(),
-            nn.Conv2d(32, 32, kernel_size=4, stride=2, padding=1, bias=False), _iaf(),
-            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1, bias=False), _iaf(),
-            nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1, bias=False), _iaf(),
-            nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1, bias=False), _iaf(),
-            nn.AvgPool2d(2, 2),
-            nn.Flatten(),
-            nn.Linear(256, 2, bias=False), _iaf(),
-        )
+        c = list(channels)
+        convs = [(2, c[0], 4, 2), (c[0], c[1], 4, 2), (c[1], c[2], 4, 2),
+                 (c[2], c[3], 3, 1), (c[3], c[4], 4, 2), (c[4], c[5], 4, 2),
+                 (c[5], c[6], 3, 1), (c[6], c[7], 3, 1)]
+        layers = []
+        for cin, cout, k, s in convs:
+            layers += [nn.Conv2d(cin, cout, kernel_size=k, stride=s,
+                                 padding=1, bias=False), _iaf()]
+        layers += [nn.AvgPool2d(2, 2), nn.Flatten(),
+                   nn.Linear(c[7] * 4, 2, bias=False), _iaf()]
+        self.spiking_backbone = nn.Sequential(*layers)
 
     def forward(self, x):
         b, t, c, h, w = x.shape
         x = x[:, ::4].reshape(b * (t // 4), c, h, w)
         return self.spiking_backbone(x).reshape(b, t // 4, -1).mean(dim=1)
+
+
+def _infer_channels(sd):
+    return tuple(sd[f"spiking_backbone.{i * 2}.weight"].shape[0] for i in range(8))
 
 
 def main():
@@ -70,10 +73,12 @@ def main():
     args = ap.parse_args()
 
     # --- 1. rebuild + warm-up + load (drop v_mem buffers) ---
-    model = SpeckFittingTrainer()
+    sd = torch.load(args.model, map_location="cpu")
+    channels = _infer_channels(sd)
+    print(f"checkpoint {args.model}: channels={channels}")
+    model = SpeckFittingTrainer(channels)
     with torch.no_grad():
         _ = model(torch.zeros((1, 40, 2, 128, 128)))
-    sd = torch.load(args.model, map_location="cpu")
     weights = {k: v for k, v in sd.items() if not k.endswith(".v_mem")}
     model.load_state_dict(weights, strict=False)  # v_mem dropped: warm-up already sized it
     print(f"loaded {args.model} ({len(weights)} tensors)")
