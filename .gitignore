@@ -11,3 +11,4 @@ tactile_cache_*/
 data/
 10ms_hpc1/
 .agent/
+*_standalone*.bin
