@@ -1,0 +1,870 @@
+✅ Sinabs loaded successfully
+🚀 Training started on node301 at Sun May 10 00:41:10 CEST 2026
+📟 Using GPU: NVIDIA L40S
+📂 Loading weights from: /cfs/earth/scratch/matheron/tactile-sensing/4_layer/basic_aug_4layer/best_4_layer_model_acc83.33.pt
+✅ Successfully loaded 21 weight layers.
+💡 Note: Ignored membrane states (this is normal for a fresh start).
+🚀 REFINEMENT START: 10ms Bins | Starting from 83.33%
+  Batch 0/70 | Loss: 0.2745
+  Batch 5/70 | Loss: 0.2698
+  Batch 10/70 | Loss: 0.0455
+  Batch 15/70 | Loss: 1.1527
+  Batch 20/70 | Loss: 0.7305
+  Batch 25/70 | Loss: 0.7142
+  Batch 30/70 | Loss: 0.9479
+  Batch 35/70 | Loss: 0.0882
+  Batch 40/70 | Loss: 0.2535
+  Batch 45/70 | Loss: 0.7945
+  Batch 50/70 | Loss: 0.0951
+  Batch 55/70 | Loss: 0.0485
+  Batch 60/70 | Loss: 0.3282
+  Batch 65/70 | Loss: 0.2624
+  ✅ Training Epoch 1 done. Running Validation...
+Epoch 1 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 01 | Loss: 0.4220 | Val: 80.00% | 216.1s
+  Batch 0/70 | Loss: 0.3432
+  Batch 5/70 | Loss: 0.5291
+  Batch 10/70 | Loss: 0.5698
+  Batch 15/70 | Loss: 0.0629
+  Batch 20/70 | Loss: 0.0084
+  Batch 25/70 | Loss: 0.4501
+  Batch 30/70 | Loss: 0.0990
+  Batch 35/70 | Loss: 0.3958
+  Batch 40/70 | Loss: 0.0169
+  Batch 45/70 | Loss: 0.1868
+  Batch 50/70 | Loss: 0.1158
+  Batch 55/70 | Loss: 1.8376
+  Batch 60/70 | Loss: 0.1203
+  Batch 65/70 | Loss: 0.2595
+  ✅ Training Epoch 2 done. Running Validation...
+Epoch 2 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 02 | Loss: 0.4188 | Val: 73.33% | 428.6s
+  Batch 0/70 | Loss: 0.5244
+  Batch 5/70 | Loss: 0.1912
+  Batch 10/70 | Loss: 0.7752
+  Batch 15/70 | Loss: 0.3608
+  Batch 20/70 | Loss: 0.2134
+  Batch 25/70 | Loss: 0.7002
+  Batch 30/70 | Loss: 0.5797
+  Batch 35/70 | Loss: 0.2255
+  Batch 40/70 | Loss: 0.1316
+  Batch 45/70 | Loss: 0.9299
+  Batch 50/70 | Loss: 0.4268
+  Batch 55/70 | Loss: 0.2784
+  Batch 60/70 | Loss: 0.3309
+  Batch 65/70 | Loss: 0.7006
+  ✅ Training Epoch 3 done. Running Validation...
+Epoch 3 | Val Acc: 86.67% | Current LR: 0.000020
+🌟 New Best Acc: 86.67%
+              precision    recall  f1-score   support
+
+        Flat       0.92      0.80      0.86        15
+      Curved       0.82      0.93      0.88        15
+
+    accuracy                           0.87        30
+   macro avg       0.87      0.87      0.87        30
+weighted avg       0.87      0.87      0.87        30
+
+Epoch 03 | Loss: 0.4253 | Val: 86.67% | 640.9s
+  Batch 0/70 | Loss: 0.2101
+  Batch 5/70 | Loss: 0.2683
+  Batch 10/70 | Loss: 0.1231
+  Batch 15/70 | Loss: 0.2711
+  Batch 20/70 | Loss: 0.3911
+  Batch 25/70 | Loss: 0.0723
+  Batch 30/70 | Loss: 0.0321
+  Batch 35/70 | Loss: 0.2935
+  Batch 40/70 | Loss: 0.2187
+  Batch 45/70 | Loss: 0.2322
+  Batch 50/70 | Loss: 1.0156
+  Batch 55/70 | Loss: 0.1443
+  Batch 60/70 | Loss: 0.0148
+  Batch 65/70 | Loss: 0.4603
+  ✅ Training Epoch 4 done. Running Validation...
+Epoch 4 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 04 | Loss: 0.3823 | Val: 73.33% | 854.0s
+  Batch 0/70 | Loss: 0.3992
+  Batch 5/70 | Loss: 0.4849
+  Batch 10/70 | Loss: 0.1889
+  Batch 15/70 | Loss: 0.1234
+  Batch 20/70 | Loss: 1.0832
+  Batch 25/70 | Loss: 0.3026
+  Batch 30/70 | Loss: 0.6508
+  Batch 35/70 | Loss: 0.4870
+  Batch 40/70 | Loss: 0.5103
+  Batch 45/70 | Loss: 0.1670
+  Batch 50/70 | Loss: 0.1617
+  Batch 55/70 | Loss: 0.1610
+  Batch 60/70 | Loss: 0.6930
+  Batch 65/70 | Loss: 0.1538
+  ✅ Training Epoch 5 done. Running Validation...
+Epoch 5 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 05 | Loss: 0.3957 | Val: 76.67% | 1066.7s
+  Batch 0/70 | Loss: 0.1565
+  Batch 5/70 | Loss: 0.0117
+  Batch 10/70 | Loss: 0.4469
+  Batch 15/70 | Loss: 0.3233
+  Batch 20/70 | Loss: 0.5299
+  Batch 25/70 | Loss: 0.4946
+  Batch 30/70 | Loss: 0.0054
+  Batch 35/70 | Loss: 0.2908
+  Batch 40/70 | Loss: 0.1078
+  Batch 45/70 | Loss: 0.3912
+  Batch 50/70 | Loss: 0.2622
+  Batch 55/70 | Loss: 0.4795
+  Batch 60/70 | Loss: 0.0519
+  Batch 65/70 | Loss: 0.1192
+  ✅ Training Epoch 6 done. Running Validation...
+Epoch 6 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 06 | Loss: 0.3090 | Val: 76.67% | 1279.2s
+  Batch 0/70 | Loss: 0.7108
+  Batch 5/70 | Loss: 1.1264
+  Batch 10/70 | Loss: 0.0818
+  Batch 15/70 | Loss: 0.2838
+  Batch 20/70 | Loss: 0.0589
+  Batch 25/70 | Loss: 0.0432
+  Batch 30/70 | Loss: 0.3099
+  Batch 35/70 | Loss: 0.4886
+  Batch 40/70 | Loss: 0.6739
+  Batch 45/70 | Loss: 0.1419
+  Batch 50/70 | Loss: 0.0271
+  Batch 55/70 | Loss: 0.4202
+  Batch 60/70 | Loss: 0.1043
+  Batch 65/70 | Loss: 0.1096
+  ✅ Training Epoch 7 done. Running Validation...
+Epoch 7 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 07 | Loss: 0.3832 | Val: 76.67% | 1491.7s
+  Batch 0/70 | Loss: 0.1672
+  Batch 5/70 | Loss: 0.4533
+  Batch 10/70 | Loss: 0.0597
+  Batch 15/70 | Loss: 0.0093
+  Batch 20/70 | Loss: 0.2385
+  Batch 25/70 | Loss: 0.0901
+  Batch 30/70 | Loss: 0.3899
+  Batch 35/70 | Loss: 0.5196
+  Batch 40/70 | Loss: 0.7262
+  Batch 45/70 | Loss: 0.4035
+  Batch 50/70 | Loss: 0.2880
+  Batch 55/70 | Loss: 0.4750
+  Batch 60/70 | Loss: 0.7950
+  Batch 65/70 | Loss: 0.1375
+  ✅ Training Epoch 8 done. Running Validation...
+Epoch 8 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 08 | Loss: 0.4148 | Val: 76.67% | 1704.2s
+  Batch 0/70 | Loss: 0.4592
+  Batch 5/70 | Loss: 0.2833
+  Batch 10/70 | Loss: 0.2799
+  Batch 15/70 | Loss: 0.1094
+  Batch 20/70 | Loss: 0.2419
+  Batch 25/70 | Loss: 0.4393
+  Batch 30/70 | Loss: 0.2133
+  Batch 35/70 | Loss: 0.1789
+  Batch 40/70 | Loss: 0.4029
+  Batch 45/70 | Loss: 0.7188
+  Batch 50/70 | Loss: 0.4971
+  Batch 55/70 | Loss: 0.1249
+  Batch 60/70 | Loss: 0.0604
+  Batch 65/70 | Loss: 0.3013
+  ✅ Training Epoch 9 done. Running Validation...
+Epoch 9 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 09 | Loss: 0.3499 | Val: 76.67% | 1916.5s
+  Batch 0/70 | Loss: 0.3717
+  Batch 5/70 | Loss: 0.4765
+  Batch 10/70 | Loss: 0.1757
+  Batch 15/70 | Loss: 0.3584
+  Batch 20/70 | Loss: 0.1295
+  Batch 25/70 | Loss: 0.5268
+  Batch 30/70 | Loss: 0.5625
+  Batch 35/70 | Loss: 0.3700
+  Batch 40/70 | Loss: 0.3165
+  Batch 45/70 | Loss: 0.0519
+  Batch 50/70 | Loss: 0.0129
+  Batch 55/70 | Loss: 1.8241
+  Batch 60/70 | Loss: 0.1596
+  Batch 65/70 | Loss: 0.0550
+  ✅ Training Epoch 10 done. Running Validation...
+Epoch 10 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 10 | Loss: 0.3587 | Val: 76.67% | 2129.1s
+  Batch 0/70 | Loss: 0.6967
+  Batch 5/70 | Loss: 0.1123
+  Batch 10/70 | Loss: 0.1977
+  Batch 15/70 | Loss: 0.1370
+  Batch 20/70 | Loss: 0.1154
+  Batch 25/70 | Loss: 0.6737
+  Batch 30/70 | Loss: 0.2448
+  Batch 35/70 | Loss: 0.1922
+  Batch 40/70 | Loss: 0.2513
+  Batch 45/70 | Loss: 0.2850
+  Batch 50/70 | Loss: 0.1378
+  Batch 55/70 | Loss: 0.3055
+  Batch 60/70 | Loss: 1.1918
+  Batch 65/70 | Loss: 0.2069
+  ✅ Training Epoch 11 done. Running Validation...
+Epoch 11 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 11 | Loss: 0.3758 | Val: 76.67% | 2341.5s
+  Batch 0/70 | Loss: 0.0435
+  Batch 5/70 | Loss: 0.0333
+  Batch 10/70 | Loss: 0.3037
+  Batch 15/70 | Loss: 0.4048
+  Batch 20/70 | Loss: 0.5920
+  Batch 25/70 | Loss: 0.7143
+  Batch 30/70 | Loss: 0.3598
+  Batch 35/70 | Loss: 0.7555
+  Batch 40/70 | Loss: 1.0004
+  Batch 45/70 | Loss: 0.0454
+  Batch 50/70 | Loss: 0.3356
+  Batch 55/70 | Loss: 0.1088
+  Batch 60/70 | Loss: 0.9217
+  Batch 65/70 | Loss: 0.1381
+  ✅ Training Epoch 12 done. Running Validation...
+Epoch 12 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 12 | Loss: 0.3297 | Val: 80.00% | 2553.9s
+  Batch 0/70 | Loss: 0.3745
+  Batch 5/70 | Loss: 0.5771
+  Batch 10/70 | Loss: 0.3916
+  Batch 15/70 | Loss: 0.1736
+  Batch 20/70 | Loss: 0.4722
+  Batch 25/70 | Loss: 0.2744
+  Batch 30/70 | Loss: 0.1305
+  Batch 35/70 | Loss: 0.4655
+  Batch 40/70 | Loss: 0.2987
+  Batch 45/70 | Loss: 0.4565
+  Batch 50/70 | Loss: 0.2643
+  Batch 55/70 | Loss: 0.6454
+  Batch 60/70 | Loss: 0.4766
+  Batch 65/70 | Loss: 0.3616
+  ✅ Training Epoch 13 done. Running Validation...
+Epoch 13 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 13 | Loss: 0.3762 | Val: 76.67% | 2766.4s
+  Batch 0/70 | Loss: 0.3364
+  Batch 5/70 | Loss: 0.3629
+  Batch 10/70 | Loss: 0.1568
+  Batch 15/70 | Loss: 0.1902
+  Batch 20/70 | Loss: 0.5404
+  Batch 25/70 | Loss: 0.0461
+  Batch 30/70 | Loss: 0.6539
+  Batch 35/70 | Loss: 0.7576
+  Batch 40/70 | Loss: 0.1275
+  Batch 45/70 | Loss: 0.6169
+  Batch 50/70 | Loss: 1.9911
+  Batch 55/70 | Loss: 0.1948
+  Batch 60/70 | Loss: 0.4722
+  Batch 65/70 | Loss: 0.1202
+  ✅ Training Epoch 14 done. Running Validation...
+Epoch 14 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 14 | Loss: 0.3495 | Val: 76.67% | 2978.8s
+  Batch 0/70 | Loss: 0.3697
+  Batch 5/70 | Loss: 0.2336
+  Batch 10/70 | Loss: 0.4199
+  Batch 15/70 | Loss: 0.0169
+  Batch 20/70 | Loss: 0.0497
+  Batch 25/70 | Loss: 0.0820
+  Batch 30/70 | Loss: 0.1412
+  Batch 35/70 | Loss: 0.7498
+  Batch 40/70 | Loss: 0.0267
+  Batch 45/70 | Loss: 0.3010
+  Batch 50/70 | Loss: 0.0950
+  Batch 55/70 | Loss: 0.0798
+  Batch 60/70 | Loss: 0.1835
+  Batch 65/70 | Loss: 0.3958
+  ✅ Training Epoch 15 done. Running Validation...
+Epoch 15 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 15 | Loss: 0.3971 | Val: 76.67% | 3191.1s
+  Batch 0/70 | Loss: 0.1180
+  Batch 5/70 | Loss: 0.6910
+  Batch 10/70 | Loss: 0.3547
+  Batch 15/70 | Loss: 0.0361
+  Batch 20/70 | Loss: 0.0388
+  Batch 25/70 | Loss: 0.1537
+  Batch 30/70 | Loss: 0.1381
+  Batch 35/70 | Loss: 0.1878
+  Batch 40/70 | Loss: 0.2528
+  Batch 45/70 | Loss: 0.0210
+  Batch 50/70 | Loss: 0.1844
+  Batch 55/70 | Loss: 0.1899
+  Batch 60/70 | Loss: 0.0426
+  Batch 65/70 | Loss: 0.5707
+  ✅ Training Epoch 16 done. Running Validation...
+Epoch 16 | Val Acc: 70.00% | Current LR: 0.000020
+Epoch 16 | Loss: 0.3632 | Val: 70.00% | 3403.6s
+  Batch 0/70 | Loss: 0.3719
+  Batch 5/70 | Loss: 0.2090
+  Batch 10/70 | Loss: 0.1157
+  Batch 15/70 | Loss: 0.5714
+  Batch 20/70 | Loss: 0.4127
+  Batch 25/70 | Loss: 0.0819
+  Batch 30/70 | Loss: 0.0619
+  Batch 35/70 | Loss: 0.0361
+  Batch 40/70 | Loss: 0.0040
+  Batch 45/70 | Loss: 1.7572
+  Batch 50/70 | Loss: 0.5602
+  Batch 55/70 | Loss: 0.0069
+  Batch 60/70 | Loss: 0.0246
+  Batch 65/70 | Loss: 0.0774
+  ✅ Training Epoch 17 done. Running Validation...
+Epoch 17 | Val Acc: 86.67% | Current LR: 0.000020
+Epoch 17 | Loss: 0.3807 | Val: 86.67% | 3615.8s
+  Batch 0/70 | Loss: 0.2641
+  Batch 5/70 | Loss: 0.2769
+  Batch 10/70 | Loss: 0.2744
+  Batch 15/70 | Loss: 0.6732
+  Batch 20/70 | Loss: 0.5353
+  Batch 25/70 | Loss: 0.1840
+  Batch 30/70 | Loss: 0.3670
+  Batch 35/70 | Loss: 0.1663
+  Batch 40/70 | Loss: 0.4315
+  Batch 45/70 | Loss: 0.0156
+  Batch 50/70 | Loss: 0.0505
+  Batch 55/70 | Loss: 0.4412
+  Batch 60/70 | Loss: 0.0227
+  Batch 65/70 | Loss: 0.2323
+  ✅ Training Epoch 18 done. Running Validation...
+Epoch 18 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 18 | Loss: 0.3503 | Val: 80.00% | 3828.4s
+  Batch 0/70 | Loss: 0.6544
+  Batch 5/70 | Loss: 0.0854
+  Batch 10/70 | Loss: 0.2552
+  Batch 15/70 | Loss: 0.0027
+  Batch 20/70 | Loss: 0.0137
+  Batch 25/70 | Loss: 0.3371
+  Batch 30/70 | Loss: 0.0397
+  Batch 35/70 | Loss: 0.0876
+  Batch 40/70 | Loss: 1.5523
+  Batch 45/70 | Loss: 0.0133
+  Batch 50/70 | Loss: 0.3334
+  Batch 55/70 | Loss: 0.0006
+  Batch 60/70 | Loss: 0.1980
+  Batch 65/70 | Loss: 0.1418
+  ✅ Training Epoch 19 done. Running Validation...
+Epoch 19 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 19 | Loss: 0.3442 | Val: 80.00% | 4040.8s
+  Batch 0/70 | Loss: 0.4638
+  Batch 5/70 | Loss: 0.1803
+  Batch 10/70 | Loss: 0.1075
+  Batch 15/70 | Loss: 2.0147
+  Batch 20/70 | Loss: 0.0264
+  Batch 25/70 | Loss: 0.0059
+  Batch 30/70 | Loss: 0.1903
+  Batch 35/70 | Loss: 0.5321
+  Batch 40/70 | Loss: 0.2761
+  Batch 45/70 | Loss: 0.4005
+  Batch 50/70 | Loss: 0.1591
+  Batch 55/70 | Loss: 0.7751
+  Batch 60/70 | Loss: 0.4484
+  Batch 65/70 | Loss: 0.2840
+  ✅ Training Epoch 20 done. Running Validation...
+Epoch 20 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 20 | Loss: 0.3590 | Val: 76.67% | 4253.0s
+  Batch 0/70 | Loss: 0.2447
+  Batch 5/70 | Loss: 0.2444
+  Batch 10/70 | Loss: 1.3068
+  Batch 15/70 | Loss: 3.3879
+  Batch 20/70 | Loss: 1.0295
+  Batch 25/70 | Loss: 0.1432
+  Batch 30/70 | Loss: 0.2214
+  Batch 35/70 | Loss: 0.7223
+  Batch 40/70 | Loss: 0.0382
+  Batch 45/70 | Loss: 0.6988
+  Batch 50/70 | Loss: 0.2225
+  Batch 55/70 | Loss: 0.7960
+  Batch 60/70 | Loss: 1.1411
+  Batch 65/70 | Loss: 1.0811
+  ✅ Training Epoch 21 done. Running Validation...
+Epoch 21 | Val Acc: 70.00% | Current LR: 0.000020
+Epoch 21 | Loss: 0.4071 | Val: 70.00% | 4465.3s
+  Batch 0/70 | Loss: 0.1703
+  Batch 5/70 | Loss: 0.0930
+  Batch 10/70 | Loss: 0.0027
+  Batch 15/70 | Loss: 0.2553
+  Batch 20/70 | Loss: 0.8897
+  Batch 25/70 | Loss: 0.0968
+  Batch 30/70 | Loss: 1.5325
+  Batch 35/70 | Loss: 0.1090
+  Batch 40/70 | Loss: 0.3333
+  Batch 45/70 | Loss: 0.2100
+  Batch 50/70 | Loss: 0.3286
+  Batch 55/70 | Loss: 0.5294
+  Batch 60/70 | Loss: 0.0087
+  Batch 65/70 | Loss: 0.2410
+  ✅ Training Epoch 22 done. Running Validation...
+Epoch 22 | Val Acc: 83.33% | Current LR: 0.000020
+Epoch 22 | Loss: 0.3540 | Val: 83.33% | 4677.7s
+  Batch 0/70 | Loss: 0.1625
+  Batch 5/70 | Loss: 0.1284
+  Batch 10/70 | Loss: 0.4028
+  Batch 15/70 | Loss: 0.1159
+  Batch 20/70 | Loss: 0.0117
+  Batch 25/70 | Loss: 0.7273
+  Batch 30/70 | Loss: 0.4353
+  Batch 35/70 | Loss: 0.0845
+  Batch 40/70 | Loss: 0.2374
+  Batch 45/70 | Loss: 0.2987
+  Batch 50/70 | Loss: 0.3188
+  Batch 55/70 | Loss: 0.6778
+  Batch 60/70 | Loss: 0.0628
+  Batch 65/70 | Loss: 0.2274
+  ✅ Training Epoch 23 done. Running Validation...
+Epoch 23 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 23 | Loss: 0.4430 | Val: 80.00% | 4890.0s
+  Batch 0/70 | Loss: 0.3777
+  Batch 5/70 | Loss: 0.0009
+  Batch 10/70 | Loss: 0.1761
+  Batch 15/70 | Loss: 0.0060
+  Batch 20/70 | Loss: 0.2459
+  Batch 25/70 | Loss: 0.3436
+  Batch 30/70 | Loss: 0.2604
+  Batch 35/70 | Loss: 0.1393
+  Batch 40/70 | Loss: 0.7846
+  Batch 45/70 | Loss: 0.4564
+  Batch 50/70 | Loss: 0.3060
+  Batch 55/70 | Loss: 0.0530
+  Batch 60/70 | Loss: 0.4127
+  Batch 65/70 | Loss: 0.4423
+  ✅ Training Epoch 24 done. Running Validation...
+Epoch 24 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 24 | Loss: 0.3056 | Val: 73.33% | 5102.4s
+  Batch 0/70 | Loss: 1.6568
+  Batch 5/70 | Loss: 0.1394
+  Batch 10/70 | Loss: 0.0623
+  Batch 15/70 | Loss: 0.7352
+  Batch 20/70 | Loss: 0.4120
+  Batch 25/70 | Loss: 0.0742
+  Batch 30/70 | Loss: 0.1051
+  Batch 35/70 | Loss: 0.0293
+  Batch 40/70 | Loss: 0.6303
+  Batch 45/70 | Loss: 0.4503
+  Batch 50/70 | Loss: 0.0274
+  Batch 55/70 | Loss: 0.3951
+  Batch 60/70 | Loss: 0.3020
+  Batch 65/70 | Loss: 0.6506
+  ✅ Training Epoch 25 done. Running Validation...
+Epoch 25 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 25 | Loss: 0.3528 | Val: 76.67% | 5314.9s
+  Batch 0/70 | Loss: 0.5316
+  Batch 5/70 | Loss: 0.3459
+  Batch 10/70 | Loss: 0.0816
+  Batch 15/70 | Loss: 0.1576
+  Batch 20/70 | Loss: 0.1771
+  Batch 25/70 | Loss: 0.1018
+  Batch 30/70 | Loss: 0.1766
+  Batch 35/70 | Loss: 0.0858
+  Batch 40/70 | Loss: 0.0192
+  Batch 45/70 | Loss: 0.7144
+  Batch 50/70 | Loss: 0.0927
+  Batch 55/70 | Loss: 0.1936
+  Batch 60/70 | Loss: 0.8452
+  Batch 65/70 | Loss: 0.2674
+  ✅ Training Epoch 26 done. Running Validation...
+Epoch 26 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 26 | Loss: 0.3323 | Val: 73.33% | 5527.2s
+  Batch 0/70 | Loss: 0.6233
+  Batch 5/70 | Loss: 0.4873
+  Batch 10/70 | Loss: 0.0389
+  Batch 15/70 | Loss: 0.6615
+  Batch 20/70 | Loss: 0.2349
+  Batch 25/70 | Loss: 0.1177
+  Batch 30/70 | Loss: 0.2134
+  Batch 35/70 | Loss: 0.2769
+  Batch 40/70 | Loss: 0.4576
+  Batch 45/70 | Loss: 0.4213
+  Batch 50/70 | Loss: 0.4503
+  Batch 55/70 | Loss: 0.1514
+  Batch 60/70 | Loss: 0.0044
+  Batch 65/70 | Loss: 0.2789
+  ✅ Training Epoch 27 done. Running Validation...
+Epoch 27 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 27 | Loss: 0.3854 | Val: 73.33% | 5739.6s
+  Batch 0/70 | Loss: 0.0224
+  Batch 5/70 | Loss: 0.3546
+  Batch 10/70 | Loss: 0.3168
+  Batch 15/70 | Loss: 0.2585
+  Batch 20/70 | Loss: 0.3752
+  Batch 25/70 | Loss: 0.7066
+  Batch 30/70 | Loss: 0.1836
+  Batch 35/70 | Loss: 0.1875
+  Batch 40/70 | Loss: 0.5591
+  Batch 45/70 | Loss: 0.2397
+  Batch 50/70 | Loss: 0.2741
+  Batch 55/70 | Loss: 0.9851
+  Batch 60/70 | Loss: 0.1314
+  Batch 65/70 | Loss: 0.0074
+  ✅ Training Epoch 28 done. Running Validation...
+Epoch 28 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 28 | Loss: 0.3443 | Val: 76.67% | 5951.8s
+  Batch 0/70 | Loss: 0.0927
+  Batch 5/70 | Loss: 0.3923
+  Batch 10/70 | Loss: 0.0011
+  Batch 15/70 | Loss: 0.1514
+  Batch 20/70 | Loss: 0.2801
+  Batch 25/70 | Loss: 0.3348
+  Batch 30/70 | Loss: 0.2390
+  Batch 35/70 | Loss: 0.0242
+  Batch 40/70 | Loss: 0.0035
+  Batch 45/70 | Loss: 0.3843
+  Batch 50/70 | Loss: 0.1006
+  Batch 55/70 | Loss: 0.5520
+  Batch 60/70 | Loss: 1.3574
+  Batch 65/70 | Loss: 0.5006
+  ✅ Training Epoch 29 done. Running Validation...
+Epoch 29 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 29 | Loss: 0.3472 | Val: 80.00% | 6164.3s
+  Batch 0/70 | Loss: 0.3385
+  Batch 5/70 | Loss: 1.3062
+  Batch 10/70 | Loss: 0.0022
+  Batch 15/70 | Loss: 0.8457
+  Batch 20/70 | Loss: 0.1626
+  Batch 25/70 | Loss: 0.5732
+  Batch 30/70 | Loss: 0.4288
+  Batch 35/70 | Loss: 0.4941
+  Batch 40/70 | Loss: 0.5805
+  Batch 45/70 | Loss: 0.1505
+  Batch 50/70 | Loss: 0.1829
+  Batch 55/70 | Loss: 1.2665
+  Batch 60/70 | Loss: 0.2158
+  Batch 65/70 | Loss: 0.5689
+  ✅ Training Epoch 30 done. Running Validation...
+Epoch 30 | Val Acc: 83.33% | Current LR: 0.000020
+Epoch 30 | Loss: 0.3520 | Val: 83.33% | 6376.7s
+  Batch 0/70 | Loss: 0.9463
+  Batch 5/70 | Loss: 2.3784
+  Batch 10/70 | Loss: 0.0116
+  Batch 15/70 | Loss: 0.5321
+  Batch 20/70 | Loss: 0.3423
+  Batch 25/70 | Loss: 0.0743
+  Batch 30/70 | Loss: 0.0370
+  Batch 35/70 | Loss: 0.0180
+  Batch 40/70 | Loss: 0.1737
+  Batch 45/70 | Loss: 0.0674
+  Batch 50/70 | Loss: 0.2470
+  Batch 55/70 | Loss: 0.0305
+  Batch 60/70 | Loss: 0.3433
+  Batch 65/70 | Loss: 0.0357
+  ✅ Training Epoch 31 done. Running Validation...
+Epoch 31 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 31 | Loss: 0.3245 | Val: 76.67% | 6589.2s
+  Batch 0/70 | Loss: 0.4422
+  Batch 5/70 | Loss: 0.2249
+  Batch 10/70 | Loss: 0.3366
+  Batch 15/70 | Loss: 2.3033
+  Batch 20/70 | Loss: 0.7241
+  Batch 25/70 | Loss: 0.0015
+  Batch 30/70 | Loss: 0.0554
+  Batch 35/70 | Loss: 0.1879
+  Batch 40/70 | Loss: 0.1821
+  Batch 45/70 | Loss: 0.2867
+  Batch 50/70 | Loss: 0.3050
+  Batch 55/70 | Loss: 0.2766
+  Batch 60/70 | Loss: 0.8407
+  Batch 65/70 | Loss: 0.2210
+  ✅ Training Epoch 32 done. Running Validation...
+Epoch 32 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 32 | Loss: 0.3855 | Val: 73.33% | 6801.5s
+  Batch 0/70 | Loss: 0.0481
+  Batch 5/70 | Loss: 0.3160
+  Batch 10/70 | Loss: 0.2669
+  Batch 15/70 | Loss: 0.2612
+  Batch 20/70 | Loss: 0.1192
+  Batch 25/70 | Loss: 2.4574
+  Batch 30/70 | Loss: 0.5887
+  Batch 35/70 | Loss: 0.1304
+  Batch 40/70 | Loss: 0.7033
+  Batch 45/70 | Loss: 0.8482
+  Batch 50/70 | Loss: 0.0314
+  Batch 55/70 | Loss: 0.0499
+  Batch 60/70 | Loss: 0.5675
+  Batch 65/70 | Loss: 0.4380
+  ✅ Training Epoch 33 done. Running Validation...
+Epoch 33 | Val Acc: 70.00% | Current LR: 0.000020
+Epoch 33 | Loss: 0.3737 | Val: 70.00% | 7014.0s
+  Batch 0/70 | Loss: 1.0031
+  Batch 5/70 | Loss: 0.0019
+  Batch 10/70 | Loss: 0.0096
+  Batch 15/70 | Loss: 0.0956
+  Batch 20/70 | Loss: 0.0046
+  Batch 25/70 | Loss: 0.0743
+  Batch 30/70 | Loss: 0.0491
+  Batch 35/70 | Loss: 0.2691
+  Batch 40/70 | Loss: 0.5210
+  Batch 45/70 | Loss: 0.0577
+  Batch 50/70 | Loss: 0.0831
+  Batch 55/70 | Loss: 0.1969
+  Batch 60/70 | Loss: 0.0316
+  Batch 65/70 | Loss: 0.8736
+  ✅ Training Epoch 34 done. Running Validation...
+Epoch 34 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 34 | Loss: 0.2833 | Val: 76.67% | 7226.6s
+  Batch 0/70 | Loss: 1.4781
+  Batch 5/70 | Loss: 0.0738
+  Batch 10/70 | Loss: 0.4259
+  Batch 15/70 | Loss: 1.0912
+  Batch 20/70 | Loss: 0.2158
+  Batch 25/70 | Loss: 0.3050
+  Batch 30/70 | Loss: 0.4247
+  Batch 35/70 | Loss: 0.2193
+  Batch 40/70 | Loss: 1.3066
+  Batch 45/70 | Loss: 0.2706
+  Batch 50/70 | Loss: 0.1648
+  Batch 55/70 | Loss: 0.0230
+  Batch 60/70 | Loss: 1.5374
+  Batch 65/70 | Loss: 0.0075
+  ✅ Training Epoch 35 done. Running Validation...
+Epoch 35 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 35 | Loss: 0.3762 | Val: 80.00% | 7438.9s
+  Batch 0/70 | Loss: 0.2614
+  Batch 5/70 | Loss: 0.4604
+  Batch 10/70 | Loss: 0.0576
+  Batch 15/70 | Loss: 0.3725
+  Batch 20/70 | Loss: 0.2934
+  Batch 25/70 | Loss: 1.6051
+  Batch 30/70 | Loss: 0.3987
+  Batch 35/70 | Loss: 0.0291
+  Batch 40/70 | Loss: 0.1314
+  Batch 45/70 | Loss: 0.1595
+  Batch 50/70 | Loss: 0.5549
+  Batch 55/70 | Loss: 0.3823
+  Batch 60/70 | Loss: 0.0119
+  Batch 65/70 | Loss: 0.1971
+  ✅ Training Epoch 36 done. Running Validation...
+Epoch 36 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 36 | Loss: 0.3362 | Val: 73.33% | 7651.3s
+  Batch 0/70 | Loss: 0.5197
+  Batch 5/70 | Loss: 0.2776
+  Batch 10/70 | Loss: 0.1322
+  Batch 15/70 | Loss: 0.3900
+  Batch 20/70 | Loss: 0.1255
+  Batch 25/70 | Loss: 0.9944
+  Batch 30/70 | Loss: 0.0947
+  Batch 35/70 | Loss: 0.3775
+  Batch 40/70 | Loss: 0.0195
+  Batch 45/70 | Loss: 0.0191
+  Batch 50/70 | Loss: 0.5396
+  Batch 55/70 | Loss: 0.1454
+  Batch 60/70 | Loss: 0.0323
+  Batch 65/70 | Loss: 0.0649
+  ✅ Training Epoch 37 done. Running Validation...
+Epoch 37 | Val Acc: 86.67% | Current LR: 0.000020
+Epoch 37 | Loss: 0.2907 | Val: 86.67% | 7863.6s
+  Batch 0/70 | Loss: 0.1223
+  Batch 5/70 | Loss: 0.0136
+  Batch 10/70 | Loss: 0.5729
+  Batch 15/70 | Loss: 0.2840
+  Batch 20/70 | Loss: 0.3170
+  Batch 25/70 | Loss: 0.3426
+  Batch 30/70 | Loss: 0.8570
+  Batch 35/70 | Loss: 1.0339
+  Batch 40/70 | Loss: 0.0294
+  Batch 45/70 | Loss: 0.0202
+  Batch 50/70 | Loss: 0.1105
+  Batch 55/70 | Loss: 0.3609
+  Batch 60/70 | Loss: 0.1572
+  Batch 65/70 | Loss: 0.3939
+  ✅ Training Epoch 38 done. Running Validation...
+Epoch 38 | Val Acc: 83.33% | Current LR: 0.000020
+Epoch 38 | Loss: 0.3352 | Val: 83.33% | 8076.0s
+  Batch 0/70 | Loss: 0.1229
+  Batch 5/70 | Loss: 0.0000
+  Batch 10/70 | Loss: 1.0525
+  Batch 15/70 | Loss: 0.4880
+  Batch 20/70 | Loss: 0.2390
+  Batch 25/70 | Loss: 0.1758
+  Batch 30/70 | Loss: 0.4391
+  Batch 35/70 | Loss: 0.5159
+  Batch 40/70 | Loss: 0.1532
+  Batch 45/70 | Loss: 0.7216
+  Batch 50/70 | Loss: 0.8022
+  Batch 55/70 | Loss: 0.2344
+  Batch 60/70 | Loss: 0.3617
+  Batch 65/70 | Loss: 0.0095
+  ✅ Training Epoch 39 done. Running Validation...
+Epoch 39 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 39 | Loss: 0.3194 | Val: 80.00% | 8288.4s
+  Batch 0/70 | Loss: 0.0215
+  Batch 5/70 | Loss: 0.0513
+  Batch 10/70 | Loss: 0.0556
+  Batch 15/70 | Loss: 0.7130
+  Batch 20/70 | Loss: 0.3526
+  Batch 25/70 | Loss: 1.8458
+  Batch 30/70 | Loss: 0.0530
+  Batch 35/70 | Loss: 0.0044
+  Batch 40/70 | Loss: 0.3013
+  Batch 45/70 | Loss: 0.7312
+  Batch 50/70 | Loss: 0.0182
+  Batch 55/70 | Loss: 0.0977
+  Batch 60/70 | Loss: 0.0369
+  Batch 65/70 | Loss: 0.5160
+  ✅ Training Epoch 40 done. Running Validation...
+Epoch 40 | Val Acc: 80.00% | Current LR: 0.000020
+Epoch 40 | Loss: 0.3593 | Val: 80.00% | 8500.7s
+  Batch 0/70 | Loss: 0.1907
+  Batch 5/70 | Loss: 0.2258
+  Batch 10/70 | Loss: 0.2402
+  Batch 15/70 | Loss: 0.2350
+  Batch 20/70 | Loss: 0.2456
+  Batch 25/70 | Loss: 0.0731
+  Batch 30/70 | Loss: 0.0283
+  Batch 35/70 | Loss: 0.0297
+  Batch 40/70 | Loss: 0.2398
+  Batch 45/70 | Loss: 0.0939
+  Batch 50/70 | Loss: 0.3253
+  Batch 55/70 | Loss: 0.8308
+  Batch 60/70 | Loss: 0.8509
+  Batch 65/70 | Loss: 0.2101
+  ✅ Training Epoch 41 done. Running Validation...
+Epoch 41 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 41 | Loss: 0.2859 | Val: 76.67% | 8713.2s
+  Batch 0/70 | Loss: 0.4093
+  Batch 5/70 | Loss: 0.1064
+  Batch 10/70 | Loss: 0.0374
+  Batch 15/70 | Loss: 0.0500
+  Batch 20/70 | Loss: 0.3052
+  Batch 25/70 | Loss: 0.1434
+  Batch 30/70 | Loss: 0.0509
+  Batch 35/70 | Loss: 0.0260
+  Batch 40/70 | Loss: 0.3702
+  Batch 45/70 | Loss: 0.1539
+  Batch 50/70 | Loss: 0.3520
+  Batch 55/70 | Loss: 0.0272
+  Batch 60/70 | Loss: 0.8450
+  Batch 65/70 | Loss: 0.2506
+  ✅ Training Epoch 42 done. Running Validation...
+Epoch 42 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 42 | Loss: 0.3571 | Val: 76.67% | 8925.7s
+  Batch 0/70 | Loss: 0.0955
+  Batch 5/70 | Loss: 0.1027
+  Batch 10/70 | Loss: 0.0005
+  Batch 15/70 | Loss: 0.0209
+  Batch 20/70 | Loss: 0.1206
+  Batch 25/70 | Loss: 1.1829
+  Batch 30/70 | Loss: 0.1530
+  Batch 35/70 | Loss: 0.0289
+  Batch 40/70 | Loss: 0.1672
+  Batch 45/70 | Loss: 0.3006
+  Batch 50/70 | Loss: 0.2983
+  Batch 55/70 | Loss: 0.0368
+  Batch 60/70 | Loss: 2.4482
+  Batch 65/70 | Loss: 0.4195
+  ✅ Training Epoch 43 done. Running Validation...
+Epoch 43 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 43 | Loss: 0.3336 | Val: 73.33% | 9138.1s
+  Batch 0/70 | Loss: 0.8396
+  Batch 5/70 | Loss: 0.1066
+  Batch 10/70 | Loss: 0.4248
+  Batch 15/70 | Loss: 1.8651
+  Batch 20/70 | Loss: 0.1356
+  Batch 25/70 | Loss: 1.1238
+  Batch 30/70 | Loss: 0.5461
+  Batch 35/70 | Loss: 0.4494
+  Batch 40/70 | Loss: 0.1429
+  Batch 45/70 | Loss: 0.0036
+  Batch 50/70 | Loss: 0.3914
+  Batch 55/70 | Loss: 0.0463
+  Batch 60/70 | Loss: 0.4949
+  Batch 65/70 | Loss: 0.1765
+  ✅ Training Epoch 44 done. Running Validation...
+Epoch 44 | Val Acc: 86.67% | Current LR: 0.000020
+Epoch 44 | Loss: 0.3485 | Val: 86.67% | 9350.5s
+  Batch 0/70 | Loss: 0.0455
+  Batch 5/70 | Loss: 0.6134
+  Batch 10/70 | Loss: 2.0108
+  Batch 15/70 | Loss: 0.0009
+  Batch 20/70 | Loss: 0.4354
+  Batch 25/70 | Loss: 0.7245
+  Batch 30/70 | Loss: 0.0525
+  Batch 35/70 | Loss: 0.8023
+  Batch 40/70 | Loss: 0.0083
+  Batch 45/70 | Loss: 0.1538
+  Batch 50/70 | Loss: 0.5421
+  Batch 55/70 | Loss: 0.1115
+  Batch 60/70 | Loss: 0.0045
+  Batch 65/70 | Loss: 0.1413
+  ✅ Training Epoch 45 done. Running Validation...
+Epoch 45 | Val Acc: 70.00% | Current LR: 0.000020
+Epoch 45 | Loss: 0.3492 | Val: 70.00% | 9563.0s
+  Batch 0/70 | Loss: 0.4767
+  Batch 5/70 | Loss: 0.0066
+  Batch 10/70 | Loss: 0.3865
+  Batch 15/70 | Loss: 0.1736
+  Batch 20/70 | Loss: 0.0007
+  Batch 25/70 | Loss: 0.2753
+  Batch 30/70 | Loss: 0.2227
+  Batch 35/70 | Loss: 0.7271
+  Batch 40/70 | Loss: 0.2792
+  Batch 45/70 | Loss: 0.3839
+  Batch 50/70 | Loss: 0.0521
+  Batch 55/70 | Loss: 0.1309
+  Batch 60/70 | Loss: 0.0454
+  Batch 65/70 | Loss: 1.9870
+  ✅ Training Epoch 46 done. Running Validation...
+Epoch 46 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 46 | Loss: 0.3340 | Val: 73.33% | 9775.3s
+  Batch 0/70 | Loss: 0.0900
+  Batch 5/70 | Loss: 0.3084
+  Batch 10/70 | Loss: 0.5254
+  Batch 15/70 | Loss: 0.0475
+  Batch 20/70 | Loss: 0.3647
+  Batch 25/70 | Loss: 0.5535
+  Batch 30/70 | Loss: 0.3885
+  Batch 35/70 | Loss: 0.2385
+  Batch 40/70 | Loss: 0.3934
+  Batch 45/70 | Loss: 0.0373
+  Batch 50/70 | Loss: 0.1969
+  Batch 55/70 | Loss: 0.2420
+  Batch 60/70 | Loss: 0.0745
+  Batch 65/70 | Loss: 0.0906
+  ✅ Training Epoch 47 done. Running Validation...
+Epoch 47 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 47 | Loss: 0.2921 | Val: 76.67% | 9987.7s
+  Batch 0/70 | Loss: 1.3310
+  Batch 5/70 | Loss: 0.4921
+  Batch 10/70 | Loss: 0.2070
+  Batch 15/70 | Loss: 0.0440
+  Batch 20/70 | Loss: 0.1245
+  Batch 25/70 | Loss: 0.1542
+  Batch 30/70 | Loss: 0.0756
+  Batch 35/70 | Loss: 0.1565
+  Batch 40/70 | Loss: 0.1138
+  Batch 45/70 | Loss: 0.0378
+  Batch 50/70 | Loss: 0.7008
+  Batch 55/70 | Loss: 0.7825
+  Batch 60/70 | Loss: 1.0715
+  Batch 65/70 | Loss: 0.3508
+  ✅ Training Epoch 48 done. Running Validation...
+Epoch 48 | Val Acc: 70.00% | Current LR: 0.000020
+Epoch 48 | Loss: 0.2951 | Val: 70.00% | 10200.3s
+  Batch 0/70 | Loss: 0.0467
+  Batch 5/70 | Loss: 0.1660
+  Batch 10/70 | Loss: 0.2022
+  Batch 15/70 | Loss: 0.6379
+  Batch 20/70 | Loss: 1.6894
+  Batch 25/70 | Loss: 0.2945
+  Batch 30/70 | Loss: 1.0554
+  Batch 35/70 | Loss: 0.0397
+  Batch 40/70 | Loss: 0.0023
+  Batch 45/70 | Loss: 0.0201
+  Batch 50/70 | Loss: 0.0206
+  Batch 55/70 | Loss: 0.2801
+  Batch 60/70 | Loss: 0.7958
+  Batch 65/70 | Loss: 0.0036
+  ✅ Training Epoch 49 done. Running Validation...
+Epoch 49 | Val Acc: 76.67% | Current LR: 0.000020
+Epoch 49 | Loss: 0.3303 | Val: 76.67% | 10412.7s
+  Batch 0/70 | Loss: 0.0692
+  Batch 5/70 | Loss: 0.1050
+  Batch 10/70 | Loss: 0.4142
+  Batch 15/70 | Loss: 0.0427
+  Batch 20/70 | Loss: 0.2245
+  Batch 25/70 | Loss: 0.1255
+  Batch 30/70 | Loss: 0.1251
+  Batch 35/70 | Loss: 0.1297
+  Batch 40/70 | Loss: 0.1278
+  Batch 45/70 | Loss: 0.0542
+  Batch 50/70 | Loss: 0.0251
+  Batch 55/70 | Loss: 0.5307
+  Batch 60/70 | Loss: 0.1338
+  Batch 65/70 | Loss: 0.1105
+  ✅ Training Epoch 50 done. Running Validation...
+Epoch 50 | Val Acc: 73.33% | Current LR: 0.000020
+Epoch 50 | Loss: 0.2874 | Val: 73.33% | 10625.2s
+
+🏆 Final Best Accuracy: 86.67%
+✅ Training finished at Sun May 10 03:39:06 CEST 2026

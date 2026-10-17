@@ -11,3 +11,5 @@ tactile_cache_*/
 *.pt
 tactile_cache_80bins/
 tactile_cache_*/
+data/
+10ms_hpc1/

@@ -1,0 +1,8 @@
+✅ Sinabs loaded successfully
+🚀 Conversion started on node038 at Mon May 11 11:43:44 CEST 2026
+📦 Loading Model: /cfs/earth/scratch/matheron/tactile-sensing/4_layer/clean100epoch/precision_polish/final_100ep_refine_acc86.67.pt
+✅ Weights loaded.
+⚙️ Converting to Speck (Quantizing to 8-bit)...
+❌ CONVERSION FAILED: No valid mapping found. One or more of the DynapcnnLayers could not be mapped to any core.For Speck family you can verify if it is a memory issue by using `utils.validate_memory_mapping_speck()` to get more information.
+✅ Finished.
+✅ Conversion finished at Mon May 11 11:43:54 CEST 2026

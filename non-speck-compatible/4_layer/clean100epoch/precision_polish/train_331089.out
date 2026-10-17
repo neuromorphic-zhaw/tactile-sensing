@@ -1,0 +1,44 @@
+✅ Sinabs loaded successfully
+🚀 Training started on node301 at Mon May 11 00:03:41 CEST 2026
+📟 Using GPU: NVIDIA L40S
+🚀 Initializing from Champion: /cfs/earth/scratch/matheron/tactile-sensing/4_layer/clean100epoch/clean100_4layer_model_acc96.67.pt
+🚀 STARTING 100-EPOCH REFINEMENT | Save Threshold: >80.0%
+🌟 High Score Found: 86.67% (Saved to final_100ep_refine_acc86.67.pt)
+Epoch 005 | Loss: 0.4670 | Val: 83.33% | Best: 86.67%
+Epoch 010 | Loss: 0.5564 | Val: 83.33% | Best: 86.67%
+Epoch 015 | Loss: 0.4928 | Val: 83.33% | Best: 86.67%
+Epoch 020 | Loss: 0.4622 | Val: 83.33% | Best: 86.67%
+Epoch 025 | Loss: 0.4577 | Val: 80.00% | Best: 86.67%
+Epoch 030 | Loss: 0.4659 | Val: 76.67% | Best: 86.67%
+Epoch 035 | Loss: 0.4889 | Val: 76.67% | Best: 86.67%
+Epoch 040 | Loss: 0.4669 | Val: 66.67% | Best: 86.67%
+Epoch 045 | Loss: 0.4736 | Val: 73.33% | Best: 86.67%
+Epoch 050 | Loss: 0.4834 | Val: 70.00% | Best: 86.67%
+Epoch 055 | Loss: 0.4564 | Val: 76.67% | Best: 86.67%
+Epoch 060 | Loss: 0.4695 | Val: 73.33% | Best: 86.67%
+Epoch 065 | Loss: 0.4555 | Val: 70.00% | Best: 86.67%
+Epoch 070 | Loss: 0.4545 | Val: 66.67% | Best: 86.67%
+Epoch 075 | Loss: 0.4583 | Val: 70.00% | Best: 86.67%
+Epoch 080 | Loss: 0.4682 | Val: 70.00% | Best: 86.67%
+Epoch 085 | Loss: 0.4652 | Val: 66.67% | Best: 86.67%
+Epoch 090 | Loss: 0.4988 | Val: 66.67% | Best: 86.67%
+Epoch 095 | Loss: 0.4576 | Val: 63.33% | Best: 86.67%
+Epoch 100 | Loss: 0.4851 | Val: 66.67% | Best: 86.67%
+
+============================================================
+🏆 REFINEMENT COMPLETE. RUNNING FINAL UNSEEN TEST EVALUATION...
+📦 Best Model: final_100ep_refine_acc86.67.pt
+
+💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎
+👑 FINAL TEST ACCURACY: 83.33%
+💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎💎
+              precision    recall  f1-score   support
+
+        Flat       0.78      0.93      0.85        15
+      Curved       0.92      0.73      0.81        15
+
+    accuracy                           0.83        30
+   macro avg       0.85      0.83      0.83        30
+weighted avg       0.85      0.83      0.83        30
+
+✅ Training finished at Mon May 11 05:59:04 CEST 2026

@@ -14,12 +14,12 @@ import sinabs.layers as sl
 
 # --- 1. CONFIGURATION (THE FAST LEVERS) ---
 DATA_PATH = "./dataset_curv" 
-BATCH_SIZE = 4             # Keep low for 80 bins
-NUM_WORKERS = 16            # Increased for faster gzip unpacking
+BATCH_SIZE = 16            # Increased to 16 to utilize all CPU cores
+NUM_WORKERS = 16           # Matches your --cpus-per-task
 EPOCHS = 50
 LEARNING_RATE = 1e-3
 DEVICE = torch.device("cuda")
-BINS = 80                  # Your specific requirement
+BINS = 80
 
 # FAST LEVER 1: Set to 80 bins
 transform = T.Compose([
@@ -75,9 +75,11 @@ train_val_labels = [labels[i] for i in train_val_idx]
 train_idx, val_idx = train_test_split(train_val_idx, test_size=0.176, stratify=train_val_labels, random_state=42)
 
 LOADER_ARGS = {
-    'batch_size': BATCH_SIZE,
-    'num_workers': NUM_WORKERS,
+    'batch_size': BATCH_SIZE,      # Uses the variable from above
+    'num_workers': NUM_WORKERS,    # Uses the variable from above
     'pin_memory': True, 
+    'prefetch_factor': 4,          # Forces CPUs to stay 4 batches ahead
+    'persistent_workers': True     # Prevents CPUs from "restarting" every epoch
 }
 
 train_loader = DataLoader(Subset(full_dataset, train_idx), shuffle=True, **LOADER_ARGS)
@@ -131,7 +133,7 @@ scaler = torch.amp.GradScaler('cuda')
 best_val_acc = 0
 best_model_path = ""
 
-print(f"🚀 LAUNCHING 'GOLDILOCKS' SNN (Bins: {BINS}, Batch: {BATCH_SIZE})...")
+print(f"🚀 LAUNCHING 'Initial HPC' SNN (Bins: {BINS}, Batch: {BATCH_SIZE})...")
 
 for epoch in range(EPOCHS):
     start_time = time.time()

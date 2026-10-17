@@ -1,0 +1,19 @@
+✅ Sinabs loaded successfully
+🚀 Training started on node301 at Sun May 10 23:40:56 CEST 2026
+📟 Using GPU: NVIDIA L40S
+📂 Loading Champion: /cfs/earth/scratch/matheron/tactile-sensing/4_layer/clean100epoch/clean100_4layer_model_acc96.67.pt
+
+════════════════════════════════════════
+🏆 FINAL TEST SET ACCURACY: 80.00%
+════════════════════════════════════════
+              precision    recall  f1-score   support
+
+        Flat       0.85      0.73      0.79        15
+      Curved       0.76      0.87      0.81        15
+
+    accuracy                           0.80        30
+   macro avg       0.81      0.80      0.80        30
+weighted avg       0.81      0.80      0.80        30
+
+✅ Results and Confusion Matrix saved to disk.
+✅ Training finished at Sun May 10 23:41:18 CEST 2026

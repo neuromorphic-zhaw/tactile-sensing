@@ -1,0 +1,63 @@
+Starting training with Bins: 80, Batch: 16
+Job ID: 322113
+🚀 LAUNCHING 'Initial HPC' SNN (Bins: 80, Batch: 16)...
+🌟 New Best Model Saved: speck_best_bins80_batch16_acc53.33.pt
+Epoch 1 | Loss: 0.7265 | Val Acc: 53.33% | Time: 314.05s
+🌟 New Best Model Saved: speck_best_bins80_batch16_acc66.67.pt
+Epoch 2 | Loss: 0.6879 | Val Acc: 66.67% | Time: 312.95s
+Epoch 3 | Loss: 0.6500 | Val Acc: 53.33% | Time: 313.62s
+Epoch 4 | Loss: 0.6394 | Val Acc: 60.00% | Time: 311.42s
+Epoch 5 | Loss: 0.6177 | Val Acc: 66.67% | Time: 311.64s
+Epoch 6 | Loss: 0.6270 | Val Acc: 56.67% | Time: 312.18s
+Epoch 7 | Loss: 0.5913 | Val Acc: 56.67% | Time: 310.69s
+Epoch 8 | Loss: 0.5849 | Val Acc: 63.33% | Time: 311.63s
+Epoch 9 | Loss: 0.5478 | Val Acc: 60.00% | Time: 311.15s
+Epoch 10 | Loss: 0.5523 | Val Acc: 56.67% | Time: 312.56s
+Epoch 11 | Loss: 0.4897 | Val Acc: 60.00% | Time: 311.26s
+Epoch 12 | Loss: 0.5240 | Val Acc: 60.00% | Time: 311.43s
+Epoch 13 | Loss: 0.4863 | Val Acc: 50.00% | Time: 312.12s
+Epoch 14 | Loss: 0.5036 | Val Acc: 56.67% | Time: 311.50s
+Epoch 15 | Loss: 0.5044 | Val Acc: 56.67% | Time: 312.77s
+Epoch 16 | Loss: 0.4574 | Val Acc: 50.00% | Time: 312.05s
+Epoch 17 | Loss: 0.4414 | Val Acc: 63.33% | Time: 312.48s
+Epoch 18 | Loss: 0.4394 | Val Acc: 66.67% | Time: 311.68s
+Epoch 19 | Loss: 0.4251 | Val Acc: 53.33% | Time: 313.24s
+Epoch 20 | Loss: 0.3968 | Val Acc: 60.00% | Time: 311.78s
+Epoch 21 | Loss: 0.4076 | Val Acc: 56.67% | Time: 312.01s
+Epoch 22 | Loss: 0.4983 | Val Acc: 53.33% | Time: 312.51s
+Epoch 23 | Loss: 0.4413 | Val Acc: 53.33% | Time: 312.02s
+Epoch 24 | Loss: 0.3975 | Val Acc: 56.67% | Time: 313.02s
+Epoch 25 | Loss: 0.4698 | Val Acc: 63.33% | Time: 311.54s
+Epoch 26 | Loss: 0.3825 | Val Acc: 46.67% | Time: 312.57s
+Epoch 27 | Loss: 0.4145 | Val Acc: 63.33% | Time: 311.75s
+Epoch 28 | Loss: 0.4349 | Val Acc: 60.00% | Time: 312.63s
+Epoch 29 | Loss: 0.4882 | Val Acc: 53.33% | Time: 312.05s
+Epoch 30 | Loss: 0.4602 | Val Acc: 63.33% | Time: 313.11s
+Epoch 31 | Loss: 0.4220 | Val Acc: 60.00% | Time: 312.02s
+Epoch 32 | Loss: 0.3845 | Val Acc: 56.67% | Time: 312.13s
+🌟 New Best Model Saved: speck_best_bins80_batch16_acc70.00.pt
+Epoch 33 | Loss: 0.3890 | Val Acc: 70.00% | Time: 312.89s
+Epoch 34 | Loss: 0.3738 | Val Acc: 53.33% | Time: 311.84s
+Epoch 35 | Loss: 0.3712 | Val Acc: 63.33% | Time: 312.65s
+Epoch 36 | Loss: 0.3902 | Val Acc: 66.67% | Time: 311.52s
+Epoch 37 | Loss: 0.5597 | Val Acc: 56.67% | Time: 313.04s
+Epoch 38 | Loss: 0.4101 | Val Acc: 63.33% | Time: 312.23s
+Epoch 39 | Loss: 0.3455 | Val Acc: 56.67% | Time: 312.51s
+🌟 New Best Model Saved: speck_best_bins80_batch16_acc76.67.pt
+Epoch 40 | Loss: 0.4243 | Val Acc: 76.67% | Time: 311.99s
+Epoch 41 | Loss: 0.3366 | Val Acc: 63.33% | Time: 313.08s
+Epoch 42 | Loss: 0.4112 | Val Acc: 60.00% | Time: 311.67s
+Epoch 43 | Loss: 0.3449 | Val Acc: 56.67% | Time: 312.40s
+Epoch 44 | Loss: 0.3686 | Val Acc: 66.67% | Time: 313.02s
+Epoch 45 | Loss: 0.3406 | Val Acc: 53.33% | Time: 312.28s
+Epoch 46 | Loss: 0.3353 | Val Acc: 53.33% | Time: 312.84s
+Epoch 47 | Loss: 0.3423 | Val Acc: 56.67% | Time: 312.21s
+Epoch 48 | Loss: 0.3878 | Val Acc: 66.67% | Time: 313.23s
+Epoch 49 | Loss: 0.3787 | Val Acc: 63.33% | Time: 312.19s
+Epoch 50 | Loss: 0.4782 | Val Acc: 60.00% | Time: 313.21s
+
+==============================
+🎉 Training Complete!
+🏆 Final Best Accuracy: 76.67%
+💾 File: speck_best_bins80_batch16_acc76.67.pt
+==============================
