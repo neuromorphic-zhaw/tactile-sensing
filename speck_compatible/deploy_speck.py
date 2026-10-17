@@ -82,10 +82,16 @@ def main():
     from sinabs.backend.dynapcnn import DynapcnnNetwork
     hw = DynapcnnNetwork(snn=model.spiking_backbone, discretize=True,
                          input_shape=(2, 128, 128), dvs_input=True)
+
+    def _enable_raw_dvs(cfg):
+        cfg.dvs_layer.raw_monitor_enable = True   # filtered dvs monitor emits nothing
+        return cfg
+
     hw.to(device=args.device,
           chip_layers_ordering="auto",
           monitor_layers=["dvs", -1],
-          slow_clk_frequency=args.slow_clk)
+          slow_clk_frequency=args.slow_clk,
+          config_modifier=_enable_raw_dvs)
     print(f"deployed — layer->core map: {hw.chip_layers_ordering}")
 
     # --- 3. optional standalone flash binary ---
