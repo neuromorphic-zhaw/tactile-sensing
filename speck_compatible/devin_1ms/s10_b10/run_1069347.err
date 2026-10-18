@@ -1,2 +1,0 @@
-/cm/local/apps/slurm/var/spool/job1069347/slurm_script: line 29: 627472 Killed                  python -u "$VD/train.py"
-slurmstepd: error: Detected 2 oom-kill event(s) in StepId=1069347.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

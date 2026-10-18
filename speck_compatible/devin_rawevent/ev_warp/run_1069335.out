@@ -1,0 +1,133 @@
+sinabs loaded
+Run dir: /cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_rawevent/ev_warp/run_1069335
+RawEvent dataset: 200 event files.
+Splits -> Train: 140 | Val: 30 | Test: 30
+Warming up Sinabs layer dimensions...
+Training from scratch (no warm-start checkpoint).
+Verifying layer->core mapping (the check that was missing before)...
+   layer 1: kernel=0.5Ki  neuron=64.0Ki
+   layer 2: kernel=16.0Ki  neuron=64.0Ki
+   layer 3: kernel=32.0Ki  neuron=8.0Ki
+   layer 4: kernel=16.0Ki  neuron=8.0Ki
+   layer 5: kernel=16.0Ki  neuron=2.0Ki
+   layer 6: kernel=32.0Ki  neuron=1.0Ki
+   layer 7: kernel=64.0Ki  neuron=1.0Ki
+   layer 8: kernel=64.0Ki  neuron=1.0Ki
+   layer 9: kernel=0.5Ki  neuron=0.0Ki
+   mapping: {1: 0, 2: 1, 3: 3, 4: 2, 5: 8, 6: 4, 7: 6, 8: 5, 9: 7}
+TRAINING START: fitting 9-core SNN
+Epoch 01/100 | loss 0.6932 | val 43.33% | best 43.33% | 55.8s  [SAVED NEW BEST]
+Epoch 02/100 | loss 0.6931 | val 36.67% | best 43.33% | 55.9s
+   [TRAIN] Epoch 03 | 14.3% | loss 0.6930 | 2.0m
+Epoch 03/100 | loss 0.6931 | val 50.00% | best 50.00% | 49.8s  [SAVED NEW BEST]
+Epoch 04/100 | loss 0.6931 | val 56.67% | best 56.67% | 51.5s  [SAVED NEW BEST]
+   [TRAIN] Epoch 05 | 64.3% | loss 0.6949 | 4.1m
+Epoch 05/100 | loss 0.6932 | val 63.33% | best 63.33% | 53.0s  [SAVED NEW BEST]
+Epoch 06/100 | loss 0.6931 | val 63.33% | best 63.33% | 51.1s
+Epoch 07/100 | loss 0.6930 | val 66.67% | best 66.67% | 50.2s  [SAVED NEW BEST]
+   [TRAIN] Epoch 08 | 7.1% | loss 0.6948 | 6.3m
+Epoch 08/100 | loss 0.6928 | val 60.00% | best 66.67% | 54.6s
+Epoch 09/100 | loss 0.6917 | val 66.67% | best 66.67% | 52.9s
+   [TRAIN] Epoch 10 | 42.9% | loss 0.6846 | 8.3m
+Epoch 10/100 | loss 0.6905 | val 46.67% | best 66.67% | 50.2s
+Epoch 11/100 | loss 0.6835 | val 56.67% | best 66.67% | 52.8s
+   [TRAIN] Epoch 12 | 78.6% | loss 0.6617 | 10.3m
+Epoch 12/100 | loss 0.6928 | val 46.67% | best 66.67% | 53.6s
+Epoch 13/100 | loss 0.6783 | val 50.00% | best 66.67% | 50.2s
+Epoch 14/100 | loss 0.6999 | val 56.67% | best 66.67% | 53.7s
+   [TRAIN] Epoch 15 | 7.1% | loss 0.6889 | 12.5m
+Epoch 15/100 | loss 0.6677 | val 50.00% | best 66.67% | 54.2s
+Epoch 16/100 | loss 0.6589 | val 53.33% | best 66.67% | 51.0s
+   [TRAIN] Epoch 17 | 57.1% | loss 0.5701 | 14.5m
+Epoch 17/100 | loss 0.6274 | val 56.67% | best 66.67% | 51.8s
+Epoch 18/100 | loss 0.6141 | val 56.67% | best 66.67% | 55.9s
+   [TRAIN] Epoch 19 | 85.7% | loss 0.4400 | 16.5m
+Epoch 19/100 | loss 0.5606 | val 70.00% | best 70.00% | 51.2s  [SAVED NEW BEST]
+Epoch 20/100 | loss 0.5685 | val 63.33% | best 70.00% | 52.3s
+Epoch 21/100 | loss 0.5750 | val 56.67% | best 70.00% | 55.2s
+   [TRAIN] Epoch 22 | 7.1% | loss 0.5742 | 18.6m
+Epoch 22/100 | loss 0.5428 | val 70.00% | best 70.00% | 49.3s
+Epoch 23/100 | loss 0.5448 | val 56.67% | best 70.00% | 51.6s
+   [TRAIN] Epoch 24 | 42.9% | loss 0.6899 | 20.6m
+Epoch 24/100 | loss 0.5622 | val 46.67% | best 70.00% | 56.3s
+Epoch 25/100 | loss 0.5223 | val 66.67% | best 70.00% | 49.8s
+   [TRAIN] Epoch 26 | 100.0% | loss 0.6028 | 22.7m
+Epoch 26/100 | loss 0.5124 | val 70.00% | best 70.00% | 50.0s
+Epoch 27/100 | loss 0.6096 | val 56.67% | best 70.00% | 54.3s
+Epoch 28/100 | loss 0.5129 | val 63.33% | best 70.00% | 49.7s
+   [TRAIN] Epoch 29 | 14.3% | loss 0.3432 | 24.7m
+Epoch 29/100 | loss 0.4844 | val 66.67% | best 70.00% | 50.3s
+Epoch 30/100 | loss 0.4958 | val 60.00% | best 70.00% | 52.3s
+   [TRAIN] Epoch 31 | 64.3% | loss 0.3409 | 26.7m
+Epoch 31/100 | loss 0.5074 | val 56.67% | best 70.00% | 50.5s
+Epoch 32/100 | loss 0.4676 | val 63.33% | best 70.00% | 49.2s
+Epoch 33/100 | loss 0.5082 | val 60.00% | best 70.00% | 51.9s
+   [TRAIN] Epoch 34 | 7.1% | loss 0.5312 | 28.9m
+Epoch 34/100 | loss 0.4771 | val 63.33% | best 70.00% | 51.5s
+Epoch 35/100 | loss 0.4693 | val 73.33% | best 73.33% | 50.0s  [SAVED NEW BEST]
+   [TRAIN] Epoch 36 | 64.3% | loss 0.3338 | 30.9m
+Epoch 36/100 | loss 0.4542 | val 63.33% | best 73.33% | 51.5s
+Epoch 37/100 | loss 0.5149 | val 60.00% | best 73.33% | 52.4s
+Epoch 38/100 | loss 0.4375 | val 66.67% | best 73.33% | 50.6s
+   [TRAIN] Epoch 39 | 7.1% | loss 0.3601 | 33.1m
+Epoch 39/100 | loss 0.4428 | val 60.00% | best 73.33% | 51.8s
+Epoch 40/100 | loss 0.4610 | val 60.00% | best 73.33% | 54.2s
+   [TRAIN] Epoch 41 | 42.9% | loss 0.8131 | 35.1m
+Epoch 41/100 | loss 0.4496 | val 56.67% | best 73.33% | 50.8s
+Epoch 42/100 | loss 0.4697 | val 56.67% | best 73.33% | 51.4s
+   [TRAIN] Epoch 43 | 85.7% | loss 0.4284 | 37.2m
+Epoch 43/100 | loss 0.4615 | val 70.00% | best 73.33% | 53.5s
+Epoch 44/100 | loss 0.4403 | val 53.33% | best 73.33% | 50.8s
+Epoch 45/100 | loss 0.4464 | val 70.00% | best 73.33% | 49.8s
+   [TRAIN] Epoch 46 | 7.1% | loss 0.4125 | 39.2m
+Epoch 46/100 | loss 0.4309 | val 60.00% | best 73.33% | 52.6s
+Epoch 47/100 | loss 0.4242 | val 56.67% | best 73.33% | 49.8s
+   [TRAIN] Epoch 48 | 57.1% | loss 0.3806 | 41.2m
+Epoch 48/100 | loss 0.4237 | val 63.33% | best 73.33% | 49.1s
+Epoch 49/100 | loss 0.4255 | val 60.00% | best 73.33% | 52.6s
+   [TRAIN] Epoch 50 | 100.0% | loss 0.4711 | 43.2m
+Epoch 50/100 | loss 0.4091 | val 70.00% | best 73.33% | 52.4s
+Epoch 51/100 | loss 0.4093 | val 66.67% | best 73.33% | 50.7s
+Epoch 52/100 | loss 0.3949 | val 73.33% | best 73.33% | 53.8s
+   [TRAIN] Epoch 53 | 7.1% | loss 0.2331 | 45.2m
+Epoch 53/100 | loss 0.3847 | val 56.67% | best 73.33% | 52.5s
+Epoch 54/100 | loss 0.4136 | val 70.00% | best 73.33% | 50.6s
+   [TRAIN] Epoch 55 | 57.1% | loss 0.4262 | 47.2m
+Epoch 55/100 | loss 0.3917 | val 70.00% | best 73.33% | 53.0s
+Epoch 56/100 | loss 0.4076 | val 70.00% | best 73.33% | 53.4s
+   [TRAIN] Epoch 57 | 100.0% | loss 0.7303 | 49.3m
+Epoch 57/100 | loss 0.4719 | val 53.33% | best 73.33% | 49.2s
+Epoch 58/100 | loss 0.4190 | val 70.00% | best 73.33% | 52.2s
+Epoch 59/100 | loss 0.3861 | val 73.33% | best 73.33% | 52.5s
+   [TRAIN] Epoch 60 | 14.3% | loss 0.2532 | 51.3m
+Epoch 60/100 | loss 0.3844 | val 76.67% | best 76.67% | 49.4s  [SAVED NEW BEST]
+Epoch 61/100 | loss 0.3894 | val 70.00% | best 76.67% | 52.1s
+   [TRAIN] Epoch 62 | 50.0% | loss 0.2480 | 53.3m
+Epoch 62/100 | loss 0.3683 | val 70.00% | best 76.67% | 55.7s
+Epoch 63/100 | loss 0.3713 | val 76.67% | best 76.67% | 49.6s
+Epoch 64/100 | loss 0.3870 | val 80.00% | best 80.00% | 50.4s  [SAVED NEW BEST]
+   [TRAIN] Epoch 65 | 7.1% | loss 0.3885 | 55.5m
+Epoch 65/100 | loss 0.3724 | val 73.33% | best 80.00% | 53.3s
+Epoch 66/100 | loss 0.3775 | val 73.33% | best 80.00% | 49.6s
+   [TRAIN] Epoch 67 | 57.1% | loss 0.3750 | 57.6m
+Epoch 67/100 | loss 0.3779 | val 76.67% | best 80.00% | 51.2s
+Epoch 68/100 | loss 0.3944 | val 76.67% | best 80.00% | 51.9s
+Epoch 69/100 | loss 0.3940 | val 76.67% | best 80.00% | 50.8s
+   [TRAIN] Epoch 70 | 7.1% | loss 0.3547 | 59.8m
+Epoch 70/100 | loss 0.3792 | val 76.67% | best 80.00% | 50.5s
+Epoch 71/100 | loss 0.3524 | val 73.33% | best 80.00% | 52.2s
+   [TRAIN] Epoch 72 | 50.0% | loss 0.4634 | 61.8m
+Epoch 72/100 | loss 0.3558 | val 70.00% | best 80.00% | 51.5s
+Epoch 73/100 | loss 0.3629 | val 76.67% | best 80.00% | 49.6s
+Epoch 74/100 | loss 0.3832 | val 76.67% | best 80.00% | 51.6s
+   [TRAIN] Epoch 75 | 7.1% | loss 0.2928 | 64.1m
+Epoch 75/100 | loss 0.3612 | val 76.67% | best 80.00% | 51.7s
+Epoch 76/100 | loss 0.3670 | val 76.67% | best 80.00% | 50.2s
+   [TRAIN] Epoch 77 | 57.1% | loss 0.4021 | 66.1m
+Epoch 77/100 | loss 0.3875 | val 70.00% | best 80.00% | 52.7s
+Epoch 78/100 | loss 0.3528 | val 73.33% | best 80.00% | 53.4s
+   [TRAIN] Epoch 79 | 92.9% | loss 0.2990 | 68.1m
+Epoch 79/100 | loss 0.3449 | val 76.67% | best 80.00% | 51.1s
+Epoch 80/100 | loss 0.3631 | val 70.00% | best 80.00% | 52.0s
+Epoch 81/100 | loss 0.3564 | val 76.67% | best 80.00% | 53.8s
+   [TRAIN] Epoch 82 | 7.1% | loss 0.5527 | 70.1m

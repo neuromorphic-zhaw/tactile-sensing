@@ -39,7 +39,7 @@ torch.cuda.empty_cache()
 DATA_PATH = "/cfs/earth/scratch/matheron/tactile-sensing/data/dataset_curv_padded_1ms"
 BATCH_SIZE = 5
 NUM_WORKERS = 4
-PREFETCH = 2
+PREFETCH = 1
 EPOCHS = 100
 LEARNING_RATE = 2e-4
 WEIGHT_DECAY = 1e-4
@@ -113,8 +113,10 @@ print(f"Splits -> Train: {len(train_subset)} | Val: {len(val_subset)} | Test: {l
 LOADER_ARGS = {'batch_size': BATCH_SIZE, 'num_workers': NUM_WORKERS, 'prefetch_factor': PREFETCH,
                'pin_memory': True, 'persistent_workers': True, 'drop_last': True}
 train_loader = DataLoader(train_subset, shuffle=True, **LOADER_ARGS)
-val_loader = DataLoader(val_subset, shuffle=False, **LOADER_ARGS)
-test_loader = DataLoader(test_subset, shuffle=False, **LOADER_ARGS)
+VAL_ARGS = {'batch_size': BATCH_SIZE, 'num_workers': 2, 'prefetch_factor': 1,
+            'pin_memory': True, 'persistent_workers': True, 'drop_last': True}
+val_loader = DataLoader(val_subset, shuffle=False, **VAL_ARGS)
+test_loader = DataLoader(test_subset, shuffle=False, **VAL_ARGS)
 
 
 # --- 3. HARDWARE-VERIFIED 9-CORE TOPOLOGY ---
