@@ -85,8 +85,7 @@ def main():
     ax_spk = fig.add_subplot(2, 2, 3)
     ax_pwr = fig.add_subplot(2, 2, 4)
 
-    dvs_img = ax_dvs.imshow(np.zeros((128, 128)), cmap="inferno",
-                          vmin=0, vmax=5, origin="lower")
+    dvs_img = ax_dvs.imshow(np.zeros((128, 128, 3)), origin="lower")
     ax_dvs.set_title("DVS activity")
     ax_dvs.set_xticks([]); ax_dvs.set_yticks([])
 
@@ -113,7 +112,7 @@ def main():
     plt.show(block=False)
     print("DASHBOARD LIVE — close the window to stop.")
 
-    dvs_buf = np.zeros((128, 128))
+    dvs_buf = np.zeros((128, 128, 3))   # RGB: red=ON(p=1), green=OFF(p=0)
     seen_types = {}
     last_debug = 0.0
     win_counts = [0, 0]
@@ -122,6 +121,7 @@ def main():
     last_decision = t0
     last_spike_t = t0
     power_map = {n: 0.0 for n in pwr_names}
+    state = -1                      # -1 = IDLE, 0 = FLAT, 1 = CURVED
     decision, sub = "IDLE", ""
 
     try:
@@ -135,7 +135,10 @@ def main():
                 elif t.endswith("DvsEvent"):
                     dvs_count += 1
                     if 0 <= e.x < 128 and 0 <= e.y < 128:
-                        dvs_buf[e.y, e.x] = 5.0      # stamp bright, decays below
+                        if getattr(e, "p", 1):                       # ON -> red
+                            dvs_buf[e.y, e.x] = (1.0, 0.15, 0.15)
+                        else:                                        # OFF -> green
+                            dvs_buf[e.y, e.x] = (0.15, 1.0, 0.15)
             if power_sink is not None:
                 for e in power_sink.get_events():
                     try:
@@ -157,26 +160,37 @@ def main():
                 win_counts = [0, 0]
                 last_spike_t = now
 
-            # --- decision per window ---
+            # --- decision per window — state machine: a class flip must
+            # pass through IDLE (you can't touch flat and curved at once) ---
             if now - last_decision >= args.window:
                 rates = [h for h in hist if h[0] > now - t0 - args.window]
                 f = sum(r[1] for r in rates) / max(len(rates), 1)
                 c = sum(r[2] for r in rates) / max(len(rates), 1)
                 top, runner = max(f, c), min(f, c)
-                if top >= args.threshold and top >= runner * args.margin:
-                    name, color = CLASSES[f < c and 1 or 0]
-                    decision, sub = name, f"flat {f:.0f}/s   curved {c:.0f}/s   dvs {dvs_count}/s"
+                confident = top >= args.threshold and top >= runner * args.margin
+                winner = 1 if c > f else 0
+
+                if confident:
+                    if state == -1 or winner == state:
+                        state = winner          # claim from idle, or hold
+                    else:
+                        state = -1              # different class won -> IDLE first
                 else:
-                    decision, color, sub = "IDLE", "#777777", \
-                        f"flat {f:.0f}/s   curved {c:.0f}/s   dvs {dvs_count}/s"
+                    state = -1                  # no confident winner -> IDLE
+
+                if state >= 0:
+                    decision, color = CLASSES[state]
+                else:
+                    decision, color = "IDLE", "#777777"
+                sub = f"flat {f:.0f}/s   curved {c:.0f}/s   dvs {dvs_count}/s"
                 cls_text.set_text(decision); cls_text.set_color(color)
                 cls_sub.set_text(sub)
                 dvs_count = 0
                 last_decision = now
 
             # --- redraw artists ---
-            dvs_buf *= 0.92   # ~0.5s persistence at 20fps
-            dvs_img.set_data(np.clip(dvs_buf, 0, 5))
+            dvs_img.set_data(np.clip(dvs_buf, 0, 1))
+            dvs_buf[:] = 0    # hard reset each frame — no fade, just on/off
             if hist:
                 ts = [h[0] for h in hist]
                 line_f.set_data(ts, [h[1] for h in hist])
