@@ -1,0 +1,175 @@
+sinabs loaded
+Run dir: /cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin/lr5e4/run_1069313
+Dataset initialized with 200 padded samples.
+Splits -> Train: 140 | Val: 30 | Test: 30
+Warming up Sinabs layer dimensions...
+Training from scratch (no warm-start checkpoint).
+Verifying layer->core mapping (the check that was missing before)...
+   layer 1: kernel=0.5Ki  neuron=64.0Ki
+   layer 2: kernel=16.0Ki  neuron=64.0Ki
+   layer 3: kernel=32.0Ki  neuron=8.0Ki
+   layer 4: kernel=16.0Ki  neuron=8.0Ki
+   layer 5: kernel=16.0Ki  neuron=2.0Ki
+   layer 6: kernel=32.0Ki  neuron=1.0Ki
+   layer 7: kernel=64.0Ki  neuron=1.0Ki
+   layer 8: kernel=64.0Ki  neuron=1.0Ki
+   layer 9: kernel=0.5Ki  neuron=0.0Ki
+   mapping: {1: 0, 2: 1, 3: 3, 4: 2, 5: 8, 6: 4, 7: 6, 8: 5, 9: 7}
+TRAINING START: fitting 9-core SNN
+Epoch 01/100 | loss 0.6932 | val 36.67% | best 36.67% | 66.8s  [SAVED NEW BEST]
+Epoch 02/100 | loss 0.6931 | val 36.67% | best 36.67% | 57.6s
+   [TRAIN] Epoch 03 | 7.1% | loss 0.6931 | 2.2m
+Epoch 03/100 | loss 0.6931 | val 36.67% | best 36.67% | 54.9s
+Epoch 04/100 | loss 0.6931 | val 36.67% | best 36.67% | 54.4s
+   [TRAIN] Epoch 05 | 35.7% | loss 0.6931 | 4.3m
+Epoch 05/100 | loss 0.6932 | val 36.67% | best 36.67% | 55.9s
+Epoch 06/100 | loss 0.6931 | val 40.00% | best 40.00% | 54.5s  [SAVED NEW BEST]
+   [TRAIN] Epoch 07 | 64.3% | loss 0.6933 | 6.3m
+Epoch 07/100 | loss 0.6931 | val 43.33% | best 43.33% | 56.9s  [SAVED NEW BEST]
+Epoch 08/100 | loss 0.6910 | val 63.33% | best 63.33% | 56.2s  [SAVED NEW BEST]
+   [TRAIN] Epoch 09 | 85.7% | loss 0.6441 | 8.3m
+Epoch 09/100 | loss 0.6808 | val 50.00% | best 63.33% | 55.3s
+Epoch 10/100 | loss 0.7108 | val 70.00% | best 70.00% | 53.7s  [SAVED NEW BEST]
+Epoch 11/100 | loss 0.6947 | val 40.00% | best 70.00% | 55.2s
+   [TRAIN] Epoch 12 | 7.1% | loss 0.6756 | 10.6m
+Epoch 12/100 | loss 0.6757 | val 56.67% | best 70.00% | 56.0s
+Epoch 13/100 | loss 0.6803 | val 60.00% | best 70.00% | 55.8s
+   [TRAIN] Epoch 14 | 28.6% | loss 0.5509 | 12.6m
+Epoch 14/100 | loss 0.6346 | val 56.67% | best 70.00% | 55.8s
+Epoch 15/100 | loss 0.5630 | val 63.33% | best 70.00% | 53.9s
+   [TRAIN] Epoch 16 | 64.3% | loss 0.7722 | 14.6m
+Epoch 16/100 | loss 0.5733 | val 63.33% | best 70.00% | 54.4s
+Epoch 17/100 | loss 0.5334 | val 63.33% | best 70.00% | 57.1s
+   [TRAIN] Epoch 18 | 85.7% | loss 0.8578 | 16.6m
+Epoch 18/100 | loss 0.5211 | val 56.67% | best 70.00% | 55.3s
+Epoch 19/100 | loss 0.4964 | val 66.67% | best 70.00% | 56.9s
+Epoch 20/100 | loss 0.5388 | val 50.00% | best 70.00% | 57.2s
+   [TRAIN] Epoch 21 | 7.1% | loss 0.4566 | 18.9m
+Epoch 21/100 | loss 0.4874 | val 63.33% | best 70.00% | 56.5s
+Epoch 22/100 | loss 0.4632 | val 63.33% | best 70.00% | 52.8s
+   [TRAIN] Epoch 23 | 35.7% | loss 0.3682 | 20.9m
+Epoch 23/100 | loss 0.4566 | val 86.67% | best 86.67% | 56.0s  [SAVED NEW BEST]
+Epoch 24/100 | loss 0.4988 | val 73.33% | best 86.67% | 55.3s
+   [TRAIN] Epoch 25 | 64.3% | loss 0.3663 | 23.0m
+Epoch 25/100 | loss 0.4212 | val 63.33% | best 86.67% | 55.9s
+Epoch 26/100 | loss 0.3884 | val 66.67% | best 86.67% | 53.1s
+   [TRAIN] Epoch 27 | 100.0% | loss 0.6811 | 25.0m
+Epoch 27/100 | loss 0.3653 | val 70.00% | best 86.67% | 54.2s
+Epoch 28/100 | loss 0.3826 | val 83.33% | best 86.67% | 54.2s
+Epoch 29/100 | loss 0.3952 | val 83.33% | best 86.67% | 52.7s
+   [TRAIN] Epoch 30 | 7.1% | loss 0.3955 | 27.1m
+Epoch 30/100 | loss 0.3602 | val 66.67% | best 86.67% | 56.6s
+Epoch 31/100 | loss 0.3736 | val 83.33% | best 86.67% | 55.6s
+   [TRAIN] Epoch 32 | 28.6% | loss 0.2780 | 29.1m
+Epoch 32/100 | loss 0.3038 | val 73.33% | best 86.67% | 55.4s
+Epoch 33/100 | loss 0.3972 | val 60.00% | best 86.67% | 53.1s
+   [TRAIN] Epoch 34 | 64.3% | loss 0.3724 | 31.2m
+Epoch 34/100 | loss 0.3654 | val 76.67% | best 86.67% | 54.3s
+Epoch 35/100 | loss 0.3346 | val 86.67% | best 86.67% | 54.4s
+   [TRAIN] Epoch 36 | 100.0% | loss 0.3221 | 33.2m
+Epoch 36/100 | loss 0.3278 | val 86.67% | best 86.67% | 52.7s
+Epoch 37/100 | loss 0.2877 | val 83.33% | best 86.67% | 54.5s
+Epoch 38/100 | loss 0.3031 | val 86.67% | best 86.67% | 54.5s
+   [TRAIN] Epoch 39 | 7.1% | loss 0.2392 | 35.3m
+Epoch 39/100 | loss 0.3612 | val 83.33% | best 86.67% | 55.0s
+Epoch 40/100 | loss 0.3123 | val 86.67% | best 86.67% | 53.9s
+   [TRAIN] Epoch 41 | 42.9% | loss 0.3134 | 37.3m
+Epoch 41/100 | loss 0.2643 | val 83.33% | best 86.67% | 53.8s
+Epoch 42/100 | loss 0.2792 | val 76.67% | best 86.67% | 56.2s
+   [TRAIN] Epoch 43 | 71.4% | loss 0.3949 | 39.3m
+Epoch 43/100 | loss 0.3110 | val 73.33% | best 86.67% | 52.9s
+Epoch 44/100 | loss 0.3134 | val 86.67% | best 86.67% | 53.4s
+Epoch 45/100 | loss 0.2787 | val 90.00% | best 90.00% | 53.0s  [SAVED NEW BEST]
+   [TRAIN] Epoch 46 | 7.1% | loss 0.2147 | 41.5m
+Epoch 46/100 | loss 0.2797 | val 93.33% | best 93.33% | 53.3s  [SAVED NEW BEST]
+Epoch 47/100 | loss 0.2802 | val 90.00% | best 93.33% | 56.5s
+   [TRAIN] Epoch 48 | 28.6% | loss 0.2620 | 43.6m
+Epoch 48/100 | loss 0.2824 | val 86.67% | best 93.33% | 55.5s
+Epoch 49/100 | loss 0.2710 | val 90.00% | best 93.33% | 52.9s
+   [TRAIN] Epoch 50 | 64.3% | loss 0.3020 | 45.6m
+Epoch 50/100 | loss 0.2636 | val 86.67% | best 93.33% | 54.8s
+Epoch 51/100 | loss 0.2497 | val 83.33% | best 93.33% | 55.4s
+   [TRAIN] Epoch 52 | 92.9% | loss 0.2366 | 47.6m
+Epoch 52/100 | loss 0.2551 | val 83.33% | best 93.33% | 52.6s
+Epoch 53/100 | loss 0.2538 | val 86.67% | best 93.33% | 52.5s
+Epoch 54/100 | loss 0.2435 | val 93.33% | best 93.33% | 52.9s
+   [TRAIN] Epoch 55 | 7.1% | loss 0.2625 | 49.7m
+Epoch 55/100 | loss 0.2407 | val 83.33% | best 93.33% | 55.7s
+Epoch 56/100 | loss 0.2699 | val 90.00% | best 93.33% | 56.5s
+   [TRAIN] Epoch 57 | 35.7% | loss 0.2516 | 51.7m
+Epoch 57/100 | loss 0.2381 | val 90.00% | best 93.33% | 54.3s
+Epoch 58/100 | loss 0.2425 | val 90.00% | best 93.33% | 55.1s
+   [TRAIN] Epoch 59 | 64.3% | loss 0.2474 | 53.8m
+Epoch 59/100 | loss 0.2404 | val 93.33% | best 93.33% | 55.4s
+Epoch 60/100 | loss 0.2349 | val 86.67% | best 93.33% | 54.3s
+   [TRAIN] Epoch 61 | 100.0% | loss 0.2167 | 55.8m
+Epoch 61/100 | loss 0.2379 | val 86.67% | best 93.33% | 53.0s
+Epoch 62/100 | loss 0.2602 | val 90.00% | best 93.33% | 53.1s
+Epoch 63/100 | loss 0.2411 | val 93.33% | best 93.33% | 54.5s
+   [TRAIN] Epoch 64 | 7.1% | loss 0.2205 | 57.9m
+Epoch 64/100 | loss 0.2387 | val 90.00% | best 93.33% | 54.2s
+Epoch 65/100 | loss 0.2306 | val 86.67% | best 93.33% | 53.4s
+   [TRAIN] Epoch 66 | 35.7% | loss 0.2048 | 59.9m
+Epoch 66/100 | loss 0.2387 | val 93.33% | best 93.33% | 55.6s
+Epoch 67/100 | loss 0.2296 | val 93.33% | best 93.33% | 55.9s
+   [TRAIN] Epoch 68 | 57.1% | loss 0.2336 | 61.9m
+Epoch 68/100 | loss 0.2294 | val 93.33% | best 93.33% | 55.9s
+Epoch 69/100 | loss 0.2261 | val 93.33% | best 93.33% | 54.6s
+   [TRAIN] Epoch 70 | 85.7% | loss 0.2248 | 63.9m
+Epoch 70/100 | loss 0.2270 | val 93.33% | best 93.33% | 54.8s
+Epoch 71/100 | loss 0.2265 | val 93.33% | best 93.33% | 54.0s
+Epoch 72/100 | loss 0.2386 | val 93.33% | best 93.33% | 53.2s
+   [TRAIN] Epoch 73 | 7.1% | loss 0.2351 | 66.1m
+Epoch 73/100 | loss 0.2280 | val 93.33% | best 93.33% | 55.9s
+Epoch 74/100 | loss 0.2312 | val 90.00% | best 93.33% | 54.1s
+   [TRAIN] Epoch 75 | 35.7% | loss 0.2246 | 68.1m
+Epoch 75/100 | loss 0.2281 | val 90.00% | best 93.33% | 55.9s
+Epoch 76/100 | loss 0.2233 | val 93.33% | best 93.33% | 55.9s
+   [TRAIN] Epoch 77 | 57.1% | loss 0.2206 | 70.1m
+Epoch 77/100 | loss 0.2250 | val 93.33% | best 93.33% | 56.4s
+Epoch 78/100 | loss 0.2280 | val 90.00% | best 93.33% | 54.9s
+   [TRAIN] Epoch 79 | 85.7% | loss 0.2257 | 72.1m
+Epoch 79/100 | loss 0.2258 | val 90.00% | best 93.33% | 53.8s
+Epoch 80/100 | loss 0.2264 | val 90.00% | best 93.33% | 56.0s
+Epoch 81/100 | loss 0.2252 | val 90.00% | best 93.33% | 55.2s
+   [TRAIN] Epoch 82 | 7.1% | loss 0.2468 | 74.4m
+Epoch 82/100 | loss 0.2263 | val 90.00% | best 93.33% | 55.7s
+Epoch 83/100 | loss 0.2244 | val 90.00% | best 93.33% | 53.6s
+   [TRAIN] Epoch 84 | 35.7% | loss 0.2213 | 76.4m
+Epoch 84/100 | loss 0.2236 | val 90.00% | best 93.33% | 55.0s
+Epoch 85/100 | loss 0.2262 | val 93.33% | best 93.33% | 52.8s
+   [TRAIN] Epoch 86 | 64.3% | loss 0.2077 | 78.4m
+Epoch 86/100 | loss 0.2260 | val 90.00% | best 93.33% | 55.9s
+Epoch 87/100 | loss 0.2209 | val 93.33% | best 93.33% | 56.5s
+   [TRAIN] Epoch 88 | 85.7% | loss 0.2117 | 80.4m
+Epoch 88/100 | loss 0.2235 | val 90.00% | best 93.33% | 56.5s
+Epoch 89/100 | loss 0.2232 | val 90.00% | best 93.33% | 53.4s
+Epoch 90/100 | loss 0.2249 | val 90.00% | best 93.33% | 56.2s
+   [TRAIN] Epoch 91 | 7.1% | loss 0.2314 | 82.6m
+Epoch 91/100 | loss 0.2218 | val 90.00% | best 93.33% | 55.4s
+Epoch 92/100 | loss 0.2197 | val 90.00% | best 93.33% | 53.3s
+   [TRAIN] Epoch 93 | 42.9% | loss 0.2121 | 84.7m
+Epoch 93/100 | loss 0.2257 | val 90.00% | best 93.33% | 54.8s
+Epoch 94/100 | loss 0.2265 | val 93.33% | best 93.33% | 54.6s
+   [TRAIN] Epoch 95 | 71.4% | loss 0.2530 | 86.7m
+Epoch 95/100 | loss 0.2210 | val 90.00% | best 93.33% | 54.0s
+Epoch 96/100 | loss 0.2220 | val 93.33% | best 93.33% | 52.8s
+   [TRAIN] Epoch 97 | 100.0% | loss 0.2160 | 88.7m
+Epoch 97/100 | loss 0.2221 | val 90.00% | best 93.33% | 56.3s
+Epoch 98/100 | loss 0.2209 | val 90.00% | best 93.33% | 53.4s
+Epoch 99/100 | loss 0.2178 | val 90.00% | best 93.33% | 55.7s
+   [TRAIN] Epoch 100 | 7.1% | loss 0.2200 | 90.8m
+Epoch 100/100 | loss 0.2212 | val 90.00% | best 93.33% | 55.8s
+
+Loading best checkpoint for final test...
+
+FINAL UNBIASED TEST ACCURACY: 76.67%
+              precision    recall  f1-score   support
+
+        Flat       0.76      0.81      0.79        16
+      Curved       0.77      0.71      0.74        14
+
+    accuracy                           0.77        30
+   macro avg       0.77      0.76      0.76        30
+weighted avg       0.77      0.77      0.77        30
+

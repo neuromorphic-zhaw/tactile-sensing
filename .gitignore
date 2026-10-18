@@ -13,3 +13,4 @@ data/
 .agent/
 *_standalone*.bin
 imgui.ini
+LIVE_STATUS.md

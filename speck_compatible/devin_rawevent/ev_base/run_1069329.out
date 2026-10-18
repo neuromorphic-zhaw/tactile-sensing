@@ -1,0 +1,58 @@
+sinabs loaded
+Run dir: /cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_rawevent/ev_base/run_1069329
+RawEvent dataset: 200 event files.
+Splits -> Train: 140 | Val: 30 | Test: 30
+Warming up Sinabs layer dimensions...
+Training from scratch (no warm-start checkpoint).
+Verifying layer->core mapping (the check that was missing before)...
+   layer 1: kernel=0.5Ki  neuron=64.0Ki
+   layer 2: kernel=16.0Ki  neuron=64.0Ki
+   layer 3: kernel=32.0Ki  neuron=8.0Ki
+   layer 4: kernel=16.0Ki  neuron=8.0Ki
+   layer 5: kernel=16.0Ki  neuron=2.0Ki
+   layer 6: kernel=32.0Ki  neuron=1.0Ki
+   layer 7: kernel=64.0Ki  neuron=1.0Ki
+   layer 8: kernel=64.0Ki  neuron=1.0Ki
+   layer 9: kernel=0.5Ki  neuron=0.0Ki
+   mapping: {1: 0, 2: 1, 3: 3, 4: 2, 5: 8, 6: 4, 7: 6, 8: 5, 9: 7}
+TRAINING START: fitting 9-core SNN
+Epoch 01/100 | loss 0.6931 | val 36.67% | best 36.67% | 65.2s  [SAVED NEW BEST]
+Epoch 02/100 | loss 0.6931 | val 36.67% | best 36.67% | 53.8s
+   [TRAIN] Epoch 03 | 7.1% | loss 0.6931 | 2.1m
+Epoch 03/100 | loss 0.6931 | val 36.67% | best 36.67% | 50.9s
+Epoch 04/100 | loss 0.6931 | val 36.67% | best 36.67% | 53.3s
+   [TRAIN] Epoch 05 | 42.9% | loss 0.6931 | 4.2m
+Epoch 05/100 | loss 0.6932 | val 43.33% | best 43.33% | 54.4s  [SAVED NEW BEST]
+Epoch 06/100 | loss 0.6932 | val 46.67% | best 46.67% | 54.8s  [SAVED NEW BEST]
+   [TRAIN] Epoch 07 | 71.4% | loss 0.6927 | 6.2m
+Epoch 07/100 | loss 0.6932 | val 60.00% | best 60.00% | 54.5s  [SAVED NEW BEST]
+Epoch 08/100 | loss 0.6929 | val 63.33% | best 63.33% | 54.0s  [SAVED NEW BEST]
+Epoch 09/100 | loss 0.6926 | val 60.00% | best 63.33% | 51.4s
+   [TRAIN] Epoch 10 | 7.1% | loss 0.6891 | 8.4m
+Epoch 10/100 | loss 0.6910 | val 60.00% | best 63.33% | 53.9s
+Epoch 11/100 | loss 0.6941 | val 60.00% | best 63.33% | 54.2s
+   [TRAIN] Epoch 12 | 35.7% | loss 0.6670 | 10.4m
+Epoch 12/100 | loss 0.6882 | val 50.00% | best 63.33% | 54.4s
+Epoch 13/100 | loss 0.6726 | val 56.67% | best 63.33% | 51.0s
+   [TRAIN] Epoch 14 | 85.7% | loss 0.7114 | 12.4m
+Epoch 14/100 | loss 0.6541 | val 60.00% | best 63.33% | 50.7s
+Epoch 15/100 | loss 0.6612 | val 56.67% | best 63.33% | 51.8s
+Epoch 16/100 | loss 0.6232 | val 56.67% | best 63.33% | 53.8s
+   [TRAIN] Epoch 17 | 7.1% | loss 0.5607 | 14.5m
+Epoch 17/100 | loss 0.6907 | val 66.67% | best 66.67% | 54.6s  [SAVED NEW BEST]
+Epoch 18/100 | loss 0.6157 | val 63.33% | best 66.67% | 50.9s
+   [TRAIN] Epoch 19 | 50.0% | loss 0.5898 | 16.6m
+Epoch 19/100 | loss 0.5888 | val 63.33% | best 66.67% | 53.2s
+Epoch 20/100 | loss 0.6004 | val 70.00% | best 70.00% | 53.5s  [SAVED NEW BEST]
+   [TRAIN] Epoch 21 | 92.9% | loss 0.4771 | 18.6m
+Epoch 21/100 | loss 0.5820 | val 73.33% | best 73.33% | 50.8s  [SAVED NEW BEST]
+Epoch 22/100 | loss 0.6220 | val 60.00% | best 73.33% | 52.2s
+Epoch 23/100 | loss 0.5382 | val 56.67% | best 73.33% | 52.5s
+   [TRAIN] Epoch 24 | 7.1% | loss 0.3827 | 20.6m
+Epoch 24/100 | loss 0.5126 | val 60.00% | best 73.33% | 52.4s
+Epoch 25/100 | loss 0.5343 | val 56.67% | best 73.33% | 52.5s
+   [TRAIN] Epoch 26 | 50.0% | loss 0.4336 | 22.7m
+Epoch 26/100 | loss 0.4854 | val 63.33% | best 73.33% | 53.0s
+Epoch 27/100 | loss 0.4977 | val 70.00% | best 73.33% | 55.2s
+   [TRAIN] Epoch 28 | 85.7% | loss 0.6365 | 24.7m
+Epoch 28/100 | loss 0.4659 | val 76.67% | best 76.67% | 53.3s  [SAVED NEW BEST]
