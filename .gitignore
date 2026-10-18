@@ -14,3 +14,11 @@ data/
 *_standalone*.bin
 imgui.ini
 LIVE_STATUS.md
+
+# --- sweep run artifacts: keep recipes (train.py/job.slurm/README), not volatile outputs ---
+speck_compatible/devin_*/**/run_*
+speck_compatible/devin_*/**/Slurm-*
+speck_compatible/devin_*/**/eval_*
+speck_compatible/devin_*/**/*.out
+speck_compatible/devin_*/**/*.err
+speck_compatible/devin_*/**/*.png
