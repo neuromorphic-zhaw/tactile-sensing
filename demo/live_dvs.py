@@ -175,11 +175,22 @@ def main():
     conf = tk.Label(root, text="", font=("Consolas", 10), fg="#888888")
     conf.pack()
 
-    # --- Speck-intended readout (SynSense gesture demo mechanism) ---
-    # per window: count spikes per output feature; total must be within
-    # [thr_low, thr_high], winner count > det_thr, unique max required —
-    # otherwise the default (IDLE) is shown. Stateless: no memory,
-    # no calibration.
+    # --- episode-level readout ---
+    # The model is a SEQUENCE classifier: per-window output is undefined
+    # (clips themselves flip mid-sequence; validated 90.5% on the mean
+    # over a whole approach+contact+liftoff episode). A still hold
+    # produces no DVS events -> no signal. So: detect a contact episode
+    # by output activity, accumulate all its evidence, emit ONE verdict.
+    EP_START = 500          # spikes in a window -> episode opens
+                            # (idle noise w/ filter off runs ~100-250)
+    EP_QUIET = 4            # consecutive quiet windows -> closes
+    EP_MIN_PEAK = 800       # episode needs a real peak to be a touch
+    EP_MIN = 300            # min total spikes for a verdict
+    ep_active = False
+    ep_cf = ep_cc = ep_dvs = ep_id = ep_quiet = 0
+    ep_dur = 0.0
+    ep_peak = 0
+    verdict = ""            # last emitted verdict text
     last_win = time.time()
 
     csv_f = None
@@ -189,7 +200,8 @@ def main():
         csv_f.write("t,cf,cc,flat_rate,curved_rate,dvs,dvs_rate,state\n")
 
     def tick():
-        nonlocal last_win
+        nonlocal last_win, ep_active, ep_cf, ep_cc, ep_dvs, ep_id
+        nonlocal ep_quiet, ep_dur, verdict, ep_peak
         now = time.time()
         if now - last_win >= args.window:
             dt = now - last_win
@@ -198,19 +210,55 @@ def main():
             shared["counts"][0] = shared["counts"][1] = 0
             shared["dvs"] = 0
             f, c = cf / dt, cc / dt
-            # raw output as-is: argmax, no gates, no memory
-            if cf > cc:
-                shown_state = "FLAT"
-            elif cc > cf:
-                shown_state = "CURVED"
-            elif cf == 0:
-                shown_state = "IDLE"
+            tot = cf + cc
+            if not ep_active and tot > EP_START:
+                ep_active = True
+                ep_id += 1
+                ep_cf = ep_cc = ep_dvs = ep_quiet = 0
+                ep_dur = 0.0
+                ep_peak = 0
+            if ep_active:
+                ep_cf += cf; ep_cc += cc; ep_dvs += nd; ep_dur += dt
+                ep_peak = max(ep_peak, tot)
+                # quiet = below 20% of this episode's own peak —
+                # adapts to noise floor without calibration
+                quiet_t = max(60, 0.2 * ep_peak)
+                ep_quiet = ep_quiet + 1 if tot <= quiet_t else 0
+                running = ("FLAT" if ep_cf > ep_cc else
+                           "CURVED" if ep_cc > ep_cf else "—")
+                shown_state = f"EP{ep_id}:{running}"
+                pred.config(text=running, fg="#4466aa")   # in-progress
+                conf.config(
+                    text=f"ep{ep_id} {ep_dur:.1f}s  acc {ep_cf} vs {ep_cc}"
+                         f"  -> {running}")
+                if ep_quiet >= EP_QUIET:
+                    ep_active = False
+                    if ep_peak < EP_MIN_PEAK:
+                        shown_state = f"EP{ep_id}:weak"
+                        print(f"  EP{ep_id} discarded (peak "
+                              f"{ep_peak} < {EP_MIN_PEAK} — noise)",
+                              flush=True)
+                    elif ep_cf + ep_cc >= EP_MIN:
+                        frac = max(ep_cf, ep_cc) / (ep_cf + ep_cc)
+                        verdict = running
+                        shown_state = f"EP{ep_id}:{running}"
+                        pred.config(text=running,
+                                    fg={"FLAT": "#2e8b57",
+                                        "CURVED": "#d2691e"}[running])
+                        conf.config(text=f"{verdict}  {frac:.0%}  "
+                                         f"({ep_cf} vs {ep_cc}, "
+                                         f"{ep_dur:.1f}s, "
+                                         f"{ep_dvs} dvs)")
+                        print(f"  EP{ep_id} VERDICT {running} "
+                              f"{frac:.0%} acc={ep_cf}v{ep_cc} "
+                              f"dur={ep_dur:.1f}s", flush=True)
             else:
-                shown_state = "TIE"
-            col = {"IDLE": "#777777", "FLAT": "#2e8b57",
-                   "CURVED": "#d2691e", "TIE": "#888888"}[shown_state]
-            pred.config(text=shown_state, fg=col)
-            conf.config(text=f"counts {cf} vs {cc}")
+                shown_state = "IDLE"
+                pred.config(text=verdict if verdict else "IDLE",
+                            fg={"FLAT": "#2e8b57",
+                                "CURVED": "#d2691e"}.get(verdict,
+                                                         "#777777"))
+                conf.config(text="waiting for touch")
             print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  "
                   f"({cf:4d} vs {cc:4d}) -> {shown_state}", flush=True)
             rates.config(text=f"flat {f:5.0f}/s   curved {c:5.0f}/s"
