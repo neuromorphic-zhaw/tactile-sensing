@@ -49,13 +49,17 @@ def split_indices(n):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
+    ap.add_argument("--data", default=DATA_PATH)
     ap.add_argument("--stride", type=int, default=4)
     ap.add_argument("--limit", type=int, default=0, help="clips per split, 0=all")
+    ap.add_argument("--match_train", action="store_true",
+                    help="use raw glob order (HPC) -> identical split to training")
     args = ap.parse_args()
 
-    files = sorted(glob.glob(os.path.join(DATA_PATH, "**/*.npz"),
-                            recursive=True))
-    assert files, f"no npz under {DATA_PATH}"
+    files = glob.glob(os.path.join(args.data, "**/*.npz"), recursive=True)
+    if not args.match_train:
+        files = sorted(files)
+    assert files, f"no npz under {args.data}"
     print(f"{len(files)} clips")
 
     tr_i, va_i, te_i = split_indices(len(files))
