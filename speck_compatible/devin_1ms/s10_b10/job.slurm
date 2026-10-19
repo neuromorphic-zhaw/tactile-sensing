@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --mem=256G
 #SBATCH --time=8:00:00
 #SBATCH --output=/cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_1ms/s10_b10/run_%j.out
 #SBATCH --error=/cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_1ms/s10_b10/run_%j.err

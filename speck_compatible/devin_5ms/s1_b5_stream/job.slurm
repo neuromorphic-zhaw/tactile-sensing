@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=5ms_s1_b5_stream
-#SBATCH --partition=earth-4
+#SBATCH --partition=earth-5
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --time=20:00:00
+#SBATCH --time=72:00:00
 #SBATCH --output=/cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_5ms/s1_b5_stream/run_%j.out
 #SBATCH --error=/cfs/earth/scratch/matheron/tactile-sensing/speck_compatible/devin_5ms/s1_b5_stream/run_%j.err
 
