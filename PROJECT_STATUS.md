@@ -63,6 +63,9 @@ test 86.7% (mean 90.0)**, best@epoch 47, rank #1 of the sweep.
    accuracy loss
 4. **Why wclamp won**: training clamps |W| < 1.0; measured max weight
    ≈ **0.41** → quantized accuracy ≈ float accuracy, zero clipping
+5. **Verified (chip-sim, `eval_quantized.py`)**: the int8 model gives
+   **bit-identical predictions** to float32 — 93.3% val / 86.7% test /
+   90.5% all-200, same per-clip answers. Quantization loss: **zero**.
 
 ## 5. How the SNN actually learns — BPTT + surrogate gradients
 
