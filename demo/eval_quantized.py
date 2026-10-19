@@ -116,9 +116,10 @@ def main():
         t0 = time.time()
         for j, i in enumerate(sel):
             frames, label = load_clip(files[i])
-            pf, lf = predict_float(frames)
-            pq, lq = predict_quant(frames, args.stride)       # same stride
-            pqf, _ = predict_quant(frames, 1)                 # full rate
+            with torch.no_grad():
+                pf, lf = predict_float(frames)
+                pq, lq = predict_quant(frames, args.stride)   # same stride
+                pqf, _ = predict_quant(frames, 1)             # full rate
             stats["f"][0] += pf == label
             stats["q"][0] += pq == label
             stats["qf"][0] += pqf == label
