@@ -16,6 +16,7 @@ import argparse
 import subprocess
 import threading
 import time
+from collections import deque
 import numpy as np
 import torch
 import samna
@@ -36,12 +37,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--device", default="speck2fdevkit:0")
-    ap.add_argument("--threshold", type=float, default=500.0,
-                    help="EXCESS spikes/s (above baseline) to declare a class")
-    ap.add_argument("--margin", type=float, default=1.5)
-    ap.add_argument("--window", type=float, default=1.0)
-    ap.add_argument("--confirm", type=int, default=2)
-    ap.add_argument("--calib", type=float, default=5.0)
+    ap.add_argument("--window", type=float, default=0.3)
+    ap.add_argument("--vote", type=int, default=4,
+                    help="rate-weighted vote over last N windows")
+    ap.add_argument("--idle_floor", type=float, default=100.0,
+                    help="total spikes/s below this -> IDLE (near-silence)")
     ap.add_argument("--slow_clk", type=int, default=1000)
     args = ap.parse_args()
 
@@ -73,11 +73,15 @@ def main():
     dk = hw.samna_device
 
     # --- samnagui (pure converters — no JIT anywhere) ---
+    # raw_monitor is the only DVS tap that emits under a model config,
+    # but it's PRE-filter -> we denoise in python (spatiotemporal
+    # correlation: keep only events with a recently-active 8-neighbour)
+    # and forward the clean events to the visualizer
     gui = subprocess.Popen([SAMNAGUI, ENDPOINT, "-W", "0.85", "-H", "0.85"])
     graph = samna.graph.EventFilterGraph()
+    clean_src = samna.BasicSourceNode_speck2f_event_output_event()
     _, _, streamer = graph.sequential(
-        [dk.get_model_source_node(), "Speck2fDvsToVizConverter",
-         "VizEventStreamer"])
+        [clean_src, "Speck2fDvsToVizConverter", "VizEventStreamer"])
     cfg_src, _ = graph.sequential(
         [samna.BasicSourceNode_ui_event(), streamer])
     streamer.set_streamer_endpoint(ENDPOINT)
@@ -108,12 +112,40 @@ def main():
     sink = samna.graph.sink_from(dk.get_model().get_source_node())
     shared = {"counts": [0, 0]}
     drain_alive = [True]
+    last_ev = np.full((128, 128), -1.0)   # last event time per pixel
+    pix_act = np.zeros((128, 128))        # leaky per-pixel activity
+    last_decay = [time.time()]
+    CORR_T = 0.02                          # 20 ms correlation window
+    ACT_TAU = 0.25                         # activity decay (s)
+    ACT_MAX = 20.0                         # ~sustained >80/s -> noise pixel
 
     def drain():
         while drain_alive[0]:
+            keep = []
+            now = time.time()
+            pix_act *= np.exp(-(now - last_decay[0]) / ACT_TAU)
+            last_decay[0] = now
             for e in sink.get_events():
-                if type(e).__name__ == "Spike" and e.feature in (0, 1):
-                    shared["counts"][e.feature] += 1
+                tn = type(e).__name__
+                if tn == "Spike":
+                    if e.feature in (0, 1):
+                        shared["counts"][e.feature] += 1
+                    continue
+                if not hasattr(e, "x"):     # forward real DVS events only
+                    continue
+                x, y = e.x, e.y
+                pix_act[y, x] += 1.0
+                if pix_act[y, x] > ACT_MAX:
+                    continue                # sustained-firing -> line/hot pixel
+                x0, x1 = max(0, x - 1), min(128, x + 2)
+                y0, y1 = max(0, y - 1), min(128, y + 2)
+                nb = last_ev[y0:y1, x0:x1].copy()
+                nb[y - y0, x - x0] = -1.0     # exclude self -> hot pixels die
+                if (now - nb < CORR_T).any():
+                    keep.append(e)
+                last_ev[y, x] = now
+            if keep:
+                clean_src.write(keep)
             time.sleep(0.005)
 
     threading.Thread(target=drain, daemon=True).start()
@@ -127,74 +159,39 @@ def main():
     pred.pack(pady=(10, 0))
     rates = tk.Label(root, text="", font=("Consolas", 11))
     rates.pack()
-    baselbl = tk.Label(root, text="", font=("Consolas", 9), fg="#888888")
-    baselbl.pack()
 
-    state = -1
-    pend_win, pend_n = -1, 0
-    calibrating = True
-    calib_f, calib_c = [], []
-    calib_start = time.time()
-    base = [0.0, 0.0]
     last_win = time.time()
-
-    def start_calib():
-        nonlocal calibrating, calib_start
-        calibrating = True
-        calib_f.clear(); calib_c.clear()
-        calib_start = time.time()
-        pred.config(text="CAL…", fg="#777777")
-
-    tk.Button(root, text="Recalibrate\n(lift off first)",
-              command=start_calib).pack(pady=4)
+    hist_f, hist_c = deque(maxlen=args.vote), deque(maxlen=args.vote)
+    shown = None
 
     def tick():
-        nonlocal state, pend_win, pend_n, calibrating, last_win
+        nonlocal last_win, shown
         now = time.time()
         if now - last_win >= args.window:
             dt = now - last_win
             f, c = (shared["counts"][0] / dt, shared["counts"][1] / dt)
             shared["counts"][0] = shared["counts"][1] = 0
-            if calibrating:
-                calib_f.append(f); calib_c.append(c)
-                pred.config(text="CAL…")
-                if now - calib_start >= args.calib:
-                    base[0] = float(np.median(calib_f))
-                    base[1] = float(np.median(calib_c))
-                    calibrating = False
-                    baselbl.config(
-                        text=f"baseline flat {base[0]:.0f}/s  "
-                             f"curved {base[1]:.0f}/s")
-                    print(f"baseline flat={base[0]:.0f} "
-                          f"curved={base[1]:.0f}", flush=True)
-            else:
-                fe, ce = max(0.0, f - base[0]), max(0.0, c - base[1])
-                top = max(fe, ce)
-                confident = top >= args.threshold
-                winner = 1 if ce > fe else 0
-                if confident:
-                    pend_n = pend_n + 1 if winner == pend_win else 1
-                    pend_win = winner
-                    if state == winner:
-                        pass
-                    elif state == -1 and pend_n >= args.confirm:
-                        state = winner
-                    elif state != winner:
-                        state = -1
-                else:
-                    state, pend_win, pend_n = -1, -1, 0
-                if state >= 0:
-                    pred.config(text=CLASSES[state],
-                                fg="#2e8b57" if state == 0 else "#d2691e")
-                else:
-                    pred.config(text="IDLE", fg="#777777")
-                rates.config(text=f"flat {f:5.0f}/s (+{fe:4.0f})   "
-                                  f"curved {c:5.0f}/s (+{ce:4.0f})")
-                print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  -> "
-                      f"{CLASSES[state] if state >= 0 else 'IDLE'}",
-                      flush=True)
+            hist_f.append(f); hist_c.append(c)
+            # rate-weighted: strong contact windows dominate weak
+            # transient ones; hysteresis: challenger must beat the
+            # incumbent's accumulated evidence to flip the label
+            sf, sc = sum(hist_f), sum(hist_c)
+            if sf + sc < args.idle_floor * len(hist_f):
+                shown = None                      # near-silence -> IDLE
+                pred.config(text="IDLE", fg="#777777")
+            elif shown != 0 and sf >= sc:
+                shown = 0
+                pred.config(text="FLAT", fg="#2e8b57")
+            elif shown != 1 and sc > sf:
+                shown = 1
+                pred.config(text="CURVED", fg="#d2691e")
+            rates.config(text=f"flat {f:5.0f}/s   curved {c:5.0f}/s")
+            print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  "
+                  f"sum(f={sf:.0f},c={sc:.0f}) -> "
+                  f"{CLASSES[shown] if shown is not None else 'IDLE'}",
+                  flush=True)
             last_win = now
-        root.after(100, tick)
+        root.after(50, tick)
 
     def on_close():
         drain_alive[0] = False
