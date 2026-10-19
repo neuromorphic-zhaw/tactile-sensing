@@ -63,11 +63,10 @@ def main():
     def _enable_monitors(cfg):
         cfg.dvs_layer.monitor_enable = True
         cfg.dvs_layer.raw_monitor_enable = True   # emits under model config
-        # on-chip filter: kills hot pixels / background noise lines
-        # (disabled by default -> raw stream is noisy)
-        cfg.dvs_filter.enable = True
-        cfg.dvs_filter.hot_pixel_filter_enable = True
-        cfg.dvs_filter.threshold = 5
+        # on-chip dvs_filter DISABLED: training data was unfiltered —
+        # the model expects the raw event stream. Python-side denoise
+        # still cleans the DISPLAY path only.
+        cfg.dvs_filter.enable = False
         return cfg
 
     hw.to(device=args.device, chip_layers_ordering="auto",
