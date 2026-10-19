@@ -54,13 +54,21 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="clips per split, 0=all")
     ap.add_argument("--match_train", action="store_true",
                     help="use raw glob order (HPC) -> identical split to training")
+    ap.add_argument("--ablate", choices=["none", "spatial", "temporal"],
+                    default="none",
+                    help="spatial: fixed pixel permutation per clip "
+                         "(destroys shape, keeps per-bin counts); "
+                         "temporal: shuffle bin order (destroys "
+                         "dynamics, keeps rate histogram)")
+    ap.add_argument("--only", choices=["val", "test", "all"], default="",
+                    help="restrict eval to one split")
     args = ap.parse_args()
 
     files = glob.glob(os.path.join(args.data, "**/*.npz"), recursive=True)
     if not args.match_train:
         files = sorted(files)
     assert files, f"no npz under {args.data}"
-    print(f"{len(files)} clips")
+    print(f"{len(files)} clips  ablate={args.ablate}")
 
     tr_i, va_i, te_i = split_indices(len(files))
     print(f"split sizes: train={len(tr_i)} val={len(va_i)} test={len(te_i)}")
@@ -106,7 +114,23 @@ def main():
         rates = out.mean(dim=0)
         return int(rates.argmax().item()), rates.tolist()
 
+    # fixed permutation shared across clips -> consistent scrambling
+    abl_gen = torch.Generator().manual_seed(0)
+
+    def ablate(frames):
+        if args.ablate == "spatial":
+            t = frames.shape[0]
+            perm = torch.randperm(128 * 128, generator=abl_gen)
+            return frames.reshape(t, 2, -1)[:, :, perm].reshape(
+                t, 2, 128, 128)
+        if args.ablate == "temporal":
+            return frames[torch.randperm(frames.shape[0],
+                                         generator=abl_gen)]
+        return frames
+
     groups = [("VAL", va_i), ("TEST", te_i), ("ALL", set(range(len(files))))]
+    if args.only:
+        groups = [g for g in groups if g[0] == args.only.upper()]
     for name, idxs in groups:
         sel = sorted(idxs)
         if args.limit:
@@ -116,6 +140,7 @@ def main():
         t0 = time.time()
         for j, i in enumerate(sel):
             frames, label = load_clip(files[i])
+            frames = ablate(frames)
             with torch.no_grad():
                 pf, lf = predict_float(frames)
                 pq, lq = predict_quant(frames, args.stride)   # same stride

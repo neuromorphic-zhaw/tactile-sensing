@@ -6,8 +6,8 @@ Two native windows:
               model deployed (raw_monitor_enable needed for DVS events
               under a model config)
   tkinter   : FLAT / CURVED / IDLE prediction label + rates — text-only
-              window, can't lag; state machine + baseline subtraction +
-              2-window debounce (liftoff burst rejection)
+              window, can't lag; Speck-intended stateless majority
+              readout (SynSense gesture demo gates)
 
     python live_dvs.py --model ../deploy_checkpoints/wclamp_v93.33_t86.67.pt
 """
@@ -36,11 +36,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--device", default="speck2fdevkit:0")
-    ap.add_argument("--window", type=float, default=0.3)
-    ap.add_argument("--calib", type=float, default=3.0,
-                    help="seconds per calibration phase (idle/flat/curved)")
-    ap.add_argument("--pstay", type=float, default=0.9,
-                    help="HMM self-transition prob (contact persistence)")
+    ap.add_argument("--window", type=float, default=0.5,
+                    help="readout window s (gesture demo: 0.5)")
+    ap.add_argument("--thr_low", type=int, default=20,
+                    help="min total output spikes per window else IDLE")
+    ap.add_argument("--thr_high", type=int, default=15000,
+                    help="max total spikes per window else IDLE (burst cap)")
+    ap.add_argument("--det_thr", type=int, default=10,
+                    help="min winner spike count per window else IDLE")
     ap.add_argument("--record", default="",
                     help="CSV path — logs per-window rates + state; also "
                          "dumps all output spikes to <path>.spikes.npz")
@@ -115,6 +118,7 @@ def main():
     shared = {"counts": [0, 0], "dvs": 0}
     drain_alive = [True]
     spike_log = []                # (t_mono, feature) every output spike
+    dvs_log = []                  # (t_mono, chip_ts, x, y, p) raw sensor
     last_ev = np.full((128, 128), -1.0)   # last event time per pixel
     pix_act = np.zeros((128, 128))        # leaky per-pixel activity
     last_decay = [time.time()]
@@ -141,6 +145,9 @@ def main():
                     continue
                 shared["dvs"] += 1
                 x, y = e.x, e.y
+                if args.record:
+                    dvs_log.append((now, getattr(e, "timestamp", 0),
+                                    x, y, getattr(e, "p", 0)))
                 pix_act[y, x] += 1.0
                 if pix_act[y, x] > ACT_MAX:
                     continue                # sustained-firing -> line/hot pixel
@@ -160,94 +167,30 @@ def main():
     # --- prediction window (text-only tk) ---
     root = tk.Tk()
     root.title("Prediction")
-    root.geometry("360x200")
+    root.geometry("360x160")
     pred = tk.Label(root, text="—", font=("Arial", 40, "bold"),
                     fg="#777777")
     pred.pack(pady=(10, 0))
     rates = tk.Label(root, text="", font=("Consolas", 11))
     rates.pack()
-    phase = tk.Label(root, text="", font=("Consolas", 10), fg="#4466aa")
-    phase.pack(pady=2)
     conf = tk.Label(root, text="", font=("Consolas", 10), fg="#888888")
     conf.pack()
 
-    # --- directional-evidence readout ---
-    # the chip's output is biphasic: sustained holds are ~1:1 mush while
-    # contact/transient bursts fire one direction 10-45x. Only windows
-    # with a strong direction carry information — integrate signed
-    # log-ratio weighted by activity, threshold on accumulated score.
-    collecting = [False]
-    idle_recs = []                # (cf, cc) during idle calibration
-    idle_floor = 30.0             # counts/window -> "touching"
-    lr_bias = 0.0                 # idle log-ratio offset
-    score = 0.0                   # leaky integrator of signed evidence
-    shown_state = "IDLE"
-    SCORE_T = 2.5                 # claim threshold
-    DECAY = 0.90                  # per window (~2 s half-life @0.3 s)
+    # --- Speck-intended readout (SynSense gesture demo mechanism) ---
+    # per window: count spikes per output feature; total must be within
+    # [thr_low, thr_high], winner count > det_thr, unique max required —
+    # otherwise the default (IDLE) is shown. Stateless: no memory,
+    # no calibration.
     last_win = time.time()
-
-    def _set_phase_text():
-        if lam[0] is None:
-            verb = "collecting..." if collecting[0] else \
-                   "ready — press START"
-            phase.config(text=f"CAL: remove all contact\n{verb}")
-        else:
-            phase.config(text="live — directional readout")
-
-    lam = [None]
-
-    def _finish_calib():
-        n = len(idle_recs)
-        if n >= 3:
-            arr = np.array(idle_recs)
-            tot = arr[:, 0] + arr[:, 1]
-            # floor: idle total ~ mu + 4 sd, at least 30 counts
-            global_idle = max(30.0, tot.mean() + 4 * tot.std())
-            # bias: typical idle direction offset (e.g. flat bias)
-            bias = float(np.log((arr[:, 0] + 1) /
-                                (arr[:, 1] + 1)).mean())
-            lam[0] = (global_idle, bias)
-            print(f"idle: floor={global_idle:.0f}/win bias={bias:+.2f}",
-                  flush=True)
-        else:
-            lam[0] = (30.0, 0.0)
-            print("idle calib skipped (too few windows)", flush=True)
-
-    def btn_press():
-        nonlocal score, shown_state
-        if lam[0] is not None:                # restart calibration
-            lam[0] = None
-            collecting[0] = False
-            idle_recs.clear()
-            score = 0.0
-            btn.config(text="START")
-            _set_phase_text()
-            return
-        if not collecting[0]:
-            collecting[0] = True
-            btn.config(text="STOP")
-            _set_phase_text()
-        else:
-            collecting[0] = False
-            _finish_calib()
-            btn.config(text="RECALIBRATE")
-            _set_phase_text()
-
-    btn = tk.Button(root, text="START", command=btn_press,
-                    font=("Arial", 11, "bold"))
-    btn.pack(pady=4)
-    root.bind("<Return>", lambda e: btn_press())
-    _set_phase_text()
 
     csv_f = None
     t0_rec = time.time()
     if args.record:
         csv_f = open(args.record, "w")
-        csv_f.write("t,cf,cc,flat_rate,curved_rate,dvs,dvs_rate,state,"
-                    "score\n")
+        csv_f.write("t,cf,cc,flat_rate,curved_rate,dvs,dvs_rate,state\n")
 
     def tick():
-        nonlocal last_win, score, shown_state
+        nonlocal last_win
         now = time.time()
         if now - last_win >= args.window:
             dt = now - last_win
@@ -256,45 +199,26 @@ def main():
             shared["counts"][0] = shared["counts"][1] = 0
             shared["dvs"] = 0
             f, c = cf / dt, cc / dt
-            if lam[0] is None:
-                if collecting[0]:
-                    idle_recs.append((cf, cc))
-                pred.config(text="CAL", fg="#777777")
-                shown_state = "CAL"
-                csv_extra = ""
+            # raw output as-is: argmax, no gates, no memory
+            if cf > cc:
+                shown_state = "FLAT"
+            elif cc > cf:
+                shown_state = "CURVED"
+            elif cf == 0:
+                shown_state = "IDLE"
             else:
-                floor, bias = lam[0]
-                tot = cf + cc
-                lr = np.log((cf + 1) / (cc + 1)) - bias
-                score *= DECAY
-                # gesture-demo-style gating: ignore windows below the
-                # floor (no info) AND above the burst cap (liftoff/
-                # approach transients saturate the readout — not real
-                # contact evidence)
-                burst = max(2000.0, 10 * floor)
-                if floor < tot <= burst:
-                    score += lr * min(1.0, tot / 500.0)
-                if tot <= floor:
-                    shown_state = "IDLE"
-                elif score > SCORE_T:
-                    shown_state = "FLAT"
-                elif score < -SCORE_T:
-                    shown_state = "CURVED"
-                col = {"IDLE": "#777777", "FLAT": "#2e8b57",
-                       "CURVED": "#d2691e"}[shown_state]
-                pred.config(text=shown_state, fg=col)
-                conf.config(text=f"score {score:+.2f}   "
-                                 f"floor {floor:.0f}")
-                csv_extra = f"{score:.3f}"
-                print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  "
-                      f"tot={tot:5d} score={score:+.2f} -> "
-                      f"{shown_state}", flush=True)
+                shown_state = "TIE"
+            col = {"IDLE": "#777777", "FLAT": "#2e8b57",
+                   "CURVED": "#d2691e", "TIE": "#888888"}[shown_state]
+            pred.config(text=shown_state, fg=col)
+            conf.config(text=f"counts {cf} vs {cc}")
+            print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  "
+                  f"({cf:4d} vs {cc:4d}) -> {shown_state}", flush=True)
             rates.config(text=f"flat {f:5.0f}/s   curved {c:5.0f}/s"
                               f"   dvs {nd/dt:6.0f}/s")
             if csv_f:
                 csv_f.write(f"{now-t0_rec:.3f},{cf},{cc},{f:.1f},"
-                            f"{c:.1f},{nd},{nd/dt:.1f},{shown_state},"
-                            f"{csv_extra}\n")
+                        f"{c:.1f},{nd},{nd/dt:.1f},{shown_state}\n")
                 csv_f.flush()
             last_win = now
         root.after(50, tick)
@@ -320,8 +244,11 @@ def main():
             csv_f.close()
             np.savez(args.record + ".spikes.npz",
                      spikes=np.array(spike_log))
+            np.savez(args.record + ".dvs.npz",
+                     dvs=np.array(dvs_log))
             print(f"recorded -> {args.record} + .spikes.npz "
-                  f"({len(spike_log)} spikes)", flush=True)
+                  f"({len(spike_log)} spikes) + .dvs.npz "
+                  f"({len(dvs_log)} events)", flush=True)
         try:
             graph.stop()
             pm.stop_auto_power_measurement()
