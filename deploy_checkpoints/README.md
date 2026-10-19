@@ -1,8 +1,8 @@
-# Deploy Checkpoints — Top 10 (updated 2026-10-18)
+# Deploy Checkpoints — Top 10 (updated 2026-10-19)
 
 Best-val checkpoints ranked by **mean(val, test)**. All from the 10ms sweep
-(`speck_compatible/devin_10ms/`); new runs displace the bottom entry when their
-mean beats it — see "Watch list" below.
+(`speck_compatible/devin_10ms/`) unless noted; new runs displace the bottom
+entry when their mean beats it — see "Watch list" below.
 
 ## Shared training config (all 10)
 
@@ -15,7 +15,9 @@ mean beats it — see "Watch list" below.
   spike-rate logits over steps → CE loss + label_smoothing 0.1
 - **Optimizer**: AdamW + cosine schedule, 100 epochs (unless noted), grad-clip 1.0
 - **Base aug** (present in ALL runs): 50% temporal roll ±12 bins
-- **Load note**: filter `*.v_mem` keys from the state dict
+- **Load note**: checkpoint keys are `spiking_backbone.*`; filter `*.v_mem`
+  buffers (IAF states). Never load with `strict=False` unverified — a prefix
+  mismatch silently yields a random-weight model.
 - **Deploy note**: chip is async — sim stride/binning does not carry to hardware.
 
 ## Leaderboard
@@ -26,25 +28,30 @@ mean beats it — see "Watch list" below.
 | 2 | `stretch_aug_v93.33_t83.33.pt` | 93.33 | 83.33 | 88.3 | +time-stretch aug 0.8–1.2× | ::4 / 333 | 10 | 2e-4 | 1e-4 | 53 | 1069300 |
 | 3 | `seed2_v83.33_t90.00.pt` | 83.33 | 90.00 | 86.7 | baseline, RNG seed2 | ::4 / 333 | 10 | 2e-4 | 1e-4 | 46 | 1069320 |
 | 4 | `stride2_v93.33_t80.00.pt` | 93.33 | 80.00 | 86.7 | **::2 stride** (finer temporal) | ::2 / 666 | 10 | 2e-4 | 1e-4 | 47 | 1069302 |
-| 5 | `batch8_v87.50_t83.33.pt` | 87.50 | 83.33 | 85.4 | batch 8 | ::4 / 333 | 8 | 2e-4 | 1e-4 | 52 | 1069315 |
-| 6 | `lr5e4_v93.33_t76.67.pt` | 93.33 | 76.67 | 85.0 | lr 5e-4 | ::4 / 333 | 10 | 5e-4 | 1e-4 | 46 | 1069313 |
-| 7 | `lr1e4_v86.67_t80.00.pt` | 86.67 | 80.00 | 83.3 | lr 1e-4 | ::4 / 333 | 10 | 1e-4 | 1e-4 | 65 | 1069314 |
-| 8 | `drop_aug_v86.67_t80.00.pt` | 86.67 | 80.00 | 83.3 | +10% frame-level event drop | ::4 / 333 | 10 | 2e-4 | 1e-4 | 36 | 1069299 |
-| 9 | `wd1e3_v90.00_t76.67.pt` | 90.00 | 76.67 | 83.3 | weight decay 1e-3 | ::4 / 333 | 10 | 2e-4 | 1e-3 | 41 | 1069318 |
-| 10 | `seed1_v90.00_t76.67.pt` | 90.00 | 76.67 | 83.3 | baseline, RNG seed1 | ::4 / 333 | 10 | 2e-4 | 1e-4 | 33 | 1069319 |
+| 5 | `wclamp_stretch_v90.00_t83.33.pt` ⭐NEW | 90.00 | 83.33 | 86.7 | **wclamp + stretch** — the two best deltas stacked | ::4 / 333 | 10 | 2e-4 | 1e-4 | 78 | 1069328 |
+| 6 | `batch8_v87.50_t83.33.pt` | 87.50 | 83.33 | 85.4 | batch 8 | ::4 / 333 | 8 | 2e-4 | 1e-4 | 52 | 1069315 |
+| 7 | `no_stride_v86.67_t83.33.pt` ⭐NEW | 86.67 | 83.33 | 85.0 | **::1 full stream**, 1331 steps/sample | ::1 / 1331 | 10 | 2e-4 | 1e-4 | 60 | 1069301 |
+| 8 | `lr5e4_v93.33_t76.67.pt` | 93.33 | 76.67 | 85.0 | lr 5e-4 | ::4 / 333 | 10 | 5e-4 | 1e-4 | 46 | 1069313 |
+| 9 | `lr1e4_v86.67_t80.00.pt` | 86.67 | 80.00 | 83.3 | lr 1e-4 | ::4 / 333 | 10 | 1e-4 | 1e-4 | 65 | 1069314 |
+| 10 | `drop_aug_v86.67_t80.00.pt` | 86.67 | 80.00 | 83.3 | +10% frame-level event drop | ::4 / 333 | 10 | 2e-4 | 1e-4 | 36 | 1069299 |
 
-Alternates at the 83.3 cutoff: `epochs200` v90/t76.67 (200 epochs, 1069303),
-`baseline` v86.67/t73.33 (vanilla, 1069295). Both beat #10 on val but not mean.
+**Why the new ones are better**: `wclamp_stretch` stacks the two best
+individual deltas (weight-clamp + time-stretch) and matches the #3/#4 mean
+with a balanced 15/15 test split; `no_stride` proves full-stream (::1, no
+temporal downsampling) is viable — same test score as `batch8` at mean 85.
+Displaced: `wd1e3` and `seed1` (m83.3 but t76.67, weakest test in the tie
+band). `s4_b8` (5ms, m83.3/t75) and `aug_all_nostride` (m66.7) evaluated but
+don't crack it. `aug_all` family is now 0-for-9 — all ≤70 test, dead end.
 
 ## Watch list (may displace entries when complete)
 
 | Candidate | Dataset | Recipe | Status |
 |---|---|---|---|
-| `wclamp_stretch` | 10ms | wclamp + stretch stack, ::4 | killed ep78 @ **90v** — eval job recovers test acc |
-| `no_stride` | 10ms | ::1 full stream (1331 steps) | running, v86.67 @ ep60 |
-| `ev_base` | raw→10ms | event-binning parity | killed ep28 @ 76.67v, rerunning |
-| `ev_warp`/`ev_mixres` | raw | event-level timewarp / mixed bins | running |
-| `s2_best`/`s2_strat` (5ms) | 5ms | stack, ::2 (1331 steps) | running |
-| `s1_b5`/`s2_b4`/`s4_b4` streams | 5/2/1ms | stack, reduced-batch max-step | queued/running |
+| `s2_warm` (5ms) | 5ms | warm-start from wclamp, ::2 | timed out ep32 @ **86.67v** — resubmitted 30h wall |
+| `s2_b4_stream` (2ms) | 2ms | ::2 stream, b4 | running, 60h wall |
+| `s1_b5_stream` (5ms) | 5ms | ::1 full stream, b5 | resubmitted earth-5, 72h wall |
+| `s4_b4_stream` (1ms) | 1ms | ::4 stream | queued |
+| `s8_*`/`s10_b10`/`s5_b5`/`s16_best` (1ms) | 1ms | stack variants | queued, mem bumped to 256G |
+| `ev_*` finished | raw | best: ev_augs t83.33 | none crack top-10 (max mean 78.3) |
 
 Deploy pick: **`wclamp`** — smallest val→test gap, all |W| ≤ 0.41 « θ=1.0.
