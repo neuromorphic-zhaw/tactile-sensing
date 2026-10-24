@@ -22,3 +22,4 @@ speck_compatible/devin_*/**/eval_*
 speck_compatible/devin_*/**/*.out
 speck_compatible/devin_*/**/*.err
 speck_compatible/devin_*/**/*.png
+.vscode/

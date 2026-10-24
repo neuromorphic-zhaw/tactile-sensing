@@ -56,6 +56,23 @@ def load_events(path, max_events=0):
     return ev, label
 
 
+def load_binned_events(path, stride=4):
+    """Synthesize an event stream from the padded frames tensor — the
+    binned-equivalent playback used to validate the specksim graph against
+    the quantized eval. Each occupied (t,c,y,x) emits `count` events at
+    the bin's timestamp. IAF has no leak so only order/count matter."""
+    with np.load(path) as z:
+        frames, label = z['frames'][::stride], int(z['label'])
+    ts, ps, ys, xs = np.nonzero(frames)
+    counts = frames[ts, ps, ys, xs]
+    idx = np.repeat(np.arange(len(ts)), counts)
+    ev = np.zeros(len(idx), dtype=[('x', np.uint32), ('y', np.uint32),
+                                   ('t', np.uint32), ('p', np.uint32)])
+    ev['t'], ev['p'] = (ts[idx] * 10000).astype(np.uint32), ps[idx].astype(np.uint32)
+    ev['x'], ev['y'] = xs[idx].astype(np.uint32), ys[idx].astype(np.uint32)
+    return ev, label
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
@@ -63,8 +80,17 @@ def main():
     ap.add_argument("--split", choices=["val", "test", "all"], default="val")
     ap.add_argument("--clip", default=None, help="single clip basename")
     ap.add_argument("--limit", type=int, default=0)
-    ap.add_argument("--max_events", type=int, default=0)
+    ap.add_argument("--max_events", type=int, default=1000000,
+                    help="truncate clips beyond this many input events — "
+                         "multi-M-event clips overrun in-network queues "
+                         "(bad_alloc); 0 = no cap")
     ap.add_argument("--n_class", type=int, default=2)
+    ap.add_argument("--invert_p", action="store_true",
+                    help="flip polarity channel (p = 1 - p) — sensitivity check")
+    ap.add_argument("--binned_data", default="",
+                    help="padded-frames dataset dir; synthesize events from "
+                         "binned tensors instead of raw streams")
+    ap.add_argument("--binned_stride", type=int, default=4)
     args = ap.parse_args()
 
     files = sorted(glob.glob(os.path.join(args.data, "**/*.npz"), recursive=True))
@@ -137,11 +163,11 @@ def main():
     sim.add_monitor(n_iaf - 1)
     print("SpecksimNetwork built from discretized layers — full chip emulation")
 
-    def sim_run(ev, chunk=20000, pause=0.05):
-        """Chunked forward with mid-run draining. The bad_alloc wasn't the
-        write — it's the monitor/sink queues: in-network amplification
-        fills them faster than the writer sleeps, so they balloon between
-        clips. Drain while writing and accumulate counts on the fly."""
+    def sim_run(ev, chunk=20000, pause=0.05, seg=200000):
+        """Chunked + segmented forward. bad_alloc comes from inter-layer
+        queue backlog growing faster than the graph drains — pace writes
+        in 20K slices and HARD-SETTLE (drain to quiet) every 200K events.
+        Graph stays alive between segments so v_mem state persists."""
         spikes = sim.xytp_to_specksim_spikes(ev)
         sim.network.start()
         mons = list(sim.monitors.values())
@@ -149,29 +175,41 @@ def main():
             _ = m["sink"].get_events()
             m["graph"].start()
         counts = np.zeros(args.n_class, dtype=np.int64)
-        n_out = [0]
+        n_out = [0]  # set after stop (events flush to sinks then)
 
         def drain():
+            # frees + counts whatever has propagated to the queues;
+            # anything still buffered flushes at stop -> read_monitor
             for m in mons:
                 for e_ in m["sink"].get_events():
-                    n_out[0] += 1
-                    p_ = getattr(e_, "p", -1)
+                    p_ = getattr(e_, "feature", getattr(e_, "p", -1))
                     if 0 <= p_ < args.n_class:
                         counts[p_] += 1
-            while sim.members[-1].get_events():   # free tail queue too
+                    n_out[0] += 1
+            while sim.members[-1].get_events():
                 pass
 
-        for s in range(0, len(spikes), chunk):
-            sim.members[0].write(spikes[s:s + chunk])
-            time.sleep(pause)
-            drain()
-        time.sleep(5.0)
-        for _ in range(5):                        # let late spikes settle
-            drain()
-            time.sleep(1.0)
+        for s0 in range(0, len(spikes), seg):
+            seg_end = min(s0 + seg, len(spikes))
+            for s in range(s0, seg_end, chunk):
+                sim.members[0].write(spikes[s:s + chunk])
+                time.sleep(pause)
+                drain()
+            # hard settle: inter-layer queues empty before next segment
+            time.sleep(5.0)
+            for _ in range(10):
+                drain()
+                time.sleep(1.0)
         for m in mons:
             m["graph"].stop()
         sim.network.stop()
+
+        # remainder flushed at stop
+        mon = sim.read_monitor(n_iaf - 1)
+        n_out[0] += len(mon)
+        for p_ in mon["p"]:
+            if 0 <= int(p_) < args.n_class:
+                counts[int(p_)] += 1
         return counts, n_out[0]
 
     for name, idxs in sel_map.items():
@@ -180,7 +218,14 @@ def main():
         n_ok, per_clip = 0, []
         t0 = time.time()
         for j, i in enumerate(idxs):
-            ev, label = load_events(files[i], args.max_events)
+            if args.binned_data:
+                bp = os.path.join(args.binned_data,
+                                  os.path.relpath(files[i], args.data))
+                ev, label = load_binned_events(bp, args.binned_stride)
+            else:
+                ev, label = load_events(files[i], args.max_events)
+            if args.invert_p:
+                ev['p'] = 1 - ev['p']
             counts, n_out = sim_run(ev)         # drained-during-write
             pred = int(counts.argmax())
             ok = pred == label

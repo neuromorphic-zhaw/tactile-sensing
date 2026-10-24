@@ -1,0 +1,25 @@
+=== A) BINNED PLAYBACK flat_01 (raw events flipped it to curved) ===
+    expect pred=0 if specksim faithfully replays the quantized eval
+200 raw clips
+loaded 27 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+SpecksimNetwork built from discretized layers — full chip emulation
+  [CLIP 1/1] 2026-03-17_flat_01.npz E=184230 outspikes=3647 counts=[1022, 2625] pred=1 tgt=0 XX (1.3 min)
+
+== SPECKSIM CLIP (1 clips) ==
+  event-level accuracy : 0/1 = 0.00%
+=== B) BINNED PLAYBACK flat_05 (raw events kept it flat) ===
+200 raw clips
+loaded 27 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+SpecksimNetwork built from discretized layers — full chip emulation
+  [CLIP 1/1] 2026-03-17_flat_05.npz E=248677 outspikes=4117 counts=[1275, 2842] pred=1 tgt=0 XX (1.4 min)
+
+== SPECKSIM CLIP (1 clips) ==
+  event-level accuracy : 0/1 = 0.00%
+=== C) RAW flat_01 with INVERTED polarity ===
+200 raw clips
+loaded 27 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+SpecksimNetwork built from discretized layers — full chip emulation
+  [CLIP 1/1] 2026-03-17_flat_01.npz E=739207 outspikes=2598 counts=[1372, 1226] pred=0 tgt=0 OK (1.1 min)
+
+== SPECKSIM CLIP (1 clips) ==
+  event-level accuracy : 1/1 = 100.00%
