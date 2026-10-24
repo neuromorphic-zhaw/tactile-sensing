@@ -11,7 +11,7 @@ ROOT = "/cfs/earth/scratch/matheron/tactile-sensing/speck_compatible"
 DATA = "/cfs/earth/scratch/matheron/tactile-sensing/data"
 WCLAMP_CKPT = f"{ROOT}/devin_10ms/wclamp_v93.33_t86.67/run_1069317/best_speck_fitting.pt"
 
-with open(f"{ROOT}/devin_10ms/wclamp_stretch/train.py") as f:
+with open(f"{ROOT}/devin_10ms/wclamp_stretch_v90.00_t83.33/train.py") as f:
     TEMPLATE = f.read()
 
 STRAT_BLOCK = '''# stratified 70/15/15 per class (dataset is balanced 100 flat + 100 curved)
@@ -175,7 +175,7 @@ rm -rf /tmp/torchinductor_${{USER}}* ~/.cache/triton/* $TORCH_EXTENSIONS_DIR
 STACK = dict(stretch=True, drop=True)
 
 VARIANTS = {
- "devin_5ms": dict(data=f"{DATA}/dataset_curv_padded_5ms", runs=[
+ "devin_5ms": dict(data=f"{DATA}/time_bins/dataset_curv_padded_5ms", runs=[
   ("s4_best",        dict(stride=4,  batch=10, **STACK), "earth-5", "8:00:00",  "stack ::4 666st ~17GB"),
   ("s4_b8",          dict(stride=4,  batch=8,  **STACK), "earth-5", "8:00:00",  "stack ::4 b8 ~14GB"),
   ("s2_best",        dict(stride=2,  batch=10, **STACK), "earth-4", "8:00:00",  "stack ::2 1331st ~33GB"),
@@ -183,7 +183,7 @@ VARIANTS = {
   ("s2_warm",        dict(stride=2,  batch=10, warm=True, stretch=True), "earth-4", "8:00:00", "::2 warmstart wclamp ckpt"),
   ("s1_b5_stream",   dict(stride=1,  batch=5,  **STACK), "earth-4", "20:00:00", "MAX STREAM ::1 b5 2663st ~33GB"),
  ]),
- "devin_2ms": dict(data=f"{DATA}/dataset_curv_padded_2ms", runs=[
+ "devin_2ms": dict(data=f"{DATA}/time_bins/dataset_curv_padded_2ms", runs=[
   ("s8_best",        dict(stride=8,  batch=10, **STACK), "earth-5", "8:00:00",  "stack ::8 833st ~21GB"),
   ("s8_strat",       dict(stride=8,  batch=10, strat=True, **STACK), "earth-5", "8:00:00", "::8 + stratified"),
   ("s8_wd",          dict(stride=8,  batch=10, wd="1e-3", **STACK), "earth-5", "8:00:00", "::8 + wd1e3"),
@@ -191,7 +191,7 @@ VARIANTS = {
   ("s4_best",        dict(stride=4,  batch=10, **STACK), "earth-4", "20:00:00", "stack ::4 b10 1665st ~41GB L40S-only"),
   ("s2_b4_stream",   dict(stride=2,  batch=4,  **STACK), "earth-4", "40:00:00", "MAX STREAM ::2 b4 3330st ~33GB"),
  ]),
- "devin_1ms": dict(data=f"{DATA}/dataset_curv_padded_1ms", runs=[
+ "devin_1ms": dict(data=f"{DATA}/time_bins/dataset_curv_padded_1ms", runs=[
   ("s16_best",       dict(stride=16, batch=10, **STACK), "earth-5", "8:00:00",  "stack ::16 833st ~21GB"),
   ("s8_b5",          dict(stride=8,  batch=5,  **STACK), "earth-5", "8:00:00",  "stack ::8 b5 1665st ~21GB"),
   ("s8_strat",       dict(stride=8,  batch=5,  strat=True, **STACK), "earth-5", "8:00:00", "::8 b5 + stratified"),
@@ -207,13 +207,29 @@ VARIANTS = {
   ("ev_pol",   dict(stride=4, batch=10, rawevent=True, **STACK, ev={"BIN_US":10000,"T_PAD":1331,"EV_POL":1}), "earth-5", "8:00:00", "polarity-drop aug 20%"),
   ("ev_warp",  dict(stride=4, batch=10, rawevent=True, **STACK, ev={"BIN_US":10000,"T_PAD":1331,"EV_WARP":1}), "earth-5", "8:00:00", "nonlinear piecewise timewarp"),
  ]),
+ # --- event-COUNT-binned datasets (count_bins/) — deployment-faithful regime ---
+ "devin_evcount": dict(data=None, runs=[
+  ("evT332_s4",   dict(stride=4, batch=10, **STACK), "earth-5", "8:00:00", "evT332 ::4 = 83 steps — parity vs wclamp"),
+  ("evT166_s2",   dict(stride=2, batch=10, **STACK), "earth-5", "8:00:00", "evT166 ::2 = 83 steps — coarser norm"),
+  ("evN4000_s8",  dict(stride=8, batch=10, **STACK), "earth-5", "8:00:00", "evN4000 ::8 ~98 steps — deploy 'every 4K ev'"),
+  ("evN2000_s8",  dict(stride=8, batch=10, **STACK), "earth-4", "8:00:00", "evN2000 ::8 ~195 steps"),
+  ("evN2000_s4",  dict(stride=4, batch=10, **STACK), "earth-4", "8:00:00", "evN2000 ::4 ~390 steps — deeper"),
+  ("evN1000_s16", dict(stride=16, batch=10, **STACK), "earth-4", "20:00:00", "evN1000 ::16 ~195 steps — finest"),
+ ]),
 }
+# evcount variants: dataset dir varies per-run -> patch data path individually
+EVCOUNT_DATA = f"{DATA}/count_bins"
+EVCOUNT_DS = {"evT332_s4": "dataset_curv_evT332", "evT166_s2": "dataset_curv_evT166",
+              "evN4000_s8": "dataset_curv_evN4000", "evN2000_s8": "dataset_curv_evN2000",
+              "evN2000_s4": "dataset_curv_evN2000", "evN1000_s16": "dataset_curv_evN1000"}
 
 for dset_dir, cfg in VARIANTS.items():
     for name, spec, part, tlimit, desc in cfg["runs"]:
         vd = f"{ROOT}/{dset_dir}/{name}"
         os.makedirs(vd, exist_ok=True)
-        spec = dict(spec); spec["data"] = cfg["data"]
+        spec = dict(spec)
+        spec["data"] = (f"{EVCOUNT_DATA}/{EVCOUNT_DS[name]}"
+                        if cfg["data"] is None else cfg["data"])
         with open(f"{vd}/train.py", "w") as f:
             f.write(make_train(spec))
         with open(f"{vd}/job.slurm", "w") as f:

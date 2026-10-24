@@ -1,0 +1,5 @@
+200 raw clips
+loaded 27 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+SpecksimNetwork built from discretized layers — full chip emulation
+  [VAL 1/30] 2026-03-21_curved_08.npz E=71425 outspikes=1856 counts=[1145, 711] pred=0 tgt=1 XX (0.4 min)
+  [VAL 2/30] 2026-03-23_curved_03.npz E=1000000 outspikes=5883 counts=[2641, 3242] pred=1 tgt=1 OK (2.2 min)

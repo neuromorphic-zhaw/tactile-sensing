@@ -14,7 +14,7 @@ micromamba activate speck__hpc1
 export OMP_NUM_THREADS=8
 
 cd /cfs/earth/scratch/matheron/tactile-sensing/demo
-BIN=/cfs/earth/scratch/matheron/tactile-sensing/data/dataset_curv_padded_10ms
+BIN=/cfs/earth/scratch/matheron/tactile-sensing/data/time_bins/dataset_curv_padded_10ms
 CKPT=../deploy_checkpoints/wclamp_v93.33_t86.67.pt
 
 echo "=== A) BINNED PLAYBACK flat_01 (raw events flipped it to curved) ==="

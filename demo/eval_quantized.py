@@ -28,7 +28,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from model import SpeckDemoTrainer, load_checkpoint
 
-DATA_PATH = "/home/ronald/tactile-sensing/data/dataset_curv_padded_10ms"
+DATA_PATH = "/home/ronald/tactile-sensing/data/time_bins/dataset_curv_padded_10ms"
 
 
 def load_clip(path):
