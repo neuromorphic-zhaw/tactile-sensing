@@ -39,7 +39,6 @@ torch.cuda.empty_cache()
 DATA_PATH = "/cfs/earth/scratch/matheron/tactile-sensing/data/dataset_curv_events"
 BATCH_SIZE = 10
 NUM_WORKERS = 8
-PREFETCH = 2
 EPOCHS = 100
 LEARNING_RATE = 2e-4
 WEIGHT_DECAY = 1e-4
@@ -131,7 +130,7 @@ class RawEventSpeckDataset(Dataset):
                     off = int(np.random.randint(0, new_t - tt + 1))
                     data = d2[off:off + tt]
 
-        data = torch.clamp(data, 0.0, 1.0).to(torch.float16)
+        data = torch.clamp(data, 0.0, 1.0)
         return data, label
 
 
@@ -146,13 +145,11 @@ train_subset, val_subset, test_subset = torch.utils.data.random_split(
 )
 print(f"Splits -> Train: {len(train_subset)} | Val: {len(val_subset)} | Test: {len(test_subset)}")
 
-LOADER_ARGS = {'batch_size': BATCH_SIZE, 'num_workers': NUM_WORKERS, 'prefetch_factor': PREFETCH,
+LOADER_ARGS = {'batch_size': BATCH_SIZE, 'num_workers': NUM_WORKERS,
                'pin_memory': True, 'persistent_workers': True, 'drop_last': True}
 train_loader = DataLoader(train_subset, shuffle=True, **LOADER_ARGS)
-VAL_ARGS = {'batch_size': BATCH_SIZE, 'num_workers': 2, 'prefetch_factor': 1,
-            'pin_memory': True, 'persistent_workers': True, 'drop_last': True}
-val_loader = DataLoader(val_subset, shuffle=False, **VAL_ARGS)
-test_loader = DataLoader(test_subset, shuffle=False, **VAL_ARGS)
+val_loader = DataLoader(val_subset, shuffle=False, **LOADER_ARGS)
+test_loader = DataLoader(test_subset, shuffle=False, **LOADER_ARGS)
 
 
 # --- 3. HARDWARE-VERIFIED 9-CORE TOPOLOGY ---
@@ -202,7 +199,6 @@ class SpeckFittingTrainer(nn.Module):
 
     def forward(self, x):
         batch_size, timesteps, C, H, W = x.shape
-        x = x.float()
         x = x[:, ::4]                       # time-stride every 4th bin (same as elevate)
         new_timesteps = x.shape[1]
         x = x.reshape(batch_size * new_timesteps, C, H, W)

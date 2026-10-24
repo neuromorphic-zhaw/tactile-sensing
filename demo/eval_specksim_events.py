@@ -91,6 +91,9 @@ def main():
                     help="padded-frames dataset dir; synthesize events from "
                          "binned tensors instead of raw streams")
     ap.add_argument("--binned_stride", type=int, default=4)
+    ap.add_argument("--window_events", type=int, default=0,
+                    help=">0: windowed majority vote — reset states + decide "
+                         "every W events, vote across windows (GUI-style)")
     args = ap.parse_args()
 
     files = sorted(glob.glob(os.path.join(args.data, "**/*.npz"), recursive=True))
@@ -226,8 +229,21 @@ def main():
                 ev, label = load_events(files[i], args.max_events)
             if args.invert_p:
                 ev['p'] = 1 - ev['p']
-            counts, n_out = sim_run(ev)         # drained-during-write
-            pred = int(counts.argmax())
+            if args.window_events:
+                # windowed vote: fresh state per W-event window, majority vote
+                votes = np.zeros(args.n_class, dtype=np.int64)
+                n_out, wins = 0, []
+                for w0 in range(0, len(ev), args.window_events):
+                    wc, wn = sim_run(ev[w0:w0 + args.window_events])
+                    n_out += wn
+                    wpred = int(wc.argmax())
+                    votes[wpred] += 1
+                    wins.append(f"{wc.tolist()}->{wpred}")
+                counts, pred = votes, int(votes.argmax())
+                print(f"    windows: {wins}", flush=True)
+            else:
+                counts, n_out = sim_run(ev)     # drained-during-write
+                pred = int(counts.argmax())
             ok = pred == label
             n_ok += ok
             per_clip.append(os.path.basename(files[i]))
