@@ -1,0 +1,3 @@
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+/cm/local/apps/slurm/var/spool/job1074796/slurm_script: line 20: 604999 Aborted                 (core dumped) python -u eval_specksim_events.py --model "$CKPT" --split val --max_events 500000
