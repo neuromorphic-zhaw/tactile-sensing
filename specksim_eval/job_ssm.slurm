@@ -14,4 +14,4 @@ micromamba activate speck__hpc1
 export OMP_NUM_THREADS=16
 
 cd /cfs/earth/scratch/matheron/tactile-sensing/demo
-python -u eval_specksim_ssm.py --model "$CKPT" --split val --win_mode "$WM" --max_events 500000
+python -u eval_specksim_ssm.py --model "$CKPT" --split "$SPLIT" --win_mode "$WM" --max_events 500000

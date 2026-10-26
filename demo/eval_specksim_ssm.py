@@ -236,6 +236,7 @@ def main():
             m["graph"].start()
         feats = np.zeros((len(bounds) - 1, args.n_class), dtype=np.float32)
         chunk = 20000
+        since_settle = 0
         for w in range(len(bounds) - 1):
             s0, s1 = bounds[w], bounds[w + 1]
             for s in range(s0, s1, chunk):
@@ -246,8 +247,16 @@ def main():
             for _ in range(3):
                 feats[w] += drain_counts(mons)
                 time.sleep(0.2)
-            if w % 40 == 0:
-                time.sleep(2.0)                    # occasional deeper settle
+            # hard settle every ~150K input events — matches the proven
+            # drain pattern from eval_specksim_events.py (bad_alloc fix):
+            # inter-layer queues must fully empty, not just per-window nap
+            since_settle += s1 - s0
+            if since_settle >= 150000:
+                time.sleep(5.0)
+                for _ in range(10):
+                    feats[w] += drain_counts(mons)
+                    time.sleep(1.0)
+                since_settle = 0
         # final long settle, catch stragglers into the last window
         time.sleep(3.0)
         for _ in range(5):

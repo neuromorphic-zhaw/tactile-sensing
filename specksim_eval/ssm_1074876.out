@@ -1,0 +1,5 @@
+200 raw clips
+backbone: 78 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+ssm_head: 51 tensors loaded (d64/s64x3)
+SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side
+  [VAL 1/30] 2026-03-21_curved_08.npz E=71425 T'=84 outspk=263 pred=0 tgt=1 XX (4.1 min)
