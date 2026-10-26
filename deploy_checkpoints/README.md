@@ -55,3 +55,22 @@ don't crack it. `aug_all` family is now 0-for-9 — all ≤70 test, dead end.
 | `ev_*` finished | raw | best: ev_augs t83.33 | none crack top-10 (max mean 78.3) |
 
 Deploy pick: **`wclamp`** — smallest val→test gap, all |W| ≤ 0.41 « θ=1.0.
+
+## SNN+SSM hybrid checkpoints (2026-10-26)
+
+Joint checkpoints containing `spiking_backbone.*` (deployable 9-core SNN) +
+`ssm_head.*` (host-side S4D state-space readout, ~137K params, replaces the
+mean-rate readout). The SNN part deploys to Speck exactly like the others;
+the SSM head runs on the host over windowed readout spikes — same host-side
+readout pattern as live_dvs.py, just smarter temporal integration.
+
+| File | Backbone | Data family | Val | Test | Event-level (specksim) |
+|------|----------|-------------|-----|------|------------------------|
+| `ssm_t10ms_frz_v80.00_t86.67.pt` | frozen wclamp | time bins | 80.00 | **86.67** | pending (job 1074885) |
+| `ssm_evT166_frz_v83.33_t73.33.pt` | frozen evT166_s2 | count bins | 83.33 | 73.33 | **63.33% val** |
+| `ssm_t10ms_v83.33_t70.00.pt` | joint scratch | time bins | 83.33 | 70.00 | pending (job 1074884) |
+| `ssm_evT166_v80.00_t56.67.pt` | joint scratch | count bins | 80.00 | 56.67 | pending (job 1074886) |
+
+Eval: `demo/eval_specksim_ssm.py --model <ckpt> --win_mode {time|count}`
+(time=40ms windows for t10ms, count=N/83 events for evT166).
+Trainer: `speck_compatible/devin_ssm/<variant>/train.py`.
