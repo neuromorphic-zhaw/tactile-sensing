@@ -11,9 +11,14 @@ on:
     --win_mode count  : N input events per window (count-bin; evT166 used
                         T=166 bins x ::2 -> each window = clip_events/83)
 
-Prediction = SSM head on the (T', 2) count sequence. Also reports the same
-head fed a binarized (0/1) sequence — event-mode firing is hotter than the
-frame-trained regime, so both calibrations are worth seeing.
+Feature mode is auto-detected from the checkpoint (ssm_head.proj in_features):
+    readout (T',2): monitor the final readout IAF — per-class spike counts.
+    l8      (T',64): monitor the last-conv IAF — per-channel counts / 16
+                     sites (the count-domain analog of the trainer's
+                     mean-over-spatial). Binarized variant = channel presence.
+
+Also reports the same head fed a binarized (0/1) sequence — event-mode firing
+is hotter than the frame-trained regime, so both calibrations are worth seeing.
 
     python eval_specksim_ssm.py --model <best_ssm.pt> --win_mode count
 """
@@ -170,14 +175,19 @@ def main():
     n_w = load_checkpoint(model, args.model)          # spiking_backbone.* only
     print(f"backbone: {n_w} weights, channels={channels}")
 
-    head = SSMHead(feat_dim=2, d_model=args.d_model, d_state=args.d_state,
+    # feature mode auto-detected from the ckpt: proj in_features = 2 for the
+    # readout-spike models, 64 for the l8 (last-conv feature) models
+    feat_dim = int(sd["ssm_head.proj.weight"].shape[1])
+    feat_l8 = feat_dim != args.n_class
+    head = SSMHead(feat_dim=feat_dim, d_model=args.d_model, d_state=args.d_state,
                    n_layers=args.n_layers, n_classes=args.n_class)
     head_sd = {k[len("ssm_head."):]: v for k, v in sd.items()
                if k.startswith("ssm_head.")}
     head.load_state_dict(head_sd)
     head.eval()
     print(f"ssm_head: {len(head_sd)} tensors loaded "
-          f"(d{args.d_model}/s{args.d_state}x{args.n_layers})")
+          f"(d{args.d_model}/s{args.d_state}x{args.n_layers}) — "
+          f"feat={'l8 (T,64) last-conv spikes' if feat_l8 else 'readout (T,2)'}")
 
     hw = DynapcnnNetwork(snn=model.spiking_backbone, discretize=True,
                          input_shape=(2, 128, 128), dvs_input=True)
@@ -211,16 +221,20 @@ def main():
 
     sim = build_specksim(hw, (2, 128, 128))
     n_iaf = len(hw.dynapcnn_layers)
-    sim.add_monitor(n_iaf - 1)
-    print("SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side")
+    # readout models monitor the final (readout) IAF; l8 models monitor the
+    # last CONV layer's IAF (64 ch, 4x4) — the SNN-as-feature-extractor tap
+    mon_layer = n_iaf - 2 if feat_l8 else n_iaf - 1
+    sim.add_monitor(mon_layer)
+    print(f"SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side "
+          f"(monitoring layer {mon_layer})")
 
     def drain_counts(mons):
-        """Read whatever the final-IAF monitor has emitted so far -> (2,) counts."""
-        c = np.zeros(args.n_class, dtype=np.int64)
+        """Read whatever the monitored IAF has emitted so far -> (feat_dim,) counts."""
+        c = np.zeros(feat_dim, dtype=np.int64)
         for m in mons:
             for e_ in m["sink"].get_events():
                 p_ = getattr(e_, "feature", getattr(e_, "p", -1))
-                if 0 <= p_ < args.n_class:
+                if 0 <= p_ < feat_dim:
                     c[p_] += 1
         while sim.members[-1].get_events():
             pass
@@ -234,7 +248,7 @@ def main():
         for m in mons:
             _ = m["sink"].get_events()
             m["graph"].start()
-        feats = np.zeros((len(bounds) - 1, args.n_class), dtype=np.float32)
+        feats = np.zeros((len(bounds) - 1, feat_dim), dtype=np.float32)
         chunk = 20000
         since_settle = 0
         for w in range(len(bounds) - 1):
@@ -265,10 +279,14 @@ def main():
         for m in mons:
             m["graph"].stop()
         sim.network.stop()
-        mon = sim.read_monitor(n_iaf - 1)          # remainder flushed at stop
+        mon = sim.read_monitor(mon_layer)          # remainder flushed at stop
         for p_ in mon["p"]:
-            if 0 <= int(p_) < args.n_class:
+            if 0 <= int(p_) < feat_dim:
                 feats[-1][int(p_)] += 1
+        if feat_l8:
+            # training l8 = mean over the 4x4 spatial map -> count-domain
+            # analog = spikes per channel / 16 sites (same [0,1]-ish scale)
+            feats = feats / 16.0
         return feats
 
     for name, idxs in sel_map.items():
@@ -289,7 +307,9 @@ def main():
             x = torch.from_numpy(feats)[None].float()
             with torch.no_grad():
                 pred = int(head(x).argmax(1))
-                pred_bin = int(head(x.clamp(0, 1)).argmax(1))
+                # l8: presence/absence per channel is the cleaner binary analog
+                x_bin = (x > 0).float() if feat_l8 else x.clamp(0, 1)
+                pred_bin = int(head(x_bin).argmax(1))
             n_ok += (pred == label)
             n_ok_bin += (pred_bin == label)
             el = (time.time() - t0) / 60

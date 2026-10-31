@@ -1,0 +1,4 @@
+200 raw clips
+backbone: 78 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+ssm_head: 51 tensors loaded (d64/s64x3) — feat=l8 (T,64) last-conv spikes
+SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side (monitoring layer 7)

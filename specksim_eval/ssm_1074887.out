@@ -1,0 +1,38 @@
+200 raw clips
+backbone: 78 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+ssm_head: 51 tensors loaded (d64/s64x3)
+SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side
+  [TEST 1/30] 2026-03-17_curved_01.npz E=500000 T'=84 outspk=2369 pred=0 tgt=1 XX (3.9 min)
+  [TEST 2/30] 2026-03-17_curved_04.npz E=500000 T'=84 outspk=2157 pred=0 tgt=1 XX (7.6 min)
+  [TEST 3/30] 2026-03-23_curved_02.npz E=500000 T'=84 outspk=1394 pred=0 tgt=1 XX (10.0 min)
+  [TEST 4/30] 2026-03-23_curved_06.npz E=500000 T'=84 outspk=3855 pred=0 tgt=1 XX (15.0 min)
+  [TEST 5/30] 2026-03-24_curved_03.npz E=500000 T'=84 outspk=3673 pred=0 tgt=1 XX (19.7 min)
+  [TEST 6/30] 2026-03-26_curved_04.npz E=500000 T'=84 outspk=2920 pred=0 tgt=1 XX (24.4 min)
+  [TEST 7/30] 2026-03-26_curved_07.npz E=500000 T'=84 outspk=3055 pred=0 tgt=1 XX (29.3 min)
+  [TEST 8/30] 2026-03-27_curved_05.npz E=500000 T'=84 outspk=2975 pred=0 tgt=1 XX (34.1 min)
+  [TEST 9/30] 2026-03-27_curved_08.npz E=500000 T'=84 outspk=3487 pred=0 tgt=1 XX (39.0 min)
+  [TEST 10/30] 2026-03-27_curved_10.npz E=500000 T'=84 outspk=2628 pred=0 tgt=1 XX (43.8 min)
+  [TEST 11/30] 2026-03-27_curved_14.npz E=500000 T'=84 outspk=3345 pred=0 tgt=1 XX (48.6 min)
+  [TEST 12/30] 2026-03-27_curved_15.npz E=500000 T'=84 outspk=3178 pred=0 tgt=1 XX (53.4 min)
+  [TEST 13/30] 2026-03-30_curved_05.npz E=500000 T'=84 outspk=2954 pred=0 tgt=1 XX (58.1 min)
+  [TEST 14/30] 2026-04-07_curved_02.npz E=500000 T'=84 outspk=4741 pred=0 tgt=1 XX (63.3 min)
+  [TEST 15/30] 2026-04-07_curved_03.npz E=500000 T'=84 outspk=3187 pred=0 tgt=1 XX (68.1 min)
+  [TEST 16/30] 2026-04-07_curved_06.npz E=500000 T'=84 outspk=3531 pred=0 tgt=1 XX (73.0 min)
+  [TEST 17/30] 2026-03-17_flat_02.npz E=478494 T'=84 outspk=4267 pred=0 tgt=0 OK (78.1 min)
+  [TEST 18/30] 2026-03-21_flat_09.npz E=73724 T'=84 outspk=3262 pred=0 tgt=0 OK (82.9 min)
+  [TEST 19/30] 2026-03-23_flat_07.npz E=500000 T'=84 outspk=9351 pred=0 tgt=0 OK (89.4 min)
+  [TEST 20/30] 2026-03-24_flat_09.npz E=500000 T'=84 outspk=2616 pred=0 tgt=0 OK (93.9 min)
+  [TEST 21/30] 2026-03-26_flat_04.npz E=500000 T'=84 outspk=3449 pred=0 tgt=0 OK (98.6 min)
+  [TEST 22/30] 2026-03-26_flat_08.npz E=500000 T'=84 outspk=2991 pred=0 tgt=0 OK (103.3 min)
+  [TEST 23/30] 2026-03-27_flat_01.npz E=500000 T'=84 outspk=3201 pred=0 tgt=0 OK (108.2 min)
+  [TEST 24/30] 2026-03-27_flat_05.npz E=500000 T'=84 outspk=2811 pred=0 tgt=0 OK (113.0 min)
+  [TEST 25/30] 2026-03-27_flat_07.npz E=500000 T'=84 outspk=2935 pred=0 tgt=0 OK (117.8 min)
+  [TEST 26/30] 2026-03-27_flat_15.npz E=500000 T'=84 outspk=3156 pred=0 tgt=0 OK (122.6 min)
+  [TEST 27/30] 2026-04-07_flat_01.npz E=500000 T'=84 outspk=3252 pred=0 tgt=0 OK (127.4 min)
+  [TEST 28/30] 2026-04-07_flat_02.npz E=500000 T'=84 outspk=4193 pred=0 tgt=0 OK (132.3 min)
+  [TEST 29/30] 2026-04-07_flat_07.npz E=500000 T'=84 outspk=3044 pred=0 tgt=0 OK (137.1 min)
+  [TEST 30/30] 2026-04-07_flat_15.npz E=500000 T'=84 outspk=3616 pred=0 tgt=0 OK (141.9 min)
+
+== SPECKSIM+SSM TEST (30 clips, win=count) ==
+  raw counts : 14/30 = 46.67%
+  binarized  : 14/30 = 46.67%
