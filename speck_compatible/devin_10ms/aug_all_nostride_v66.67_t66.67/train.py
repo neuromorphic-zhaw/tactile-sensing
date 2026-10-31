@@ -2,7 +2,7 @@
 
 Backbone swapped to a topology VERIFIED against the real core-mapping solver
 (sinabs map_layers_to_cores -> {1:0, 2:1, 3:2, 4:8, 5:4, 6:3, 7:6, 8:5, 9:7}).
-Shape mirrors the deployed SynSense gesture model: downsampling by strided convs,
+Shape mirrors a proven deployed SynSense SNN topology: downsampling by strided convs,
 channel taper 16->32->32->32->32->64->64->64, AvgPool->Linear readout to 2 class features.
 
 IMPORTANT: the previous architecture could NOT map (layers exceeded per-core

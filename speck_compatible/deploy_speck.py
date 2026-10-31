@@ -10,7 +10,7 @@ Fixes vs the old local_flash_pipeline.py:
     time-windowed readout
   - flash binary includes factory_config.io_sel = 24 (readout -> output pins)
 
-Live readout = software majority-vote (SynSense gesture-demo pattern):
+Live readout = software majority-vote (plain Python):
 count last-core spikes per feature over a window; winner only if it beats
 --threshold, otherwise "idle". feature 0 = flat, feature 1 = curved.
 
@@ -109,7 +109,7 @@ def main():
             f.write(bytes(binary))
         print("flash binary -> speck_standalone_tactile.bin")
 
-    # --- 4. live majority-vote readout (gesture-demo pattern, plain Python) ---
+    # --- 4. live majority-vote readout (plain Python) ---
     names = {0: "flat", 1: "curved"}
     sink = samna.graph.sink_from(hw.samna_device.get_model().get_source_node())
     print(f"live readout: {args.window}s window, threshold {args.threshold} spikes — Ctrl-C to quit")

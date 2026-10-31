@@ -11,7 +11,7 @@ Synthetic signal: class 0 = events clustered top half, class 1 = bottom half
 enough to sanity-check the training loop.
 
     python mock_train.py                 # default: MAX_CHANNELS (the big one)
-    python mock_train.py --base          # proven gesture taper instead
+    python mock_train.py --base          # proven taper instead
     python mock_train.py --epochs 5 --samples 64
 """
 

@@ -17,7 +17,7 @@ import torch.nn as nn
 import sinabs
 import sinabs.layers as sl
 
-# proven SynSense-gesture taper (verified mapping {1:0,2:1,3:2,4:8,5:4,6:3,7:6,8:5,9:7})
+# proven taper (verified mapping {1:0,2:1,3:2,4:8,5:4,6:3,7:6,8:5,9:7})
 BASE_CHANNELS = (16, 32, 32, 32, 32, 64, 64, 64)
 
 # maximize.py result: largest taper the solver maps. Kernel memory is the

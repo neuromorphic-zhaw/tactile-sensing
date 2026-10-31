@@ -7,7 +7,7 @@ Two native windows:
               under a model config)
   tkinter   : FLAT / CURVED / IDLE prediction label + rates — text-only
               window, can't lag; Speck-intended stateless majority
-              readout (SynSense gesture demo gates)
+              readout (spike-count gates)
 
     python live_dvs.py --model ../deploy_checkpoints/wclamp_v93.33_t86.67.pt
 """
@@ -37,7 +37,7 @@ def main():
     ap.add_argument("--model", required=True)
     ap.add_argument("--device", default="speck2fdevkit:0")
     ap.add_argument("--window", type=float, default=0.5,
-                    help="readout window s (gesture demo: 0.5)")
+                    help="readout window s (default 0.5)")
     ap.add_argument("--thr_low", type=int, default=20,
                     help="min total output spikes per window else IDLE")
     ap.add_argument("--thr_high", type=int, default=15000,

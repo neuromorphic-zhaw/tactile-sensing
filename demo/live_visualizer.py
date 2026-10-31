@@ -4,7 +4,7 @@ Launches the samna GUI (same tool as speck_connect/dvs_power_out.py) with:
   - DVS activity plot   : live 128x128 event view of the sensor
   - Spike Count plot    : per-class output spikes over time (flat vs curved)
   - Readout plot        : big class icon — FLAT / CURVED / IDLE prediction
-                          (samna's JitMajorityReadout = gesture-demo mechanism)
+                          (samna's JitMajorityReadout)
   - Power plot          : io / ram / logic / vdd / vda in mW
 
 Terminal keeps printing the majority decision each second, mirroring the

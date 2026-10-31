@@ -51,8 +51,7 @@ active workstream — see `PROJECT_STATUS.md`.
 
 182,290-param spiking CNN — 8 conv+IAF layers + Linear readout, MAX
 taper (largest that fits the heterogeneous core memory table), pure
-IAF neurons (θ=1.0, `min_v_mem=−1.0`, MultiSpike, MembraneSubtract —
-the same neuron model SynSense ships in the gesture demo). Occupies
+IAF neurons (θ=1.0, `min_v_mem=−1.0`, MultiSpike, MembraneSubtract). Occupies
 all 9 DYNAP-CNN cores; mapper `{1:0,2:1,3:3,4:2,5:8,6:4,7:6,8:5,9:7}`.
 Trained with BPTT + `PeriodicExponential` surrogate; `|W|<1` clamp
 makes int8 discretization **lossless** (verified bit-identical).
@@ -103,10 +102,8 @@ and currently the strongest recipe).
   amplification can blow the sim's inter-layer queues; ≥250K usually
   lands, some ckpts are unrunnable — see `model_registry.md` in the KB).
 
-## For SynSense reviewers
+## For reviewers
 
 Start with `PROJECT_STATUS.md` (full technical report), then
 `deploy_checkpoints/README.md`. The deep implementation reference
-(training→discretization→samna graph→readout internals, plus a decoded
-analysis of the shipped `four_gestures_model.pth`) is maintained in the
-project knowledge base (`.devin/knowledge/`, private repo).
+(training→discretization→samna graph→readout internals).

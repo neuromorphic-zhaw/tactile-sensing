@@ -1,6 +1,6 @@
-"""Post-training per-class readout weight rescale (SynSense gesture demo).
+"""Post-training per-class readout weight rescale.
 
-The gesture demo multiplies the readout-layer weights per output class
+Multiplies the readout-layer weights per output class
 *before* discretization (`rescale_output_weights = {cls: gain}`) to
 de-bias classes that over-fire — the class's IAF membrane then charges
 slower -> fewer output spikes. Cheap calibration: no retraining, one

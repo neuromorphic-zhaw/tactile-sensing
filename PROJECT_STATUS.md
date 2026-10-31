@@ -1,12 +1,28 @@
 # Tactile Sensing on Speck2f — Progress Report
-**Team meeting — 19 Oct 2026**
 
 ## TL;DR
 A trained 9-core spiking CNN is **deployed and classifying on the
-physical Speck2f chip right now**: flat vs curved surface contact,
-~90% mean accuracy, ~0.6 s decision latency, on-chip compute only.
+physical Speck2f chip**: flat vs curved surface contact, ~0.6 s
+decision latency, on-chip compute only. The
+**chip-emulated event-level eval** — the honest deployment metric —
+which revealed the frame-trained model loses ~20–40 pts of accuracy
+under real event dynamics. Current best on-silicon recipe:
+**count-bin model `evT166_s2` + windowed majority vote = 73.3% val /
+70.0% test event-level.**
 
 ---
+
+## ⛔ The metric that matters
+
+Two different evaluations now exist — do not mix them:
+
+| Eval | What it is | Verdict |
+|---|---|---|
+| Binned `.npz` val/test | frame-domain training diagnostic | does **not** transfer to chip |
+| **specksim event-level** (`demo/eval_specksim_*.py`) | raw events → chip-emulated 9 cores → async spikes | **the deployment scoreboard** |
+
+All "best model" claims below are stated **event-level**; binned
+numbers are kept only as training diagnostics.
 
 ## 1. Hardware in use
 
@@ -21,7 +37,7 @@ physical Speck2f chip right now**: flat vs curved surface contact,
 ## 2. Model — exact numbers
 
 **182,290 parameters**, IAF spiking neurons (`PeriodicExponential`,
-θ=1.0, `min_v_mem=-1.0` — same neuron model as the SynSense gesture demo).
+θ=1.0, `min_v_mem=-1.0`).
 
 | Layer | Conv | Kernel weights | Neuron mem | Core |
 |---|---|---|---|---|
@@ -44,14 +60,17 @@ A greedy capacity sweep confirmed this is the largest taper that fits.
 | Item | Value |
 |---|---|
 | Dataset | 200 clips (100 flat / 100 curved), padded to uniform T |
-| Input | `(1331, 2, 128, 128)` — events binned at 10 ms |
+| Input | `(1331, 2, 128, 128)` — events binned at 10 ms; **+ count-bin family** (`evT166` = 166 equal-event-count bins/clip) |
 | Split | 70/15/15, seed 42 |
 | Forward | `x[:, ::4]` → 333 effective steps, mean rate logits |
 | Loss | CE + label smoothing 0.1; AdamW + cosine, 100 ep, clip 1.0 |
-| Sweep size | ~30 runs (10 ms) + 24 variants (5/2/1 ms + raw-event) |
+| Sweep size | ~30 runs (10 ms) + 24 variants (5/2/1 ms + raw-event) + 9 count-bin + 8 SNN+SSM hybrids |
 
-**Deployed checkpoint**: `wclamp_v93.33_t86.67.pt` — **val 93.3% /
-test 86.7% (mean 90.0)**, best@epoch 47, rank #1 of the sweep.
+**Two champions, two questions:**
+- Binned-sim champion: `wclamp_v93.33_t86.67.pt` — mean 90.0 — but
+  collapses event-level (§5a). Still the **physically deployed** ckpt.
+- **Deployment champion: `evT166_s2`** (count-bin, ::2) — binned
+  86.67v/83.33t, and the only model that survives event emulation.
 
 ## 4. Quantization — the concrete mechanism
 
@@ -61,11 +80,14 @@ test 86.7% (mean 90.0)**, best@epoch 47, rank #1 of the sweep.
 3. **The trap**: chip weights are scaled by spike threshold θ=1.0 —
    trained |W| > θ gets **clipped** at quantization → silent on-chip
    accuracy loss
-4. **Why wclamp won**: training clamps |W| < 1.0; measured max weight
-   ≈ **0.41** → quantized accuracy ≈ float accuracy, zero clipping
+4. **Why wclamp won (in frames)**: training clamps |W| < 1.0; measured
+   max weight ≈ **0.41** → quantized accuracy ≈ float accuracy, zero
+   clipping
 5. **Verified (chip-sim, `eval_quantized.py`)**: the int8 model gives
    **bit-identical predictions** to float32 — 93.3% val / 86.7% test /
    90.5% all-200, same per-clip answers. Quantization loss: **zero**.
+   (This proves int8 ≠ the accuracy problem — the gap is
+   frame→event dynamics, not weight precision.)
 
 ## 5. How the SNN actually learns — BPTT + surrogate gradients
 
@@ -104,13 +126,46 @@ training spiking nets.
 1.0 + the wclamp recipe clamping |W| < θ so quantization is lossless
 (section 4).
 
-**Simulation vs hardware — why they're equivalent.** In simulation the
-network consumes discretized 10 ms bins; on the chip there is *no*
-clock stepping the net — events arrive asynchronously and neurons fire
-when they cross θ. The sim bins are only a training-time convenience;
-the deployed SNN runs the same spike-dynamics on the raw event stream.
-That async operation is also the power argument: energy scales with
-**SynOps** (actual spikes emitted), not MACs — silence costs nothing.
+**Simulation vs hardware — why they're NOT equivalent.**
+In simulation the network consumes discretized 10 ms bins — and every
+bin is **binarized** (`clamp(0,1)`): a burst of 8 events looks
+identical to 1. On the chip there is no clock and no clamp — 8 real
+events = 8 synaptic kicks. Event-level emulation shows hidden layers
+fire **2.3–4.5× more** under real event streams than under the binned
+playback of the same clip; the asymmetric readout weights (w1 +0.96 vs
+w0 −0.70) turn that global inflation into a **curved-class bias** —
+the flat class collapses to ~21%. That is the sim→chip gap in one
+sentence, and it is invisible to any binned metric.
+
+## 5a. Event-level scoreboard — the real ranking
+
+`demo/eval_specksim_events.py` streams raw `.h5` events through a full
+`SpecksimNetwork` chip emulation (discretized layers, async queues,
+C++ backend). 30-clip splits:
+
+| Model / recipe | Event-level val | Event-level test | Note |
+|---|---|---|---|
+| **evT166_s2 + windowed vote** (200K-ev windows, fresh state) | **73.33%** | **70.00%** | 🏆 deployment champion |
+| evT166_s2, plain clip argmax | 56.67% | 73.33% | same ckpt, weaker readout |
+| wclamp + readout rescale c0.5 | 73.3% | — | SynSense rescale trick; flat-heavy, caps ~73% |
+| wclamp + rescale c0.6 | 70.0% | — | most balanced rescale |
+| ssm_evT166_frz (SNN+SSM head) | 63.33% | 46.67% | host-side S4D readout — degenerates all-flat on test |
+| wclamp (deployed ckpt) | 46.67% | 63.33% | flat class → 21% |
+| raw-event `ev_*` family | 36–47% | — | all fail; some unrunnable |
+
+Unrunnable in emulation (intrinsic spike amplification → `bad_alloc`/hang):
+`ev_base`, `evT332_s4`, `ev_bin5ms`, `ev_mixres`, `ssm_t10ms*`.
+**In flight on HPC**: `l8` feature-extractor SSM variants (64-dim
+last-conv spikes → SSM head, binned t76.67 both families) and
+`wclamp_evT166ft` (v96.67 — wclamp transfers strongly to count-bin) —
+these are the candidates to beat 73.33.
+
+**Why the model is a sequence classifier**: class information lives in
+contact *dynamics* (approach → wiggle/slip → liftoff), not in still
+frames — a held touch emits ~no events. Per-window decisions are
+therefore inherently unstable; the winning readout aggregates evidence
+over windows (200K-event majority vote), and the SSM head tries to
+learn that aggregation.
 
 ## 6. On-chip deployment path
 
@@ -182,35 +237,60 @@ Numbers from actual on-chip runs (wclamp deployed):
 | FLAT→IDLE→CURVED transition | — | **~1.2 s** |
 | Power | on-chip rails (io/ram/logic/vddd/vdda), mW — *to re-measure with devkit attached* | |
 
+**Live-behavior caveat (still open):** the deployed
+wclamp output is **biphasic** — sustained holds fire ~1:1 on both
+readout lines while onsets/transients produce strongly directional
+runs. Consistent with the sequence-classifier finding (§5a): a still
+hold is out-of-distribution for the model. The episode-level readout
+below handles this in the demo, but real-world touch protocol
+(speed/pressure/wiggle) differs from the dataset's and live verdicts
+are less stable than the 73% eval suggests.
+
 ## 8. Readout decision logic (application layer)
 
-- **Baseline subtraction** — 5 s idle calibration; classify on excess
-  (model has ~450/s flat resting bias if unfiltered — a threshold
-  alone can't separate touch from bias)
-- **Debounce** — class must win 2 consecutive 300 ms windows → kills
-  the liftoff event-burst that false-triggered CURVED
-- **State machine** — FLAT→IDLE→CURVED only; direct flips rejected
-  (physically can't touch both)
-- Live-verified: flat press → FLAT, curved → CURVED, release → IDLE
+Current `live_dvs.py` — leaky integrator on signed evidence,
+calibrated on background only:
+
+- **Signed log-ratio** `lr = log((cf+1)/(cc+1)) − idle_bias` per 300 ms
+  window — ~1:1 ambiguous windows contribute ≈0, only directional
+  bursts vote
+- **Burst cap** — liftoff/approach mega-bursts (15–60k spikes/0.3 s)
+  excluded from integration; score decays through them
+- **Dead band** |score| < 2.5 → hold previous label (ties → default,
+  same as SynSense's JitMajorityReadout)
+- **IDLE calibration only** — activity floor + direction bias measured
+  with contact removed; no per-class phases to mislabel
+- At eval time the equivalent is the **windowed majority vote**
+  (§5a): 200K-event windows, fresh neuron state, majority across
+  windows — the recipe that posts 73.33/70.00.
 
 ## 9. Where we are vs the plan
 
 | Milestone | Status |
 |---|---|
 | Speck-safe 9-core architecture | **done** — solver-verified |
-| Trained model ≥90% | **done** — 90.0 mean |
-| 8-bit quantized deploy | **done** — running on chip |
+| Trained model ≥90% (binned) | **done** — 90.0 mean (diagnostic only) |
+| 8-bit quantized deploy | **done** — running on chip, bit-identical |
 | Real-time GUI demo | **done** — samnagui DVS+power + prediction |
 | Standalone flash binary | pipeline ready (`--flash`) |
-| Comparative protocol (chip vs software) | next gate, mid–late Oct |
+| **Event-level (chip-emulated) validation** | **done — this is the comparative protocol**; revealed the sim→chip gap |
+| Close the sim→chip gap ≥ demo-grade | **in progress** — evT166+win-vote 73.3/70.0; l8-SSM + count-bin fine-tunes in flight |
+| Physical A/B: same clip → specksim vs silicon | **next gate** — proves specksim = truth machine |
 | Force-sensor integration | late Oct–Nov |
 | Thesis | Dec → deadline **8 Jan 2027** |
 
 ## 10. Repo state
 
-- `deploy_checkpoints/` — top-10 ranked .pt + leaderboard README
+- `deploy_checkpoints/` — deploy-candidate `.pt` files + leaderboard
+  (binned ranking; event-level scoreboard lives in §5a + KB
+  `model_registry.md`)
 - `demo/live_dvs.py` — main live GUI (samnagui DVS+power + tk predict)
+- `demo/live_ssm.py` — live demo with host-side SSM readout
+- `demo/eval_specksim_{events,ssm}.py` — **the deployable evaluator**
 - `demo/simple_gui.py`, `demo/calibrate.py` — fallback + noise meter
 - `speck_connect/dvs_power_out.py` — original sensor viewer
-- 24-variant sweep dirs (`devin_5ms/2ms/1ms/rawevent`) + `gen_variants.py`
+- Sweeps: `devin_10ms/` (done), `devin_*/` multi-res + raw-event (done),
+  `devin_evcount/` count-bin (done + fine-tunes running),
+  `devin_ssm/` SNN+SSM hybrids (l8 variants in flight)
+- `specksim_eval/`, `specksim_sanity/`, `quant_eval/` — slurm jobs + logs
 - both branches (`ronald`, `main`) synced at HEAD
