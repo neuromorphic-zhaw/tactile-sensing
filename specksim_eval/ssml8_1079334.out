@@ -2,3 +2,4 @@
 backbone: 78 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
 ssm_head: 51 tensors loaded (d64/s64x3) — feat=l8 (T,64) last-conv spikes
 SpecksimNetwork built — chip emulates 9 cores, SSM runs host-side (monitoring layer 7)
+  [VAL 1/30] 2026-03-21_curved_08.npz E=71425 T'=84 outspk=359789 pred=0 tgt=1 XX (4.7 min)
