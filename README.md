@@ -84,6 +84,9 @@ Deploy path: `ckpt → rebuild net → DynapcnnNetwork.to('speck2fdevkit:0')`
 
 ## Dataset
 
+**Download (Deliverable D2): see `DATASET.md`** — SharePoint link to the
+200-clip HDF5 archive.
+
 200 clips (100 flat / 100 curved) recorded with `collect_gzip_curv.py`;
 raw `.h5` events are the master (`data/dataset_curv_events/`). Derived
 rasterizations: time-binned (1–10 ms) and **count-binned** (evT166 =
