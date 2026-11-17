@@ -44,6 +44,7 @@ active workstream — see `PROJECT_STATUS.md`.
 | `deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
 | `specksim_eval/` | Slurm jobs + logs for event-level evals |
 | `non-speck-compatible/` | Legacy pre-Speck-constraint experiments (kept for reference) |
+| `texture_dot_ab/` | Sub-project: multi-class texture classification (flat/curved/edge/…) as a controlled A/B — GelSight **with marker dots vs markerless**. Own collector, evT166 recipe, N-class trainer, paired eval. See `texture_dot_ab/README.md` |
 | `PROJECT_STATUS.md` | Detailed progress report (architecture, quantization, deploy notes) |
 | `LIVE_STATUS.md` | Auto-updating training dashboard snapshot |
 

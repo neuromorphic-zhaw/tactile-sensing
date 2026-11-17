@@ -44,6 +44,12 @@ def main():
                     help="max total spikes per window else IDLE (burst cap)")
     ap.add_argument("--det_thr", type=int, default=10,
                     help="min winner spike count per window else IDLE")
+    ap.add_argument("--cgain", type=float, default=1.0,
+                    help="host-side gain on CURVED counts (debias; e.g. 0.2)")
+    ap.add_argument("--early", type=float, default=0.0,
+                    help="verdict from first N s of episode only (0=whole)")
+    ap.add_argument("--guide", action="store_true",
+                    help="on-screen step guide: idle -> flat -> curved")
     ap.add_argument("--record", default="",
                     help="CSV path — logs per-window rates + state; also "
                          "dumps all output spikes to <path>.spikes.npz")
@@ -174,6 +180,9 @@ def main():
     rates.pack()
     conf = tk.Label(root, text="", font=("Consolas", 10), fg="#888888")
     conf.pack()
+    guide_lbl = tk.Label(root, text="", font=("Arial", 14, "bold"),
+                         fg="#8844cc")
+    guide_lbl.pack()
 
     # --- episode-level readout ---
     # The model is a SEQUENCE classifier: per-window output is undefined
@@ -193,19 +202,30 @@ def main():
     verdict = ""            # last emitted verdict text
     last_win = time.time()
 
+    GUIDE_STEPS = [
+        (5,   "STEP 1/3: HANDS OFF — idle baseline", "idle"),
+        (7,   "GET READY >> FLAT",                    "prep_flat"),
+        (13,  "STEP 2/3: PRESS FLAT — hold steady",   "flat"),
+        (15,  "GET READY >> CURVED",                  "prep_curved"),
+        (21,  "STEP 3/3: PRESS CURVED — hold steady", "curved"),
+        (1e9, "DONE — close the window",              "done"),
+    ]
+    cur_step = "" if args.guide else "noguide"
+
     csv_f = None
     t0_rec = time.time()
     if args.record:
         csv_f = open(args.record, "w")
-        csv_f.write("t,cf,cc,flat_rate,curved_rate,dvs,dvs_rate,state\n")
+        csv_f.write("t,cf,cc,flat_rate,curved_rate,dvs,dvs_rate,state,step\n")
 
     def tick():
         nonlocal last_win, ep_active, ep_cf, ep_cc, ep_dvs, ep_id
-        nonlocal ep_quiet, ep_dur, verdict, ep_peak
+        nonlocal ep_quiet, ep_dur, verdict, ep_peak, cur_step
         now = time.time()
         if now - last_win >= args.window:
             dt = now - last_win
             cf, cc = shared["counts"][0], shared["counts"][1]
+            cc = int(cc * args.cgain)   # host-side class debias
             nd = shared["dvs"]
             shared["counts"][0] = shared["counts"][1] = 0
             shared["dvs"] = 0
@@ -218,8 +238,10 @@ def main():
                 ep_dur = 0.0
                 ep_peak = 0
             if ep_active:
-                ep_cf += cf; ep_cc += cc; ep_dvs += nd; ep_dur += dt
+                ep_dur += dt; ep_dvs += nd
                 ep_peak = max(ep_peak, tot)
+                if args.early <= 0 or ep_dur <= args.early:
+                    ep_cf += cf; ep_cc += cc
                 # quiet = below 20% of this episode's own peak —
                 # adapts to noise floor without calibration
                 quiet_t = max(60, 0.2 * ep_peak)
@@ -254,18 +276,25 @@ def main():
                               f"dur={ep_dur:.1f}s", flush=True)
             else:
                 shown_state = "IDLE"
-                pred.config(text=verdict if verdict else "IDLE",
-                            fg={"FLAT": "#2e8b57",
-                                "CURVED": "#d2691e"}.get(verdict,
-                                                         "#777777"))
-                conf.config(text="waiting for touch")
+                pred.config(text="IDLE", fg="#777777")
+                conf.config(text=f"waiting for touch"
+                                 + (f"  (last: {verdict})" if verdict else ""))
             print(f"  flat {f:6.0f}/s  curved {c:6.0f}/s  "
                   f"({cf:4d} vs {cc:4d}) -> {shown_state}", flush=True)
             rates.config(text=f"flat {f:5.0f}/s   curved {c:5.0f}/s"
                               f"   dvs {nd/dt:6.0f}/s")
+            if args.guide:
+                gt = now - t0_rec
+                for end_t, txt, tag in GUIDE_STEPS:
+                    if gt < end_t:
+                        if tag != cur_step:
+                            cur_step = tag
+                            print(f"  === GUIDE: {txt} ===", flush=True)
+                        guide_lbl.config(text=txt)
+                        break
             if csv_f:
                 csv_f.write(f"{now-t0_rec:.3f},{cf},{cc},{f:.1f},"
-                        f"{c:.1f},{nd},{nd/dt:.1f},{shown_state}\n")
+                        f"{c:.1f},{nd},{nd/dt:.1f},{shown_state},{cur_step}\n")
                 csv_f.flush()
             last_win = now
         root.after(50, tick)
