@@ -288,7 +288,7 @@ calibrated on background only:
 - `curvature/demo/live_ssm.py` — live demo with host-side SSM readout
 - `curvature/demo/eval_specksim_{events,ssm}.py` — **the deployable evaluator**
 - `curvature/demo/simple_gui.py`, `curvature/demo/calibrate.py` — fallback + noise meter
-- `curvature/speck_connect/dvs_power_out.py` — original sensor viewer
+- `speck_toolkit/dvs_power_out.py` — original sensor viewer
 - Sweeps: `devin_10ms/` (done), `devin_*/` multi-res + raw-event (done),
   `devin_evcount/` count-bin (done + fine-tunes running),
   `devin_ssm/` SNN+SSM hybrids (l8 variants in flight)

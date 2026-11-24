@@ -36,13 +36,15 @@ active workstream — see `PROJECT_STATUS.md`.
 ## Repository layout
 
 The completed **curvature project (D1–D4)** lives under `curvature/`;
-`texture_dot_ab/` is the active sub-project.
+`texture_dot_ab/` is the active sub-project; `speck_toolkit/` holds the
+project-agnostic Speck2f building blocks (start there for any new work).
 
 | Path | Contents |
 |---|---|
-| `curvature/speck_connect/` | Devkit-side scripts: `collect_gzip_curv.py` (dataset collection GUI, .h5+gzip), `dvs_power_out.py` (events + power visualizer) |
+| `speck_toolkit/` | Reusable Speck2f toolkit: devkit attach/view scripts, samnagui DVS+power GUI, verified 9-core `model.py`, `verify_convert.py`, `deploy_speck.py`, `replay_chip.py` — see its README |
+| `curvature/speck_connect/` | `collect_gzip_curv.py` — the D2 dataset collection GUI (.h5+gzip) |
 | `data/` | `dataset_tex/` (dot A/B clips), `replay/` |
-| `curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `deploy_speck.py`; `live_status.sh` |
+| `curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `live_status.sh` |
 | `curvature/demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
 | `curvature/deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
 | `curvature/specksim_eval/` | Slurm jobs + logs for event-level evals |

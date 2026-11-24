@@ -20,7 +20,7 @@ GPU hours on an unmappable architecture again.
 | `model.py` | parametric backbone, same forward contract as the real trainer |
 | `maximize.py` | sweeps channel counts → finds the largest taper that maps |
 | `mock_train.py` | synthetic data → real checkpoint `mock_speck.pt` |
-| `verify_convert.py` | offline proof: convert + memory + map + make_config |
+| `verify_convert.py` | → moved to `speck_toolkit/` (offline proof: convert + memory + map + make_config) |
 | `run_live.py` | deploy to devkit + live flat/curved/idle readout (+ `--flash`) |
 
 ## The maximum-fitting architecture (found by maximize.py)
@@ -51,7 +51,7 @@ trainer: never exceed these per-layer channel counts.
 cd demo
 python maximize.py                 # re-run the capacity sweep (optional)
 python mock_train.py               # ~1-2 min on CPU -> mock_speck.pt
-python verify_convert.py --model mock_speck.pt   # offline PASS/FAIL
+python ../../speck_toolkit/verify_convert.py --model mock_speck.pt   # offline PASS/FAIL
 python run_live.py --model mock_speck.pt --flash # real devkit + readout
 ```
 
@@ -65,6 +65,6 @@ checkpoint separates them.
 - `mock_train.py` val accuracy can sit at 50% on tiny synthetic data — the
   checkpoint format is what matters (27 tensors incl. v_mem buffers, same
   as the real trainer writes; `load_checkpoint` strips v_mem like deploy).
-- `run_live.py` mirrors `deploy_speck.py` — same device string, slow clock,
+- `run_live.py` mirrors `speck_toolkit/deploy_speck.py` — same device string, slow clock,
   majority-vote readout, `io_sel=24` in the flash binary.
 - `demo_speck_standalone.bin` is a real flashable image of the mock net.
