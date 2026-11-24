@@ -19,7 +19,7 @@ Two different evaluations now exist — do not mix them:
 | Eval | What it is | Verdict |
 |---|---|---|
 | Binned `.npz` val/test | frame-domain training diagnostic | does **not** transfer to chip |
-| **specksim event-level** (`demo/eval_specksim_*.py`) | raw events → chip-emulated 9 cores → async spikes | **the deployment scoreboard** |
+| **specksim event-level** (`curvature/demo/eval_specksim_*.py`) | raw events → chip-emulated 9 cores → async spikes | **the deployment scoreboard** |
 
 All "best model" claims below are stated **event-level**; binned
 numbers are kept only as training diagnostics.
@@ -139,7 +139,7 @@ sentence, and it is invisible to any binned metric.
 
 ## 5a. Event-level scoreboard — the real ranking
 
-`demo/eval_specksim_events.py` streams raw `.h5` events through a full
+`curvature/demo/eval_specksim_events.py` streams raw `.h5` events through a full
 `SpecksimNetwork` chip emulation (discretized layers, async queues,
 C++ backend). 30-clip splits:
 
@@ -188,7 +188,7 @@ checkpoint(.pt)
 **To run the volatile deploy** (clears on unplug — rerun after replug):
 
 ```bash
-cd demo && python live_dvs.py \
+cd curvature/demo && python live_dvs.py \
   --model ../deploy_checkpoints/wclamp_v93.33_t86.67.pt --window 0.3
 ```
 
@@ -281,16 +281,16 @@ calibrated on background only:
 
 ## 10. Repo state
 
-- `deploy_checkpoints/` — deploy-candidate `.pt` files + leaderboard
+- `curvature/deploy_checkpoints/` — deploy-candidate `.pt` files + leaderboard
   (binned ranking; event-level scoreboard lives in §5a + KB
   `model_registry.md`)
-- `demo/live_dvs.py` — main live GUI (samnagui DVS+power + tk predict)
-- `demo/live_ssm.py` — live demo with host-side SSM readout
-- `demo/eval_specksim_{events,ssm}.py` — **the deployable evaluator**
-- `demo/simple_gui.py`, `demo/calibrate.py` — fallback + noise meter
-- `speck_connect/dvs_power_out.py` — original sensor viewer
+- `curvature/demo/live_dvs.py` — main live GUI (samnagui DVS+power + tk predict)
+- `curvature/demo/live_ssm.py` — live demo with host-side SSM readout
+- `curvature/demo/eval_specksim_{events,ssm}.py` — **the deployable evaluator**
+- `curvature/demo/simple_gui.py`, `curvature/demo/calibrate.py` — fallback + noise meter
+- `curvature/speck_connect/dvs_power_out.py` — original sensor viewer
 - Sweeps: `devin_10ms/` (done), `devin_*/` multi-res + raw-event (done),
   `devin_evcount/` count-bin (done + fine-tunes running),
   `devin_ssm/` SNN+SSM hybrids (l8 variants in flight)
-- `specksim_eval/`, `specksim_sanity/`, `quant_eval/` — slurm jobs + logs
+- `curvature/specksim_eval/`, `curvature/specksim_sanity/`, `curvature/quant_eval/` — slurm jobs + logs
 - both branches (`ronald`, `main`) synced at HEAD

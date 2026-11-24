@@ -14,7 +14,7 @@ integrated 128×128 DVS — the training dataset for all models in this repo.
 - `DATASET_README.txt` inside the archive; `data_report/REPORT.md` with
   per-class stats, session balance, and shortcut-risk audit
 - Format per contract D2: **HDF5** (.aedat/.bin/.hdf5 accepted)
-- Recorded March–April 2026 with `speck_connect/collect_gzip_curv.py`
+- Recorded March–April 2026 with `curvature/speck_connect/collect_gzip_curv.py`
 
 ## Derived datasets
 

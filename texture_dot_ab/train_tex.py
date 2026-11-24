@@ -1,5 +1,5 @@
 """N-class Speck-fitting trainer for texture_dot_ab — faithful port of
-speck_compatible/devin_evcount/evT166_s2/train.py (the deployment-proven
+curvature/speck_compatible/devin_evcount/evT166_s2/train.py (the deployment-proven
 recipe) parameterized for an arbitrary class list.
 
 Same backbone (verified 9-core topology, MAX taper), same splits (70/15/15,

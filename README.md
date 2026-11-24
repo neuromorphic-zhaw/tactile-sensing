@@ -13,7 +13,7 @@ curved)** entirely on-chip — the host is USB transport + display only.
 ## ⛔ The one metric that matters
 
 > **All model claims are made on the specksim event-level eval** —
-> `demo/eval_specksim_*.py` runs raw events through a full chip-emulated
+> `curvature/demo/eval_specksim_*.py` runs raw events through a full chip-emulated
 > `SpecksimNetwork` (discretized 9 cores, async spikes, C++ sim). Binned
 > `.npz` val/test numbers are *training diagnostics only*; they do not
 > transfer to the chip. A model is "better" only if it wins event-level.
@@ -29,22 +29,26 @@ curved)** entirely on-chip — the host is USB transport + display only.
 | raw-event `ev_*` family | 36–47% val — all fail event-level |
 
 Physical deployment status: `wclamp_v93.33_t86.67.pt` runs live on the
-devkit via `demo/live_dvs.py` (real-time flat/curved GUI, ~0.6 s
+devkit via `curvature/demo/live_dvs.py` (real-time flat/curved GUI, ~0.6 s
 decision latency, zero host inference). Closing the sim→chip gap is the
 active workstream — see `PROJECT_STATUS.md`.
 
 ## Repository layout
 
+The completed **curvature project (D1–D4)** lives under `curvature/`;
+`texture_dot_ab/` is the active sub-project.
+
 | Path | Contents |
 |---|---|
-| `speck_connect/` | Devkit-side scripts: `collect_gzip_curv.py` (dataset collection GUI, .h5+gzip), `dvs_power_out.py` (events + power visualizer) |
-| `data/` | `dataset_curv_events/` (200 raw event clips, master), `time_bins/` (1/2/5/10 ms padded), `count_bins/` (evT166/evT332 + evN families), `data_report/` |
-| `speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `deploy_speck.py`; `live_status.sh` |
-| `demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
-| `deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
-| `specksim_eval/` | Slurm jobs + logs for event-level evals |
-| `non-speck-compatible/` | Legacy pre-Speck-constraint experiments (kept for reference) |
-| `texture_dot_ab/` | Sub-project: multi-class texture classification (flat/curved/edge/…) as a controlled A/B — GelSight **with marker dots vs markerless**. Own collector, evT166 recipe, N-class trainer, paired eval. See `texture_dot_ab/README.md` |
+| `curvature/speck_connect/` | Devkit-side scripts: `collect_gzip_curv.py` (dataset collection GUI, .h5+gzip), `dvs_power_out.py` (events + power visualizer) |
+| `data/` | `dataset_tex/` (dot A/B clips), `replay/` |
+| `curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `deploy_speck.py`; `live_status.sh` |
+| `curvature/demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
+| `curvature/deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
+| `curvature/specksim_eval/` | Slurm jobs + logs for event-level evals |
+| `curvature/non-speck-compatible/` | Legacy pre-Speck-constraint experiments (kept for reference) |
+| `curvature/eval_cm.py`, `quant_eval/`, `specksim_sanity/` | Early quantized/binned eval + sanity checks |
+| `texture_dot_ab/` | Sub-project: multi-class texture classification (flat/curved/edge/soft/grid) as a controlled A/B — GelSight **with marker dots vs markerless**. Own spacebar-driven recorder, evT166 recipe, N-class trainer, paired eval. See `texture_dot_ab/README.md` |
 | `PROJECT_STATUS.md` | Detailed progress report (architecture, quantization, deploy notes) |
 | `LIVE_STATUS.md` | Auto-updating training dashboard snapshot |
 
@@ -57,7 +61,7 @@ all 9 DYNAP-CNN cores; mapper `{1:0,2:1,3:3,4:2,5:8,6:4,7:6,8:5,9:7}`.
 Trained with BPTT + `PeriodicExponential` surrogate; `|W|<1` clamp
 makes int8 discretization **lossless** (verified bit-identical).
 
-Hybrid variants (`devin_ssm/`): frozen backbone on-chip + small S4D
+Hybrid variants (`curvature/speck_compatible/devin_ssm/`): frozen backbone on-chip + small S4D
 state-space readout head host-side — a learned replacement for the
 windowed majority vote. `FEAT_MODE=l8` feeds the SSM 64-dim last-conv
 feature spikes (SNN as pure feature extractor) instead of 2-dim
@@ -67,16 +71,16 @@ readout spikes.
 
 ```bash
 # train a variant (HPC, GPU partition)
-cd speck_compatible/devin_ssm/ssm_evT166_l8 && sbatch job.slurm
+cd curvature/speck_compatible/devin_ssm/ssm_evT166_l8 && sbatch job.slurm
 
 # event-level eval — THE deployment validation (HPC, CPU partition)
-cd specksim_eval && sbatch --export=ALL,CKPT=<ckpt.pt>,SPLIT=val,WM=count,MAXEV=500000 job_ssm_l8.slurm
+cd curvature/specksim_eval && sbatch --export=ALL,CKPT=<ckpt.pt>,SPLIT=val,WM=count,MAXEV=500000 job_ssm_l8.slurm
 
 # volatile deploy to a connected devkit (WSL host, USB passthrough)
-cd demo && python live_dvs.py --model ../deploy_checkpoints/<ckpt>.pt --window 0.3
+cd curvature/demo && python live_dvs.py --model ../deploy_checkpoints/<ckpt>.pt --window 0.3
 
 # host-side SSM readout demo
-cd demo && python live_ssm.py --model ../deploy_checkpoints/ssm_*_frz*.pt --win_ms 40
+cd curvature/demo && python live_ssm.py --model ../deploy_checkpoints/ssm_*_frz*.pt --win_ms 40
 ```
 
 Deploy path: `ckpt → rebuild net → DynapcnnNetwork.to('speck2fdevkit:0')`
@@ -109,5 +113,5 @@ and currently the strongest recipe).
 ## For reviewers
 
 Start with `PROJECT_STATUS.md` (full technical report), then
-`deploy_checkpoints/README.md`. The deep implementation reference
+`curvature/deploy_checkpoints/README.md`. The deep implementation reference
 (training→discretization→samna graph→readout internals).

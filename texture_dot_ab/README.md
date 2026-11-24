@@ -29,10 +29,10 @@ Confounds to control at collection time:
 
 ## Classes
 
-Default classes: `flat`, `curved`, `edge`. Extend at collection time with
-`--classes flat,curved,edge,ridge,...` — the collector creates the folder
-layout and the trainer/eval read the label map from `labels.json`. Keep the
-class list identical across both conditions.
+Default classes: `flat`, `curved`, `edge`, `soft`, `grid`. Extend at
+collection time with `--classes flat,curved,edge,soft,grid,ridge,...` — the
+collector creates the folder layout and the trainer/eval read the label map
+from `labels.json`. Keep the class list identical across both conditions.
 
 ## Data layout
 
@@ -45,9 +45,13 @@ runs/<condition>_evT166/                                      trainer output
 ## Runbook
 
 ```bash
-# 1. Collect (run once per condition; keep surface set + order identical)
-python collect_tex.py --condition dot   --classes flat,curved,edge
-python collect_tex.py --condition nodot --classes flat,curved,edge
+# 1. Collect — guided recorder: pick gel + class, then 4 spacebar presses
+#    per clip: SPACE=start/approach → SPACE=touch (10.00 s precise timer)
+#    → SPACE=retreat → SPACE=stop+save. Repeat each class in order, once
+#    per condition (keep surface set + order identical across gels).
+python record_touch.py --root ../data/dataset_tex --classes flat,curved,edge,soft,grid
+# batch alternative: python collect_tex.py --condition dot   --classes flat,curved,edge,soft,grid
+#                    python collect_tex.py --condition nodot --classes flat,curved,edge,soft,grid
 
 # 2. Rasterize to evT166 count-binned npz (per condition)
 python prep_count_bins.py --src ../data/dataset_tex/dot \
@@ -69,5 +73,5 @@ Primary: overall test accuracy per condition + paired delta (`dot − nodot`).
 Secondary: per-class accuracy delta, confusion matrices, McNemar's test on
 paired clips when the collection order was matched. Binned accuracy is a
 training diagnostic — confirm any claimed difference with event-level
-specksim (`demo/eval_specksim_events.py`) and chip replay
-(`demo/replay_chip.py`) per the repo's deployment-selection rule.
+specksim (`curvature/demo/eval_specksim_events.py`) and chip replay
+(`curvature/demo/replay_chip.py`) per the repo's deployment-selection rule.

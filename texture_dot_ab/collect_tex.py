@@ -1,6 +1,6 @@
 """texture_dot_ab collector — dot vs markerless gel A/B.
 
-Adapted from speck_connect/collect_gzip_curv.py. Differences:
+Adapted from curvature/speck_connect/collect_gzip_curv.py. Differences:
   - class list is arbitrary (--classes); gel condition is a CLI flag
     (--condition dot|nodot) so the same surface set can be replayed under
     both gels with identical numbering
@@ -196,7 +196,7 @@ def run_experiment(args):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--condition", choices=["dot", "nodot"], required=True)
-    ap.add_argument("--classes", default="flat,curved,edge",
+    ap.add_argument("--classes", default="flat,curved,edge,soft,grid",
                     help="comma-separated class list (must match across conditions)")
     ap.add_argument("--duration", type=float, default=10.0)
     ap.add_argument("--root", default="../data/dataset_tex")

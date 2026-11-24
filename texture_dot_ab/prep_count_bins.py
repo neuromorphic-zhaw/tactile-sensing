@@ -47,7 +47,7 @@ def main():
     ap.add_argument("--src", required=True, help="dataset_tex/<condition> dir")
     ap.add_argument("--dst", required=True, help="output npz dir (per condition)")
     ap.add_argument("--bins", type=int, default=166)
-    ap.add_argument("--classes", default="flat,curved,edge",
+    ap.add_argument("--classes", default="flat,curved,edge,soft,grid",
                     help="comma list; order defines label ids. Ignored if labels.json exists in src.")
     args = ap.parse_args()
 
