@@ -67,6 +67,10 @@ python prep_count_bins.py --src ../data/dataset_tex/nodot \
 # 3. Train the identical model on each condition (same seed)
 python train_tex.py --data ../data/dataset_tex_evT166/dot   --out runs/dot_evT166
 python train_tex.py --data ../data/dataset_tex_evT166/nodot --out runs/nodot_evT166
+# HPC: parameterized slurm launcher — one variant table, both conditions
+# bash sweep.sh          # submits every VARIANTS[] line for dot AND nodot
+# single run: sbatch --export=ALL,COND=dot,TAG=evT166_s2 job_tex.slurm
+# overrides:  EPOCHS BS LR WD SEED TSTRIDE PRETRAINED DATA PARTITION
 
 # 4. Compare — per-class accuracy, deltas, confusion matrices, McNemar if paired
 python eval_compare.py --dot_run runs/dot_evT166 --nodot_run runs/nodot_evT166

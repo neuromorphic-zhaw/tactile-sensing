@@ -23,3 +23,6 @@ curvature/speck_compatible/devin_*/**/*.out
 curvature/speck_compatible/devin_*/**/*.err
 curvature/speck_compatible/devin_*/**/*.png
 .vscode/
+
+# texture_dot_ab run artifacts
+texture_dot_ab/runs/
