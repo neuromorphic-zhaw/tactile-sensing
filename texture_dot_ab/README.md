@@ -27,6 +27,12 @@ Confounds to control at collection time:
 - Both membranes are the same gel type — residual confound is limited to
   unit-to-unit manufacturing variation; note the gel serial/batch of each
   membrane in `RESULTS.md`.
+- **The dots are hand-drawn with a marker** — they smudge, fade, and are
+  redrawn between collection sessions, so the dot *pattern* is not fixed.
+  The `dot` condition therefore tests **generalization to marker-type
+  patterns**, not one specific layout. Redraw/refresh the dots between
+  sessions (or clip batches) so the model learns "dots present" rather
+  than memorizing a single pattern, and log each redraw in `RESULTS.md`.
 - Match **illumination** between sessions; log any LED/lighting change.
 - Use the **same set of stimulus surfaces**, ideally in the same numbered
   order under both gels — clip *i* in `dot/` then pairs with clip *i* in
