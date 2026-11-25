@@ -35,22 +35,30 @@ active workstream — see `PROJECT_STATUS.md`.
 
 ## Repository layout
 
-The completed **curvature project (D1–D4)** lives under `curvature/`;
-`texture_dot_ab/` is the active sub-project; `speck_toolkit/` holds the
-project-agnostic Speck2f building blocks (start there for any new work).
+The repo mirrors the three thesis stages:
+
+| Stage | Project dir | Status |
+|---|---|---|
+| 1 — flat vs curved | `curvature/` | ✅ complete (deliverables D1–D4) |
+| 2 — dot vs markerless gel A/B | `texture_dot_ab/` | 🟡 active — data collection next |
+| 3 — force-sensor integration | `force/` (planned) | ⬜ upcoming |
+
+`speck_toolkit/` holds the project-agnostic Speck2f building blocks
+(start there for any new work). Each stage keeps its own project dir at
+top level; all datasets live centrally under `data/`.
 
 | Path | Contents |
 |---|---|
 | `speck_toolkit/` | Reusable Speck2f toolkit: devkit attach/view scripts, samnagui DVS+power GUI, verified 9-core `model.py`, `verify_convert.py`, `deploy_speck.py`, `replay_chip.py` — see its README |
 | `curvature/speck_connect/` | `collect_gzip_curv.py` — the D2 dataset collection GUI (.h5+gzip) |
-| `data/` | `dataset_tex/` (dot A/B clips), `replay/` |
+| `data/` | Stage-1: `dataset_curv/` (200 .h5), `dataset_curv_events/`, `time_bins/`, `count_bins/`. Stage-2: `dataset_tex/{dot,nodot}/<class>/*.h5` + shared `labels.json`, `dataset_tex_evT166/` (derived) |
 | `curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `live_status.sh` |
 | `curvature/demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
 | `curvature/deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
 | `curvature/specksim_eval/` | Slurm jobs + logs for event-level evals |
 | `curvature/non-speck-compatible/` | Legacy pre-Speck-constraint experiments (kept for reference) |
 | `curvature/eval_cm.py`, `quant_eval/`, `specksim_sanity/` | Early quantized/binned eval + sanity checks |
-| `texture_dot_ab/` | Sub-project: multi-class texture classification (flat/curved/edge/soft/grid) as a controlled A/B — GelSight **with marker dots vs markerless**. Own spacebar-driven recorder, evT166 recipe, N-class trainer, paired eval. See `texture_dot_ab/README.md` |
+| `texture_dot_ab/` | Stage-2: multi-class texture classification (flat/curved/edge/soft/grid) as a controlled A/B — GelSight **with marker dots vs markerless**. Spacebar recorder (`record_touch.py`), batch collector (`collect_tex.py`), evT166 prep (`prep_count_bins.py`), N-class trainer (`train_tex.py` → `runs/`), paired eval (`eval_compare.py`). See `texture_dot_ab/README.md` |
 | `PROJECT_STATUS.md` | Detailed progress report (architecture, quantization, deploy notes) |
 | `LIVE_STATUS.md` | Auto-updating training dashboard snapshot |
 
