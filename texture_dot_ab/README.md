@@ -13,15 +13,20 @@ geometric classes (curved, edge).
 
 ## Controlled-experiment rules
 
-Only the gel membrane may differ between the two conditions. Everything else
-is held constant — same sensor, same illumination, same surface set, same
-press protocol, same clip duration, same rasterization (evT166 count-bins),
-same network, same seeds/splits. Report results as a paired delta.
+Only the gel membrane may differ between the two conditions — and only in
+the printed marker dots. Both membranes are the **same gel type**
+(same geometry and elastomer hardness, used throughout the thesis);
+condition B is simply an identical gel without dots printed on it.
+Everything else is held constant — same sensor, same illumination, same
+surface set, same press protocol, same clip duration, same rasterization
+(evT166 count-bins), same network, same seeds/splits. Report results as a
+paired delta.
 
 Confounds to control at collection time:
 
-- Both gels should have the **same geometry and elastomer hardness**; a
-  different-thickness gel conflates membrane mechanics with the dot signal.
+- Both membranes are the same gel type — residual confound is limited to
+  unit-to-unit manufacturing variation; note the gel serial/batch of each
+  membrane in `RESULTS.md`.
 - Match **illumination** between sessions; log any LED/lighting change.
 - Use the **same set of stimulus surfaces**, ideally in the same numbered
   order under both gels — clip *i* in `dot/` then pairs with clip *i* in
