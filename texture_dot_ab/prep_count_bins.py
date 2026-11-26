@@ -6,10 +6,22 @@ bin is rasterized to a binary (2,128,128) frame — channel 0 = OFF events,
 channel 1 = ON events, occupancy-clamped. Output contract matches the
 speck-compatible trainers: 'frames' (T,2,128,128) + 'label'.
 
+Uniformity note: count-binning makes tensor SHAPE uniform automatically —
+raw clips do NOT need matching durations. What slicing controls is content:
+which physical phase the bins span. Use the spacebar phase marks
+(phase_idx) to cut a controlled window before binning:
+
+  --slice touch    touch -> touch_10s   (exactly 10.00 s of contact — the
+                   controlled comparison window; default)
+  --slice contact  approach -> touch_10s (adds the approach transient)
+  --slice all      everything (raw recorder output, includes uncontrolled
+                   post-retreat dead time — diagnostic only)
+
+Clips missing the needed phase marks are skipped (run qa_dataset.py first).
+
 Usage (per condition):
     python prep_count_bins.py --src ../data/dataset_tex/dot \
-        --dst ../data/dataset_tex_evT166/dot --bins 166 \
-        --classes flat,curved,edge
+        --dst ../data/dataset_tex_evT166/dot --bins 166 --slice touch
 """
 
 import argparse
@@ -42,11 +54,35 @@ def clip_to_frames(x, y, p, n_bins, sensor=128):
     return frames
 
 
+def slice_span(f, slc):
+    """(i0, i1) event-index window for slicing before binning.
+    touch = touch->touch_10s, contact = approach->touch_10s, all = full stream.
+    Returns None if the clip lacks the required phase marks."""
+    n = int(f.attrs.get("event_count", len(f["x"])))
+    if slc == "all":
+        return (0, n)
+    if "phase_idx" not in f or "phase_name" not in f:
+        return None
+    names = [x.decode() for x in f["phase_name"][:]]
+    idx = f["phase_idx"][:].tolist()
+    if "touch_10s" not in names:
+        return None
+    i1 = idx[names.index("touch_10s")]
+    start = "touch" if slc == "touch" else "approach"
+    if start not in names:
+        return None
+    i0 = idx[names.index(start)]
+    return (i0, i1) if 0 <= i0 < i1 <= n else None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--src", required=True, help="dataset_tex/<condition> dir")
     ap.add_argument("--dst", required=True, help="output npz dir (per condition)")
     ap.add_argument("--bins", type=int, default=166)
+    ap.add_argument("--slice", dest="slc", default="touch",
+                    choices=["touch", "contact", "all"],
+                    help="phase window to bin (default: touch)")
     ap.add_argument("--classes", default="flat,curved,edge,soft,grid",
                     help="comma list; order defines label ids. Ignored if labels.json exists in src.")
     args = ap.parse_args()
@@ -60,7 +96,8 @@ def main():
     label_of = {c: i for i, c in enumerate(classes)}
 
     os.makedirs(args.dst, exist_ok=True)
-    json.dump({"classes": classes}, open(os.path.join(args.dst, "labels.json"), "w"))
+    json.dump({"classes": classes, "slice": args.slc, "bins": args.bins},
+              open(os.path.join(args.dst, "labels.json"), "w"))
 
     h5s = sorted(glob.glob(os.path.join(args.src, "**", "*.h5"), recursive=True))
     if not h5s:
@@ -74,16 +111,22 @@ def main():
             n_skip += 1
             continue
         with h5py.File(path) as f:
-            x, y, p = f["x"][:], f["y"][:], f["p"][:]
+            span = slice_span(f, args.slc)
+            if span is None:
+                print(f"  skip (missing phase marks for --slice {args.slc}): {path}")
+                n_skip += 1
+                continue
+            i0, i1 = span
+            x, y, p = f["x"][i0:i1], f["y"][i0:i1], f["p"][i0:i1]
         frames = clip_to_frames(x, y, p, args.bins)
         out_dir = os.path.join(args.dst, cls)
         os.makedirs(out_dir, exist_ok=True)
         out = os.path.join(out_dir, os.path.basename(path).replace(".h5", ".npz"))
         np.savez_compressed(out, frames=frames, label=np.int64(label_of[cls]))
         n_done += 1
-        print(f"  {os.path.basename(path)} -> {out}  ({len(x):,} events, label={label_of[cls]})")
+        print(f"  {os.path.basename(path)} -> {out}  ({len(x):,} events sliced, label={label_of[cls]})")
 
-    print(f"\nDone: {n_done} clips rasterized ({args.bins} bins), {n_skip} skipped.")
+    print(f"\nDone: {n_done} clips rasterized ({args.bins} bins, slice={args.slc}), {n_skip} skipped.")
     print(f"Label map: {label_of}")
 
 
