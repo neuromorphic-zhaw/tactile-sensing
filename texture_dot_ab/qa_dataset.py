@@ -4,7 +4,7 @@ Walks every .h5 under a dataset dir and validates collection quality:
   - all 4 phase marks present (approach/touch/touch_10s/retreat)
   - touch duration >= 10 s (held past the beep)
   - minimum event count / no empty clips
-  - event timestamps monotonic
+  - no large backward timestamp jump (>1 s = device reset mid-clip)
   - phase_idx consistency (indices inside the stream, ordered)
 
 Prints a per-clip table + summary. Exit code 1 if any clip FAILs —
@@ -38,8 +38,14 @@ def check_clip(path, min_events=MIN_EVENTS):
 
         if n < min_events:
             issues.append(f"low events ({n:,})")
-        if len(t) > 1 and np.any(np.diff(t.astype(np.int64)) < 0):
-            issues.append("timestamps non-monotonic")
+        if len(t) > 1:
+            # small backward jitter (tens of ms) is normal DVS burst-readout
+            # reordering — only a LARGE backward jump (>1 s) means the chip
+            # reset/re-enumerated mid-recording and the clip is suspect
+            d = np.diff(t.astype(np.int64))
+            worst = int(d.min()) if len(d) else 0
+            if worst < -1_000_000:
+                issues.append(f"timestamp reset mid-clip ({-worst/1e6:.1f}s backward)")
         missing = REQUIRED_PHASES - set(names)
         if missing:
             issues.append(f"missing phases: {sorted(missing)}")
