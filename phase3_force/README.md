@@ -7,13 +7,12 @@ during touch.
 Planned layout (same conventions as stage 1/2):
 
 ```
-data/dataset_force/<class>/<date>_<class>_<nn>.h5   raw clips, force
-                                                   channel stored as a
-                                                   parallel dataset in
-                                                   the same .h5 (or a
-                                                   sidecar .csv/.npz)
-data/dataset_force_evT166/<class>/*.npz             derived rasterization
-force/runs/                                       trainer output
+data/phase3_force/dataset_force/<class>/<date>_<class>_<nn>.h5   raw
+    clips; force channel stored as a parallel dataset in the same .h5
+    (or a sidecar .csv/.npz)
+data/phase3_force/dataset_force_evT166/<class>/*.npz           derived
+    rasterization
+phase3_force/runs/                                           trainer output
 ```
 
 TODO once hardware is settled:

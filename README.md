@@ -41,7 +41,7 @@ The repo mirrors the three thesis stages:
 |---|---|---|
 | 1 — flat vs curved | `phase1_curvature/` | ✅ complete (deliverables D1–D4) |
 | 2 — dot vs markerless gel A/B | `phase2_texture_dot_ab/` | 🟡 active — data collection next |
-| 3 — force-sensor integration | `force/` (planned) | ⬜ upcoming |
+| 3 — force-sensor integration | `phase3_force/` (planned) | ⬜ upcoming |
 
 `speck_toolkit/` holds the project-agnostic Speck2f building blocks
 (start there for any new work). Each stage keeps its own project dir at
