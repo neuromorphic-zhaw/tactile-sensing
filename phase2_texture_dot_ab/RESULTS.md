@@ -43,14 +43,39 @@ baseline augmentation (temporal roll, 10% dropout, time-stretch).
 | evT332_s4  | 93.3  | 93.3 | 86.7 | 93.3 |
 | evT664_s4  | 93.3  | 80.0 | 86.7 | 93.3 |
 
-### Noise-augmented variants (evT166_s2 base) — RUNNING
+### Noise-augmented variants (evT166_s2 base)
 
-| variant | dot test | nodot test | notes |
+| variant | dot test | nodot test | vs baseline |
 |---|---|---|---|
-| drop30   | | | |
-| addp1    | | | |
-| shift8   | | | |
-| allnoise | | | |
+| baseline | 80.0 | 93.3 | — |
+| drop30   | 80.0 | 93.3 | identical per-class outcomes |
+| addp1    | 73.3 | 86.7 | BOTH worse — hot-pixel noise hurts everyone |
+| shift8   | 80.0 | 93.3 | identical per-class outcomes |
+| allnoise | (training) | (training) | |
+
+Per-class test (correct/3) — the decisive view:
+
+| variant | cond | flat | curved | edge | soft | grid |
+|---|---|---|---|---|---|---|
+| baseline | dot   | 3/3 | **2/3** | 2/3 | 3/3 | **2/3** |
+| baseline | nodot | 3/3 | 3/3 | 2/3 | 3/3 | 3/3 |
+| drop30   | dot   | 3/3 | 2/3 | 2/3 | 3/3 | 2/3 |
+| drop30   | nodot | 3/3 | 3/3 | 2/3 | 3/3 | 3/3 |
+| addp1    | dot   | 3/3 | **1/3** | 2/3 | 3/3 | 2/3 |
+| addp1    | nodot | 3/3 | 2/3 | 2/3 | 3/3 | 3/3 |
+| shift8   | dot   | 3/3 | 2/3 | 2/3 | 3/3 | 2/3 |
+| shift8   | nodot | 3/3 | 3/3 | 2/3 | 3/3 | 3/3 |
+
+## Noise experiment verdict (2026-11-27)
+
+**The overfitting hypothesis is REFUTED.** drop30/shift8 produce literally
+identical per-class outcomes to baseline — regularizing harder does not
+unlock dot generalization. addp1 degrades both conditions (spurious events
+corrupt the texture signal everyone relies on). Therefore the dot gap on
+curved/grid is NOT marker-layout overfitting — the dots genuinely interfere
+with the deformation geometry those classes present. Separately: **edge is
+intrinsically hard** (2/3 everywhere, both gels, all variants — confused
+with grid); likely physically ambiguous at this indentation depth.
 
 ## Paired analysis — baseline evT166_s2 (n=15 test clips, 3/class)
 
