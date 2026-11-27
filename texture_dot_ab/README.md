@@ -48,8 +48,8 @@ from `labels.json`. Keep the class list identical across both conditions.
 ## Data layout
 
 ```
-data/dataset_tex/{dot,nodot}/<class>/<date>_<class>_<nn>.h5   raw clips
-data/dataset_tex_evT166/{dot,nodot}/<class>/*.npz             evT166 frames+label
+data/phase2_texture_dot_ab/dataset_tex/{dot,nodot}/<class>/<date>_<class>_<nn>.h5   raw clips
+data/phase2_texture_dot_ab/dataset_tex_evT166/{dot,nodot}/<class>/*.npz             evT166 frames+label
 runs/<condition>_evT166/                                      trainer output
 ```
 
@@ -60,19 +60,19 @@ runs/<condition>_evT166/                                      trainer output
 #    per clip: SPACE=start/approach → SPACE=touch (10.00 s precise timer)
 #    → SPACE=retreat → SPACE=stop+save. Repeat each class in order, once
 #    per condition (keep surface set + order identical across gels).
-python record_touch.py --root ../data/dataset_tex --classes flat,curved,edge,soft,grid
+python record_touch.py --root ../data/phase2_texture_dot_ab/dataset_tex --classes flat,curved,edge,soft,grid
 # batch alternative: python collect_tex.py --condition dot   --classes flat,curved,edge,soft,grid
 #                    python collect_tex.py --condition nodot --classes flat,curved,edge,soft,grid
 
 # 2. Rasterize to evT166 count-binned npz (per condition)
-python prep_count_bins.py --src ../data/dataset_tex/dot \
-    --dst ../data/dataset_tex_evT166/dot --bins 166
-python prep_count_bins.py --src ../data/dataset_tex/nodot \
-    --dst ../data/dataset_tex_evT166/nodot --bins 166
+python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex/dot \
+    --dst ../data/phase2_texture_dot_ab/dataset_tex_evT166/dot --bins 166
+python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex/nodot \
+    --dst ../data/phase2_texture_dot_ab/dataset_tex_evT166/nodot --bins 166
 
 # 3. Train the identical model on each condition (same seed)
-python train_tex.py --data ../data/dataset_tex_evT166/dot   --out runs/dot_evT166
-python train_tex.py --data ../data/dataset_tex_evT166/nodot --out runs/nodot_evT166
+python train_tex.py --data ../data/phase2_texture_dot_ab/dataset_tex_evT166/dot   --out runs/dot_evT166
+python train_tex.py --data ../data/phase2_texture_dot_ab/dataset_tex_evT166/nodot --out runs/nodot_evT166
 # HPC: parameterized slurm launcher — one variant table, both conditions
 # bash sweep.sh          # submits every VARIANTS[] line for dot AND nodot
 # single run: sbatch --export=ALL,COND=dot,TAG=evT166_s2 job_tex.slurm

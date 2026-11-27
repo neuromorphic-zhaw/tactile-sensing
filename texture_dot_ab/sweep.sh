@@ -19,7 +19,7 @@ VARIANTS=(
     "evT166_s1 TSTRIDE=1"
     "evT166_s4 TSTRIDE=4"
     # "evT166_s2_lr1e4 LR=1e-4"
-    # "evT332_s2 DATA=$VD/../data/dataset_tex_evT332/\$COND"   # needs prep --bins 332
+    # "evT332_s2 DATA=$VD/../data/phase2_texture_dot_ab/dataset_tex_evT332/\$COND"   # needs prep --bins 332
     # "evT166_s2_ft PRETRAINED=<ckpt> LR=5e-5 EPOCHS=50"       # warm-start
 )
 

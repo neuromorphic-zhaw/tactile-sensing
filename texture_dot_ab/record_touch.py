@@ -21,7 +21,7 @@ path with a synthetic event source (phase-dependent rates) — no devkit
 needed.
 
     python record_touch.py --mock
-    python record_touch.py --root ../data/dataset_tex
+    python record_touch.py --root ../data/phase2_texture_dot_ab/dataset_tex
 """
 
 import argparse
@@ -481,5 +481,5 @@ if __name__ == "__main__":
     ap.add_argument("--mock", action="store_true",
                     help="no devkit — synthetic events, full GUI path")
     ap.add_argument("--classes", default="flat,curved,edge,soft,grid")
-    ap.add_argument("--root", default="../data/dataset_tex")
+    ap.add_argument("--root", default="../data/phase2_texture_dot_ab/dataset_tex")
     RecorderGUI(ap.parse_args()).run()

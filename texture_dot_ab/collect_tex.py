@@ -4,7 +4,7 @@ Adapted from curvature/speck_connect/collect_gzip_curv.py. Differences:
   - class list is arbitrary (--classes); gel condition is a CLI flag
     (--condition dot|nodot) so the same surface set can be replayed under
     both gels with identical numbering
-  - saves under data/dataset_tex/<condition>/<class>/
+  - saves under data/phase2_texture_dot_ab/dataset_tex/<condition>/<class>/
   - records N clips in one session without restarting (ENTER = next clip,
     'c' = change class, 'q' = quit) so a paired protocol stays in order
 
@@ -199,5 +199,5 @@ if __name__ == "__main__":
     ap.add_argument("--classes", default="flat,curved,edge,soft,grid",
                     help="comma-separated class list (must match across conditions)")
     ap.add_argument("--duration", type=float, default=10.0)
-    ap.add_argument("--root", default="../data/dataset_tex")
+    ap.add_argument("--root", default="../data/phase2_texture_dot_ab/dataset_tex")
     run_experiment(ap.parse_args())

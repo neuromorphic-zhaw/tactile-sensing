@@ -51,7 +51,7 @@ top level; all datasets live centrally under `data/`.
 |---|---|
 | `speck_toolkit/` | Reusable Speck2f toolkit: devkit attach/view scripts, samnagui DVS+power GUI, verified 9-core `model.py`, `verify_convert.py`, `deploy_speck.py`, `replay_chip.py` — see its README |
 | `curvature/speck_connect/` | `collect_gzip_curv.py` — the D2 dataset collection GUI (.h5+gzip) |
-| `data/` | Stage-1: `dataset_curv/` (200 .h5), `dataset_curv_events/`, `time_bins/`, `count_bins/`. Stage-2: `dataset_tex/{dot,nodot}/<class>/*.h5` + shared `labels.json`, `dataset_tex_evT166/` (derived) |
+| `data/` | Strict phase separation: `phase1_curvature/` (dataset_curv 200 .h5, events, time/count bins — top-level names symlink here); `phase2_texture_dot_ab/` (`dataset_tex/{dot,nodot}/<class>/*.h5` + `labels.json`, `dataset_tex_evT166/` derived) |
 | `curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `live_status.sh` |
 | `curvature/demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
 | `curvature/deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |

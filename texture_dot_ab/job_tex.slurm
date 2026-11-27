@@ -14,7 +14,7 @@
 # Env vars (all have sane defaults):
 #   COND       dot|nodot        condition (default: dot)
 #   TAG        string           variant tag -> run dir runs/${COND}_${TAG}
-#   DATA       path             npz dir (default: ../data/dataset_tex_evT166/$COND)
+#   DATA       path             npz dir (default: ../data/phase2_texture_dot_ab/dataset_tex_evT166/$COND)
 #   EPOCHS     int   (100)   LR float (2e-4)   BS int (10)
 #   WD         float (1e-4)  SEED int (42)     TSTRIDE int (2)
 #   PRETRAINED path             warm-start ckpt (default: none)
@@ -32,7 +32,7 @@ export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
 VD=/cfs/earth/scratch/matheron/tactile-sensing/texture_dot_ab
 COND=${COND:-dot}
 TAG=${TAG:-evT166_s2}
-DATA=${DATA:-$VD/../data/dataset_tex_evT166/$COND}
+DATA=${DATA:-$VD/../data/phase2_texture_dot_ab/dataset_tex_evT166/$COND}
 RUN_DIR=$VD/runs/${COND}_${TAG}
 mkdir -p "$RUN_DIR"
 cp "$VD/job_tex.slurm" "$RUN_DIR/job.slurm"
