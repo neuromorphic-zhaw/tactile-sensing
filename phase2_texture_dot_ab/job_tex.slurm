@@ -6,10 +6,10 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=8:00:00
-#SBATCH --output=/cfs/earth/scratch/matheron/tactile-sensing/texture_dot_ab/runs/%x_%j.out
-#SBATCH --error=/cfs/earth/scratch/matheron/tactile-sensing/texture_dot_ab/runs/%x_%j.err
+#SBATCH --output=/cfs/earth/scratch/matheron/tactile-sensing/phase2_texture_dot_ab/runs/%x_%j.out
+#SBATCH --error=/cfs/earth/scratch/matheron/tactile-sensing/phase2_texture_dot_ab/runs/%x_%j.err
 
-# Parameterized trainer launcher for texture_dot_ab sweeps.
+# Parameterized trainer launcher for phase2_texture_dot_ab sweeps.
 # Override via sbatch --export / --chdir / --job-name / --partition.
 # Env vars (all have sane defaults):
 #   COND       dot|nodot        condition (default: dot)
@@ -29,7 +29,7 @@ export TORCH_EXTENSIONS_DIR="/tmp/torch_extensions_${SLURM_JOB_ID}"
 mkdir -p $TORCH_EXTENSIONS_DIR
 export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
 
-VD=/cfs/earth/scratch/matheron/tactile-sensing/texture_dot_ab
+VD=/cfs/earth/scratch/matheron/tactile-sensing/phase2_texture_dot_ab
 COND=${COND:-dot}
 TAG=${TAG:-evT166_s2}
 DATA=${DATA:-$VD/../data/phase2_texture_dot_ab/dataset_tex_evT166/$COND}

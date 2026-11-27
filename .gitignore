@@ -16,13 +16,13 @@ imgui.ini
 LIVE_STATUS.md
 
 # --- sweep run artifacts: keep recipes (train.py/job.slurm/README), not volatile outputs ---
-curvature/speck_compatible/devin_*/**/run_*
-curvature/speck_compatible/devin_*/**/Slurm-*
-curvature/speck_compatible/devin_*/**/eval_*
-curvature/speck_compatible/devin_*/**/*.out
-curvature/speck_compatible/devin_*/**/*.err
-curvature/speck_compatible/devin_*/**/*.png
+phase1_curvature/speck_compatible/devin_*/**/run_*
+phase1_curvature/speck_compatible/devin_*/**/Slurm-*
+phase1_curvature/speck_compatible/devin_*/**/eval_*
+phase1_curvature/speck_compatible/devin_*/**/*.out
+phase1_curvature/speck_compatible/devin_*/**/*.err
+phase1_curvature/speck_compatible/devin_*/**/*.png
 .vscode/
 
-# texture_dot_ab run artifacts
-texture_dot_ab/runs/
+# phase2_texture_dot_ab run artifacts
+phase2_texture_dot_ab/runs/

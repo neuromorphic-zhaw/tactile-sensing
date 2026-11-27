@@ -19,7 +19,7 @@ force/runs/                                       trainer output
 TODO once hardware is settled:
 - decide the force channel source + sampling rate, and how it is logged
   alongside the event stream (h5 dataset vs sidecar, timestamp alignment)
-- fork the stage-2 recorder (`texture_dot_ab/record_touch.py`) — its
+- fork the stage-2 recorder (`phase2_texture_dot_ab/record_touch.py`) — its
   phase-tagging state machine already handles synchronized aux channels
 - reuse `prep_count_bins.py` rasterization; extend to carry the force
   channel through to the trainer

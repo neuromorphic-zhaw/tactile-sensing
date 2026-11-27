@@ -10,7 +10,7 @@
 #         bash sweep.sh dot        # one condition only
 # Edit the VARIANTS block to add/remove runs.
 
-VD=/cfs/earth/scratch/matheron/tactile-sensing/texture_dot_ab
+VD=/cfs/earth/scratch/matheron/tactile-sensing/phase2_texture_dot_ab
 ONLY=${1:-both}
 mkdir -p "$VD/runs"   # sbatch --output redirect needs this to exist
 

@@ -1,6 +1,6 @@
-"""texture_dot_ab collector — dot vs markerless gel A/B.
+"""phase2_texture_dot_ab collector — dot vs markerless gel A/B.
 
-Adapted from curvature/speck_connect/collect_gzip_curv.py. Differences:
+Adapted from phase1_curvature/speck_connect/collect_gzip_curv.py. Differences:
   - class list is arbitrary (--classes); gel condition is a CLI flag
     (--condition dot|nodot) so the same surface set can be replayed under
     both gels with identical numbering

@@ -1,4 +1,4 @@
-# texture_dot_ab — dot vs markerless gel A/B study
+# phase2_texture_dot_ab — dot vs markerless gel A/B study
 
 Sub-project: **multi-class surface/texture classification** (flat / curved /
 edge / …) on the Speck2f + GelSight rig, run as a controlled A/B comparison:
@@ -88,5 +88,5 @@ Primary: overall test accuracy per condition + paired delta (`dot − nodot`).
 Secondary: per-class accuracy delta, confusion matrices, McNemar's test on
 paired clips when the collection order was matched. Binned accuracy is a
 training diagnostic — confirm any claimed difference with event-level
-specksim (`curvature/demo/eval_specksim_events.py`) and chip replay
-(`curvature/demo/replay_chip.py`) per the repo's deployment-selection rule.
+specksim (`phase1_curvature/demo/eval_specksim_events.py`) and chip replay
+(`phase1_curvature/demo/replay_chip.py`) per the repo's deployment-selection rule.

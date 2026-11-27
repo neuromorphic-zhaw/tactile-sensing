@@ -5,5 +5,5 @@ Speck2f devkit (USB / usbipd from WSL), streams DVS events, and saves
 gzip-compressed `.h5` clips (x/y/t/p + label attrs) — the contract
 format. Produced `data/dataset_curv/` (200 clips: 100 flat + 100 curved).
 
-Stage-2 collection lives in `../../texture_dot_ab/` (new guided
+Stage-2 collection lives in `../../phase2_texture_dot_ab/` (new guided
 recorder with phase tagging).

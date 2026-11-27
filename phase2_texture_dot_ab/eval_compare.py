@@ -1,4 +1,4 @@
-"""Paired A/B comparison for texture_dot_ab: dot vs nodot.
+"""Paired A/B comparison for phase2_texture_dot_ab: dot vs nodot.
 
 Reads the two trainer run dirs (test_predictions.npz + split.json +
 metrics.json) and reports the controlled comparison:

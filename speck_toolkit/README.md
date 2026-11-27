@@ -2,7 +2,7 @@
 
 Everything in here is **project-agnostic**: the scripts and patterns verified
 on the Speck2f devkit during the tactile-sensing project, kept separate from
-`curvature/` (the finished D1–D4 project) so any future work can reuse them
+`phase1_curvature/` (the finished D1–D4 project) so any future work can reuse them
 directly.
 
 | File | What it does |
@@ -78,10 +78,10 @@ python replay_chip.py --model <ckpt>.pt --clip <clip.h5>
   features — pass `slow_clk_frequency` to `.to()`.
 - `.to(device)` writes config immediately; killing mid-deploy can wedge
   the chip.
-- Specksim event-level eval (see `curvature/demo/eval_specksim_*.py`) is
+- Specksim event-level eval (see `phase1_curvature/demo/eval_specksim_*.py`) is
   the only trustworthy deployment metric — binned accuracy does NOT
   transfer to silicon.
 
 For a guided data collector (phase-tagged `.h5` recording with live event
-counter), see `../texture_dot_ab/record_touch.py` — it generalizes to any
+counter), see `../phase2_texture_dot_ab/record_touch.py` — it generalizes to any
 `--classes` list.

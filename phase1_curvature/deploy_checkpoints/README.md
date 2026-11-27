@@ -16,7 +16,7 @@ farther down is the older binned ranking kept for reference.
 
 All `evT166*` ckpts train on count-binned data (166 equal-count bins,
 s2 stride) — the deployment-natural rasterization. Trainers:
-`curvature/speck_compatible/devin_evcount/<variant>/`.
+`phase1_curvature/speck_compatible/devin_evcount/<variant>/`.
 
 ## Shared training config (all 10)
 
@@ -88,7 +88,7 @@ readout pattern as live_dvs.py, just smarter temporal integration.
 | `ssm_evT166_l8_v83.33_t76.67.pt` | frozen evT166_s2 | count bins | 83.33 | 76.67 | **63.33% val** (l8 feature mode, layer-7 monitor) |
 | `ssm_t10ms_l8_v86.67_t76.67.pt` | frozen wclamp | time bins | 86.67 | 76.67 | unrunnable (bad_alloc @500K/250K/100K) |
 
-Eval: `curvature/demo/eval_specksim_ssm.py --model <ckpt> --win_mode {time|count}`
+Eval: `phase1_curvature/demo/eval_specksim_ssm.py --model <ckpt> --win_mode {time|count}`
 (time=40ms windows for t10ms, count=N/83 events for evT166; auto-detects
 l8 feature mode from the ckpt's `proj.weight` width).
-Trainer: `curvature/speck_compatible/devin_ssm/<variant>/train.py`.
+Trainer: `phase1_curvature/speck_compatible/devin_ssm/<variant>/train.py`.

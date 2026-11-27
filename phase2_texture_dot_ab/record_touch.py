@@ -221,7 +221,7 @@ class RecorderGUI:
         self.clip_no = 1
 
         self.root = tk.Tk()
-        self.root.title("Speck-touch recorder — texture_dot_ab")
+        self.root.title("Speck-touch recorder — phase2_texture_dot_ab")
         self.root.geometry("480x540")
         self.frame = tk.Frame(self.root)
         self.frame.pack(expand=True, fill="both")

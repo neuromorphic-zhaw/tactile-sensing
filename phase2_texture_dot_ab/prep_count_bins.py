@@ -1,4 +1,4 @@
-"""h5 -> evT count-binned npz for texture_dot_ab.
+"""h5 -> evT count-binned npz for phase2_texture_dot_ab.
 
 Replicates the evT166 recipe used for dataset_curv (the deployment-proven
 rasterization): each clip's events are split into N equal-count bins and each
