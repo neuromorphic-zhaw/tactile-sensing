@@ -79,38 +79,44 @@ class TactileDataset(Dataset):
         return torch.clamp(data, 0.0, 1.0), label
 
 
-def _iaf(bs):
-    return sl.IAFSqueeze(batch_size=bs, spike_threshold=1.0, min_v_mem=-1.0,
+def _iaf(nt):
+    # num_timesteps (NOT batch_size) construction: count-binning makes every
+    # clip exactly T bins -> nt is constant, so sinabs infers the batch dim
+    # and ANY batch size works. The batch_size= construction hardwires bs into
+    # every layer: partial eval batches either crash (5x83 rows vs reshape
+    # [10,-1]) or silently scramble batch<->time (5x42=210 divisible by 10 ->
+    # garbage val). Stage 1 masked this with drop_last=True on eval loaders.
+    return sl.IAFSqueeze(num_timesteps=nt, spike_threshold=1.0, min_v_mem=-1.0,
                          surrogate_grad_fn=sinabs.activation.PeriodicExponential())
 
 
 class SpeckFittingTrainer(nn.Module):
     """Verified 9-core topology; readout widened to n_classes."""
 
-    def __init__(self, bs, n_classes, time_stride):
+    def __init__(self, nt, n_classes, time_stride):
         super().__init__()
         self.time_stride = time_stride
         self.spiking_backbone = nn.Sequential(
             nn.Conv2d(2, 16, kernel_size=4, stride=2, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(16, 64, kernel_size=4, stride=2, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(64, 32, kernel_size=4, stride=2, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(32, 32, kernel_size=3, stride=1, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(32, 32, kernel_size=4, stride=2, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.Conv2d(64, 64, kernel_size=3, stride=1, padding=1, bias=False),
-            _iaf(bs),
+            _iaf(nt),
             nn.AvgPool2d(2, 2),
             nn.Flatten(),
             nn.Linear(256, n_classes, bias=False),
-            _iaf(bs),
+            _iaf(nt),
         )
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -171,7 +177,12 @@ def main():
     test_loader = DataLoader(te, shuffle=False, drop_last=False, **loader_args)
     print(f"Classes {classes} | split {len(tr)}/{len(va)}/{len(te)}")
 
-    model = SpeckFittingTrainer(args.batch, n_classes, args.time_stride).to(device)
+    # probe bin count from the data itself; stride steps are constant for all clips
+    with np.load(full.file_list[0]) as d0:
+        n_bins = int(d0["frames"].shape[0])
+    nt = len(range(0, n_bins, args.time_stride))
+    print(f"bins={n_bins} stride={args.time_stride} -> nt={nt} steps/sample")
+    model = SpeckFittingTrainer(nt, n_classes, args.time_stride).to(device)
     if args.pretrained:
         sd = torch.load(args.pretrained, map_location=device)
         model.load_state_dict({k: v for k, v in sd.items() if not k.endswith(".v_mem")},
