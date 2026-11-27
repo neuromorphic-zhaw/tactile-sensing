@@ -97,8 +97,14 @@ class EventSource:
         cfg_src, _ = self.graph.sequential(
             [samna.BasicSourceNode_ui_event(), streamer])
         streamer.set_streamer_endpoint(endpoint)
-        while streamer.wait_for_receiver_count() == 0:
+        # bounded wait — a dead samnagui must never block the recorder;
+        # the GUI connects fine even if it attaches late
+        for _ in range(100):
+            if streamer.wait_for_receiver_count() != 0:
+                break
             time.sleep(0.1)
+        else:
+            print("warn: samnagui did not connect in 10 s — continuing without viz")
         cfg_src.write([samna.ui.VisualizerConfiguration(plots=[
             samna.ui.ActivityPlotConfiguration(
                 128, 128, "DVS Layer", layout=[0, 0, 1, 0.7]),
