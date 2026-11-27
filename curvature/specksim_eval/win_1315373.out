@@ -1,0 +1,66 @@
+200 raw clips
+loaded 27 weights, channels=(16, 64, 32, 32, 32, 64, 64, 64)
+SpecksimNetwork built from discretized layers — full chip emulation
+    windows: ['[195, 198]->1', '[236, 203]->0']
+  [TEST 1/30] 2026-03-17_curved_01.npz E=400000 outspikes=832 counts=[1, 1] pred=0 tgt=1 XX (1.6 min)
+    windows: ['[184, 297]->1', '[151, 282]->1']
+  [TEST 2/30] 2026-03-17_curved_04.npz E=400000 outspikes=914 counts=[0, 2] pred=1 tgt=1 OK (3.3 min)
+    windows: ['[286, 540]->1', '[171, 198]->1']
+  [TEST 3/30] 2026-03-23_curved_02.npz E=400000 outspikes=1195 counts=[0, 2] pred=1 tgt=1 OK (5.0 min)
+    windows: ['[328, 476]->1', '[179, 220]->1']
+  [TEST 4/30] 2026-03-23_curved_06.npz E=400000 outspikes=1203 counts=[0, 2] pred=1 tgt=1 OK (6.7 min)
+    windows: ['[203, 231]->1', '[177, 220]->1']
+  [TEST 5/30] 2026-03-24_curved_03.npz E=400000 outspikes=831 counts=[0, 2] pred=1 tgt=1 OK (8.3 min)
+    windows: ['[251, 431]->1', '[128, 161]->1']
+  [TEST 6/30] 2026-03-26_curved_04.npz E=400000 outspikes=971 counts=[0, 2] pred=1 tgt=1 OK (10.0 min)
+    windows: ['[147, 332]->1', '[120, 286]->1']
+  [TEST 7/30] 2026-03-26_curved_07.npz E=400000 outspikes=885 counts=[0, 2] pred=1 tgt=1 OK (11.7 min)
+    windows: ['[184, 350]->1', '[218, 324]->1']
+  [TEST 8/30] 2026-03-27_curved_05.npz E=400000 outspikes=1076 counts=[0, 2] pred=1 tgt=1 OK (13.4 min)
+    windows: ['[164, 158]->0', '[155, 292]->1']
+  [TEST 9/30] 2026-03-27_curved_08.npz E=400000 outspikes=769 counts=[1, 1] pred=0 tgt=1 XX (15.1 min)
+    windows: ['[163, 271]->1', '[182, 335]->1']
+  [TEST 10/30] 2026-03-27_curved_10.npz E=400000 outspikes=951 counts=[0, 2] pred=1 tgt=1 OK (16.7 min)
+    windows: ['[177, 345]->1', '[136, 294]->1']
+  [TEST 11/30] 2026-03-27_curved_14.npz E=400000 outspikes=952 counts=[0, 2] pred=1 tgt=1 OK (18.4 min)
+    windows: ['[198, 265]->1', '[160, 220]->1']
+  [TEST 12/30] 2026-03-27_curved_15.npz E=400000 outspikes=843 counts=[0, 2] pred=1 tgt=1 OK (20.0 min)
+    windows: ['[254, 439]->1', '[256, 345]->1']
+  [TEST 13/30] 2026-03-30_curved_05.npz E=400000 outspikes=1294 counts=[0, 2] pred=1 tgt=1 OK (21.8 min)
+    windows: ['[172, 323]->1', '[128, 293]->1']
+  [TEST 14/30] 2026-04-07_curved_02.npz E=400000 outspikes=916 counts=[0, 2] pred=1 tgt=1 OK (23.5 min)
+    windows: ['[334, 379]->1', '[119, 317]->1']
+  [TEST 15/30] 2026-04-07_curved_03.npz E=400000 outspikes=1149 counts=[0, 2] pred=1 tgt=1 OK (25.2 min)
+    windows: ['[296, 268]->0', '[308, 213]->0']
+  [TEST 16/30] 2026-04-07_curved_06.npz E=400000 outspikes=1085 counts=[2, 0] pred=0 tgt=1 XX (27.0 min)
+    windows: ['[321, 201]->0', '[161, 139]->0']
+  [TEST 17/30] 2026-03-17_flat_02.npz E=400000 outspikes=822 counts=[2, 0] pred=0 tgt=0 OK (28.6 min)
+    windows: ['[452, 155]->0']
+  [TEST 18/30] 2026-03-21_flat_09.npz E=73724 outspikes=607 counts=[1, 0] pred=0 tgt=0 OK (29.0 min)
+    windows: ['[215, 203]->0', '[223, 186]->0']
+  [TEST 19/30] 2026-03-23_flat_07.npz E=400000 outspikes=827 counts=[2, 0] pred=0 tgt=0 OK (30.6 min)
+    windows: ['[255, 195]->0', '[204, 179]->0']
+  [TEST 20/30] 2026-03-24_flat_09.npz E=400000 outspikes=833 counts=[2, 0] pred=0 tgt=0 OK (32.2 min)
+    windows: ['[172, 220]->1', '[195, 203]->1']
+  [TEST 21/30] 2026-03-26_flat_04.npz E=400000 outspikes=790 counts=[0, 2] pred=1 tgt=0 XX (33.9 min)
+    windows: ['[210, 378]->1', '[241, 204]->0']
+  [TEST 22/30] 2026-03-26_flat_08.npz E=400000 outspikes=1033 counts=[1, 1] pred=0 tgt=0 OK (35.6 min)
+    windows: ['[178, 278]->1', '[150, 203]->1']
+  [TEST 23/30] 2026-03-27_flat_01.npz E=400000 outspikes=809 counts=[0, 2] pred=1 tgt=0 XX (37.3 min)
+    windows: ['[210, 224]->1', '[192, 201]->1']
+  [TEST 24/30] 2026-03-27_flat_05.npz E=400000 outspikes=827 counts=[0, 2] pred=1 tgt=0 XX (39.0 min)
+    windows: ['[207, 353]->1', '[169, 208]->1']
+  [TEST 25/30] 2026-03-27_flat_07.npz E=400000 outspikes=937 counts=[0, 2] pred=1 tgt=0 XX (40.7 min)
+    windows: ['[203, 211]->1', '[183, 373]->1']
+  [TEST 26/30] 2026-03-27_flat_15.npz E=400000 outspikes=970 counts=[0, 2] pred=1 tgt=0 XX (42.3 min)
+    windows: ['[263, 285]->1', '[289, 308]->1']
+  [TEST 27/30] 2026-04-07_flat_01.npz E=400000 outspikes=1145 counts=[0, 2] pred=1 tgt=0 XX (44.1 min)
+    windows: ['[199, 180]->0', '[191, 260]->1']
+  [TEST 28/30] 2026-04-07_flat_02.npz E=400000 outspikes=830 counts=[1, 1] pred=0 tgt=0 OK (45.7 min)
+    windows: ['[304, 270]->0', '[265, 213]->0']
+  [TEST 29/30] 2026-04-07_flat_07.npz E=400000 outspikes=1052 counts=[2, 0] pred=0 tgt=0 OK (47.4 min)
+    windows: ['[201, 185]->0', '[214, 168]->0']
+  [TEST 30/30] 2026-04-07_flat_15.npz E=400000 outspikes=768 counts=[2, 0] pred=0 tgt=0 OK (49.0 min)
+
+== SPECKSIM TEST (30 clips) ==
+  event-level accuracy : 21/30 = 70.00%
