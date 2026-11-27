@@ -35,7 +35,14 @@ for line in "${VARIANTS[@]}"; do
         [ "$ONLY" != "both" ] && [ "$cond" != "$ONLY" ] && continue
         export COND=$cond
         eval "export $extra"   # expand $COND inside DATA= etc.
+        RUN_DIR="$VD/runs/${cond}_${tag}"
+        mkdir -p "$RUN_DIR"   # --chdir target must exist at submit time;
+                            # everything the job/scheduler writes lands here:
+                            # Slurm-<id> metadata, train.out/err, best.pt ...
         sbatch --job-name="tex_${cond}_${tag}" \
+               --chdir="$RUN_DIR" \
+               --output="$RUN_DIR/train.out" \
+               --error="$RUN_DIR/train.err" \
                --export=ALL,COND,TAG=$tag,DATA,EPOCHS,BS,LR,WD,SEED,TSTRIDE,PRETRAINED \
                "$VD/job_tex.slurm"
     done

@@ -162,10 +162,13 @@ def main():
               open(os.path.join(args.out, "split.json"), "w"))
 
     loader_args = dict(batch_size=args.batch, num_workers=4, pin_memory=True,
-                       persistent_workers=True, drop_last=True)
-    train_loader = DataLoader(tr, shuffle=True, **loader_args)
-    val_loader = DataLoader(va, shuffle=False, **loader_args)
-    test_loader = DataLoader(te, shuffle=False, **loader_args)
+                       persistent_workers=True)
+    train_loader = DataLoader(tr, shuffle=True, drop_last=True, **loader_args)
+    # eval loaders must NOT drop_last — with 15 val clips at batch 10 it
+    # silently discards 5 (accuracy quantized to k/10, best-model selection
+    # blind to a third of validation, predictions misaligned with indices)
+    val_loader = DataLoader(va, shuffle=False, drop_last=False, **loader_args)
+    test_loader = DataLoader(te, shuffle=False, drop_last=False, **loader_args)
     print(f"Classes {classes} | split {len(tr)}/{len(va)}/{len(te)}")
 
     model = SpeckFittingTrainer(args.batch, n_classes, args.time_stride).to(device)
