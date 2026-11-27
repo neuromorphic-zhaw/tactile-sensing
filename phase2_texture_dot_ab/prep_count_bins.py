@@ -20,8 +20,8 @@ which physical phase the bins span. Use the spacebar phase marks
 Clips missing the needed phase marks are skipped (run qa_dataset.py first).
 
 Usage (per condition):
-    python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex/dot \
-        --dst ../data/phase2_texture_dot_ab/dataset_tex_evT166/dot --bins 166 --slice touch
+    python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex_raw/dot \
+        --dst ../data/phase2_texture_dot_ab/texture/evT166/dot --bins 166 --slice touch
 """
 
 import argparse
@@ -77,7 +77,7 @@ def slice_span(f, slc):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--src", required=True, help="dataset_tex/<condition> dir")
+    ap.add_argument("--src", required=True, help="dataset_tex_raw/<condition> dir")
     ap.add_argument("--dst", required=True, help="output npz dir (per condition)")
     ap.add_argument("--bins", type=int, default=166)
     ap.add_argument("--slice", dest="slc", default="touch",

@@ -48,10 +48,20 @@ from `labels.json`. Keep the class list identical across both conditions.
 ## Data layout
 
 ```
-data/phase2_texture_dot_ab/dataset_tex/{dot,nodot}/<class>/<date>_<class>_<nn>.h5   raw clips
-data/phase2_texture_dot_ab/dataset_tex_evT166/{dot,nodot}/<class>/*.npz             evT166 frames+label
-runs/<condition>_evT166/                                      trainer output
+data/phase2_texture_dot_ab/dataset_tex_raw/{dot,nodot}/<class>/<date>_<class>_<nn>.h5   raw clips
+data/phase2_texture_dot_ab/texture/evT<B>/{dot,nodot}/<class>/*.npz   TRACK 1 — surface
+                                                            classification rasters (slice=touch)
+data/phase2_texture_dot_ab/phase/evT166/{dot,nodot}/<class>/*.npz     TRACK 2 — phase
+                                                            recognition (per-bin phase labels,
+                                                            touch capped 3 s)
+runs/<cond>_<tag>/                                            trainer output
 ```
+
+See `../data/phase2_texture_dot_ab/README.md` for the full dataset map.
+Phase recognition (track 2): `prep_phase_bins.py` slices approach /
+touch(3 s cap) / retreat segments BEFORE count-binning, so bins are
+never wasted on dead zones; per-bin labels 0/1/2, mask -1 join bins.
+Allocation ~32/46/21% — roughly balanced by construction.
 
 ## Runbook
 
@@ -60,19 +70,19 @@ runs/<condition>_evT166/                                      trainer output
 #    per clip: SPACE=start/approach → SPACE=touch (10.00 s precise timer)
 #    → SPACE=retreat → SPACE=stop+save. Repeat each class in order, once
 #    per condition (keep surface set + order identical across gels).
-python record_touch.py --root ../data/phase2_texture_dot_ab/dataset_tex --classes flat,curved,edge,soft,grid
+python record_touch.py --root ../data/phase2_texture_dot_ab/dataset_tex_raw --classes flat,curved,edge,soft,grid
 # batch alternative: python collect_tex.py --condition dot   --classes flat,curved,edge,soft,grid
 #                    python collect_tex.py --condition nodot --classes flat,curved,edge,soft,grid
 
 # 2. Rasterize to evT166 count-binned npz (per condition)
-python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex/dot \
-    --dst ../data/phase2_texture_dot_ab/dataset_tex_evT166/dot --bins 166
-python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex/nodot \
-    --dst ../data/phase2_texture_dot_ab/dataset_tex_evT166/nodot --bins 166
+python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex_raw/dot \
+    --dst ../data/phase2_texture_dot_ab/texture/evT166/dot --bins 166
+python prep_count_bins.py --src ../data/phase2_texture_dot_ab/dataset_tex_raw/nodot \
+    --dst ../data/phase2_texture_dot_ab/texture/evT166/nodot --bins 166
 
 # 3. Train the identical model on each condition (same seed)
-python train_tex.py --data ../data/phase2_texture_dot_ab/dataset_tex_evT166/dot   --out runs/dot_evT166
-python train_tex.py --data ../data/phase2_texture_dot_ab/dataset_tex_evT166/nodot --out runs/nodot_evT166
+python train_tex.py --data ../data/phase2_texture_dot_ab/texture/evT166/dot   --out runs/dot_evT166
+python train_tex.py --data ../data/phase2_texture_dot_ab/texture/evT166/nodot --out runs/nodot_evT166
 # HPC: parameterized slurm launcher — one variant table, both conditions
 # bash sweep.sh          # submits every VARIANTS[] line for dot AND nodot
 # single run: sbatch --export=ALL,COND=dot,TAG=evT166_s2 job_tex.slurm

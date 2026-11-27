@@ -1,4 +1,4 @@
-"""qa_dataset.py — data-cleaning inspection for dataset_tex clips.
+"""qa_dataset.py — data-cleaning inspection for dataset_tex_raw clips.
 
 Walks every .h5 under a dataset dir and validates collection quality:
   - all 4 phase marks present (approach/touch/touch_10s/retreat)
@@ -10,8 +10,8 @@ Walks every .h5 under a dataset dir and validates collection quality:
 Prints a per-clip table + summary. Exit code 1 if any clip FAILs —
 wire this into the workflow before prep/training.
 
-    python qa_dataset.py --root ../data/phase2_texture_dot_ab/dataset_tex/dot
-    python qa_dataset.py --root ../data/phase2_texture_dot_ab/dataset_tex        # both conditions
+    python qa_dataset.py --root ../data/phase2_texture_dot_ab/dataset_tex_raw/dot
+    python qa_dataset.py --root ../data/phase2_texture_dot_ab/dataset_tex_raw        # both conditions
 """
 
 import argparse

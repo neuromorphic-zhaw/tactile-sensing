@@ -19,9 +19,9 @@ VARIANTS=(
     # (evT166/332/664, all slice=touch; see data/phase2_texture_dot_ab/README.md)
     "evT166_s2"                                                        # baseline = stage-1 champion recipe
     "evT166_s4 TSTRIDE=4"                                              # same data, half compute
-    "evT332_s2 DATA=$VD/../data/phase2_texture_dot_ab/dataset_tex_evT332/\$COND"                     # finer res, 2x compute
-    "evT332_s4 TSTRIDE=4 DATA=$VD/../data/phase2_texture_dot_ab/dataset_tex_evT332/\$COND"           # finer res, same compute as baseline
-    "evT664_s4 TSTRIDE=4 DATA=$VD/../data/phase2_texture_dot_ab/dataset_tex_evT664/\$COND"           # resolution probe, 2x compute
+    "evT332_s2 DATA=$VD/../data/phase2_texture_dot_ab/texture/evT332/\$COND"                     # finer res, 2x compute
+    "evT332_s4 TSTRIDE=4 DATA=$VD/../data/phase2_texture_dot_ab/texture/evT332/\$COND"           # finer res, same compute as baseline
+    "evT664_s4 TSTRIDE=4 DATA=$VD/../data/phase2_texture_dot_ab/texture/evT664/\$COND"           # resolution probe, 2x compute
     # "evT166_s1 TSTRIDE=1"                                            # no stride — slowest
     # "evT166_s2_lr1e4 LR=1e-4"
     # "evT166_s2_ft PRETRAINED=<ckpt> LR=5e-5 EPOCHS=50"               # warm-start
