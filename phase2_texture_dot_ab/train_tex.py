@@ -137,11 +137,25 @@ def main():
 
     full = TactileDataset(args.data)
     n = len(full)
-    train_sz, val_sz = int(0.70 * n), int(0.15 * n)
-    test_sz = n - train_sz - val_sz
-    tr, va, te = torch.utils.data.random_split(
-        full, [train_sz, val_sz, test_sz],
-        generator=torch.Generator().manual_seed(args.seed))
+    # stratified per-class 70/15/15 — with ~20 clips/class a plain random
+    # split can drop a class entirely from test (happened: nodot test had
+    # 4/5 classes), making accuracy meaningless
+    per_class = {}
+    for i, f in enumerate(full.file_list):
+        with np.load(f) as d:
+            per_class.setdefault(int(d["label"]), []).append(i)
+    rng = np.random.RandomState(args.seed)
+    tr_idx, va_idx, te_idx = [], [], []
+    for cls in sorted(per_class):
+        idx = np.array(per_class[cls])
+        rng.shuffle(idx)
+        ntr, nva = int(0.70 * len(idx)), int(0.15 * len(idx))
+        tr_idx += idx[:ntr].tolist()
+        va_idx += idx[ntr:ntr + nva].tolist()
+        te_idx += idx[ntr + nva:].tolist()
+    tr = torch.utils.data.Subset(full, sorted(tr_idx))
+    va = torch.utils.data.Subset(full, sorted(va_idx))
+    te = torch.utils.data.Subset(full, sorted(te_idx))
     # persist test indices so the A/B uses identical held-out logic
     json.dump({"test_indices": te.indices, "classes": classes,
                "seed": args.seed},
@@ -218,7 +232,7 @@ def main():
     tp, tt = np.array(tp), np.array(tt)
     test_acc = 100.0 * np.mean(tp == tt)
     print(f"\nFINAL TEST ACCURACY: {test_acc:.2f}%")
-    print(classification_report(tt, tp, target_names=classes, zero_division=0))
+    print(classification_report(tt, tp, labels=list(range(n_classes)), target_names=classes, zero_division=0))
 
     np.savez(os.path.join(args.out, "test_predictions.npz"),
              y_true=tt, y_pred=tp, test_indices=np.array(te.indices))
