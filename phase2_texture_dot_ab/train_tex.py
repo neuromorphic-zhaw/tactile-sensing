@@ -42,11 +42,17 @@ def parse_args():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--pretrained", default="")
     ap.add_argument("--time_stride", type=int, default=2, help="s2 recipe = 2")
+    ap.add_argument("--noise_drop", type=float, default=0.10)
+    ap.add_argument("--noise_add", type=float, default=0.0)
+    ap.add_argument("--noise_shift", type=int, default=0)
     return ap.parse_args()
 
 
 class TactileDataset(Dataset):
-    def __init__(self, data_dir):
+    def __init__(self, data_dir, noise_drop=0.10, noise_add=0.0, noise_shift=0):
+        self.noise_drop = noise_drop      # event-dropout prob (baseline aug: 0.10)
+        self.noise_add = noise_add        # additive hot-pixel prob/pixel/frame/polarity
+        self.noise_shift = noise_shift    # max spatial jitter +-px (wrap-around)
         self.file_list = sorted(glob.glob(os.path.join(data_dir, "**/*.npz"),
                                           recursive=True))
         if not self.file_list:
@@ -63,7 +69,7 @@ class TactileDataset(Dataset):
         if torch.is_grad_enabled():
             if np.random.rand() > 0.5:
                 data = torch.roll(data, shifts=int(np.random.randint(-12, 12)), dims=0)
-            drop = (torch.rand_like(data) < 0.10).float()
+            drop = (torch.rand_like(data) < self.noise_drop).float()
             data = data * (1.0 - drop)
             s = float(np.random.uniform(0.8, 1.2))
             t = data.shape[0]
@@ -76,6 +82,14 @@ class TactileDataset(Dataset):
             else:
                 off = int(np.random.randint(0, new_t - t + 1))
                 data = d2[off:off + t]
+            if self.noise_add > 0:
+                # spurious ON events — hot-pixel/salt noise, physically real for DVS
+                data = data + (torch.rand_like(data) < self.noise_add).float()
+            if self.noise_shift > 0:
+                # random spatial translation — sensor-placement variance
+                sy = int(np.random.randint(-self.noise_shift, self.noise_shift + 1))
+                sx = int(np.random.randint(-self.noise_shift, self.noise_shift + 1))
+                data = torch.roll(data, shifts=(sy, sx), dims=(-2, -1))
         return torch.clamp(data, 0.0, 1.0), label
 
 
@@ -141,7 +155,8 @@ def main():
     classes = json.load(open(labels_json))["classes"]
     n_classes = len(classes)
 
-    full = TactileDataset(args.data)
+    full = TactileDataset(args.data, noise_drop=args.noise_drop,
+                          noise_add=args.noise_add, noise_shift=args.noise_shift)
     n = len(full)
     # stratified per-class 70/15/15 — with ~20 clips/class a plain random
     # split can drop a class entirely from test (happened: nodot test had

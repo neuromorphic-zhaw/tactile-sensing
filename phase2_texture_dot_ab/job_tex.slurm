@@ -18,6 +18,9 @@
 #   EPOCHS     int   (100)   LR float (2e-4)   BS int (10)
 #   WD         float (1e-4)  SEED int (42)     TSTRIDE int (2)
 #   PRETRAINED path             warm-start ckpt (default: none)
+#   NOISE_DROP float (0.10)     event-dropout prob  (0.10 = baseline aug)
+#   NOISE_ADD  float (0.0)      additive hot-pixel noise prob/pixel/frame
+#   NOISE_SHIFT int  (0)        max spatial jitter +-px
 
 export MAMBA_EXE='/cfs/earth/scratch/matheron/bin/micromamba'
 eval "$($MAMBA_EXE shell hook --shell bash)"
@@ -49,4 +52,7 @@ python -u "$VD/train_tex.py" \
     --weight_decay ${WD:-1e-4} \
     --seed ${SEED:-42} \
     --time_stride ${TSTRIDE:-2} \
+    --noise_drop ${NOISE_DROP:-0.10} \
+    --noise_add ${NOISE_ADD:-0.0} \
+    --noise_shift ${NOISE_SHIFT:-0} \
     ${PRETRAINED:+--pretrained "$PRETRAINED"}
