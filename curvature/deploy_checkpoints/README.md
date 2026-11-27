@@ -1,8 +1,22 @@
-# Deploy Checkpoints — Top 10 (updated 2026-10-19)
+# Deploy Checkpoints — Top 10 (updated 2026-11-27)
 
-Best-val checkpoints ranked by **mean(val, test)**. All from the 10ms sweep
-(`speck_compatible/devin_10ms/`) unless noted; new runs displace the bottom
-entry when their mean beats it — see "Watch list" below.
+**Deployment verdict is event-level specksim, NOT binned accuracy** — see
+the count-bin table below for the current champion. The 10ms leaderboard
+farther down is the older binned ranking kept for reference.
+
+## Event-level (specksim) checkpoints — what actually deploys
+
+| File | Binned v/t | Event-level val | Event-level test | Note |
+|---|---|---|---|---|
+| `evT166_s2_ft_v83.33_t90.00.pt` | 83.33/90.00 | **76.67** | **70.00** | **CHAMPION** — ft of evT166_s2 (lr5e-5/50ep); use + 200K windowed vote |
+| `evT166_s2_v86.67_t83.33.pt` | 86.67/83.33 | 73.33 | 70.00 | previous champion; warm-start backbone for ft/SSM runs |
+| `wclamp_evT166ft_v96.67_t86.67.pt` | 96.67/86.67 | 66.67 | — | highest count-bin val ever; binned does NOT transfer |
+| `evT166_c0.8.pt` / `evT166_c0.9.pt` | — | 66.67 / 60.00 | — | readout-rescale variants of evT166_s2 |
+| `wclamp_c0.5.pt` / `wclamp_c0.6.pt` / `wclamp_c0.7.pt` | — | 73.33 / 70.00 / 60.00 | — | rescale variants of wclamp; c0.5 flat-biased |
+
+All `evT166*` ckpts train on count-binned data (166 equal-count bins,
+s2 stride) — the deployment-natural rasterization. Trainers:
+`curvature/speck_compatible/devin_evcount/<variant>/`.
 
 ## Shared training config (all 10)
 
@@ -54,7 +68,8 @@ don't crack it. `aug_all` family is now 0-for-9 — all ≤70 test, dead end.
 | `s8_*`/`s10_b10`/`s5_b5`/`s16_best` (1ms) | 1ms | stack variants | queued, mem bumped to 256G |
 | `ev_*` finished | raw | best: ev_augs t83.33 | none crack top-10 (max mean 78.3) |
 
-Deploy pick: **`wclamp`** — smallest val→test gap, all |W| ≤ 0.41 « θ=1.0.
+Deploy pick (binned era, superseded): `wclamp`. **Current deploy pick —
+event-level**: `evT166_s2_ft` + windowed vote (see top table).
 
 ## SNN+SSM hybrid checkpoints (2026-10-26)
 
@@ -66,11 +81,14 @@ readout pattern as live_dvs.py, just smarter temporal integration.
 
 | File | Backbone | Data family | Val | Test | Event-level (specksim) |
 |------|----------|-------------|-----|------|------------------------|
-| `ssm_t10ms_frz_v80.00_t86.67.pt` | frozen wclamp | time bins | 80.00 | **86.67** | pending (job 1074885) |
-| `ssm_evT166_frz_v83.33_t73.33.pt` | frozen evT166_s2 | count bins | 83.33 | 73.33 | **63.33% val** |
-| `ssm_t10ms_v83.33_t70.00.pt` | joint scratch | time bins | 83.33 | 70.00 | pending (job 1074884) |
-| `ssm_evT166_v80.00_t56.67.pt` | joint scratch | count bins | 80.00 | 56.67 | pending (job 1074886) |
+| `ssm_t10ms_frz_v80.00_t86.67.pt` | frozen wclamp | time bins | 80.00 | **86.67** | unrunnable (bad_alloc, wclamp backbone) |
+| `ssm_evT166_frz_v83.33_t73.33.pt` | frozen evT166_s2 | count bins | 83.33 | 73.33 | 63.33% val / **46.67% test — degenerate all-flat** |
+| `ssm_t10ms_v83.33_t70.00.pt` | joint scratch | time bins | 83.33 | 70.00 | unrunnable (bad_alloc, wclamp backbone) |
+| `ssm_evT166_v80.00_t56.67.pt` | joint scratch | count bins | 80.00 | 56.67 | unrunnable |
+| `ssm_evT166_l8_v83.33_t76.67.pt` | frozen evT166_s2 | count bins | 83.33 | 76.67 | **63.33% val** (l8 feature mode, layer-7 monitor) |
+| `ssm_t10ms_l8_v86.67_t76.67.pt` | frozen wclamp | time bins | 86.67 | 76.67 | unrunnable (bad_alloc @500K/250K/100K) |
 
-Eval: `demo/eval_specksim_ssm.py --model <ckpt> --win_mode {time|count}`
-(time=40ms windows for t10ms, count=N/83 events for evT166).
-Trainer: `speck_compatible/devin_ssm/<variant>/train.py`.
+Eval: `curvature/demo/eval_specksim_ssm.py --model <ckpt> --win_mode {time|count}`
+(time=40ms windows for t10ms, count=N/83 events for evT166; auto-detects
+l8 feature mode from the ckpt's `proj.weight` width).
+Trainer: `curvature/speck_compatible/devin_ssm/<variant>/train.py`.
