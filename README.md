@@ -33,6 +33,33 @@ devkit via `phase1_curvature/demo/live_dvs.py` (real-time flat/curved GUI, ~0.6 
 decision latency, zero host inference). Closing the sim→chip gap is the
 active workstream — see `PROJECT_STATUS.md`.
 
+## Phase 2 status (2026-11-27) — texture/dot A/B
+
+**Data**: 211 clips × 5 surfaces × 2 gels collected (spacebar-marked
+approach/touch/retreat phases), QA 211/211, balanced to exactly
+20 clips/class/condition; count-binned at 3 resolutions + a
+phase-recognition dataset. Everything regenerable from the raw master.
+
+**Baseline sweep complete** (stratified splits, fixed trainers — see
+`phase2_texture_dot_ab/RESULTS.md` for the full map). Binned test
+(diagnostic only):
+
+- **nodot is flat-out consistent**: 93.3% test on every variant
+- **dot is weaker and variable**: 80–93.3%, losses concentrate on
+  curved + grid (−33 pts vs nodot)
+- McNemar paired: not yet significant (n=15) — hypothesis, not verdict:
+  dot-trained models may overfit session-specific marker layouts (dots
+  are hand-drawn, redrawn between sessions) instead of surface geometry
+
+**Noise experiment running**: does noise-augmented training (event
+dropout 30% / 1% hot-pixel noise / ±8 px spatial jitter / combined)
+close the dot gap? If yes → overfitting hypothesis confirmed; if no →
+dots genuinely uninformative for those surfaces.
+
+**Not yet done**: event-level specksim needs the N-class port of
+`eval_specksim_events.py` — no phase-2 deployment claims until then
+(standing rule). Track-2 phase-recognition trainer not yet built.
+
 ## Repository layout
 
 The repo mirrors the three thesis stages:
@@ -40,7 +67,7 @@ The repo mirrors the three thesis stages:
 | Stage | Project dir | Status |
 |---|---|---|
 | 1 — flat vs curved | `phase1_curvature/` | ✅ complete (deliverables D1–D4) |
-| 2 — dot vs markerless gel A/B | `phase2_texture_dot_ab/` | 🟡 active — data collection next |
+| 2 — dot vs markerless gel A/B | `phase2_texture_dot_ab/` | 🟡 active — baseline sweep done, noise experiment running |
 | 3 — force-sensor integration | `phase3_force/` (planned) | ⬜ upcoming |
 
 `speck_toolkit/` holds the project-agnostic Speck2f building blocks
@@ -51,14 +78,14 @@ top level; all datasets live centrally under `data/`.
 |---|---|
 | `speck_toolkit/` | Reusable Speck2f toolkit: devkit attach/view scripts, samnagui DVS+power GUI, verified 9-core `model.py`, `verify_convert.py`, `deploy_speck.py`, `replay_chip.py` — see its README |
 | `phase1_curvature/speck_connect/` | `collect_gzip_curv.py` — the D2 dataset collection GUI (.h5+gzip) |
-| `data/` | Strict phase separation: `phase1_curvature/` (dataset_curv 200 .h5, events, time/count bins — top-level names symlink here); `phase2_texture_dot_ab/` (`dataset_tex/{dot,nodot}/<class>/*.h5` + `labels.json`, `dataset_tex_evT166/` derived) |
+| `data/` | Strict phase separation: `phase1_curvature/` (dataset_curv 200 .h5, events, time/count bins — top-level names symlink here); `phase2_texture_dot_ab/` (`dataset_tex_raw/` 211 master .h5, `texture/evT166/332/664/` track-1 rasters, `phase/evT166/` track-2 phase-recognition data — all balanced 20 clips/class, see its README) |
 | `phase1_curvature/speck_compatible/` | Training: `devin_10ms/` (champion sweep), `devin_evcount/` (count-bin), `devin_rawevent/`, `devin_1/2/5ms/`, `devin_ssm/` (SNN+SSM hybrids); `live_status.sh` |
 | `phase1_curvature/demo/` | Deployment + eval: `live_dvs.py` (on-chip live demo), `live_ssm.py` (host-side SSM readout), `eval_specksim_events.py` / `eval_specksim_ssm.py` (**the deployable evaluator**), `eval_quantized*.py`, `model.py` (model defs + ckpt loader) |
 | `phase1_curvature/deploy_checkpoints/` | Deployment-candidate `.pt` files, `v<val>_t<test>` naming; rescale variants `*_c*`; see its README |
 | `phase1_curvature/specksim_eval/` | Slurm jobs + logs for event-level evals |
 | `phase1_curvature/non-speck-compatible/` | Legacy pre-Speck-constraint experiments (kept for reference) |
 | `phase1_curvature/eval_cm.py`, `quant_eval/`, `specksim_sanity/` | Early quantized/binned eval + sanity checks |
-| `phase2_texture_dot_ab/` | Stage-2: multi-class texture classification (flat/curved/edge/soft/grid) as a controlled A/B — GelSight **with marker dots vs markerless**. Spacebar recorder (`record_touch.py`), batch collector (`collect_tex.py`), evT166 prep (`prep_count_bins.py`), N-class trainer (`train_tex.py` → `runs/`), paired eval (`eval_compare.py`). See `phase2_texture_dot_ab/README.md` |
+| `phase2_texture_dot_ab/` | Stage-2: 5-class surface classification (flat/curved/edge/soft/grid) as a controlled A/B — GelSight **with marker dots vs markerless** — plus track-2 approach/touch/retreat phase recognition. Spacebar recorder (`record_touch.py`), batch collector (`collect_tex.py`), count-bin prep (`prep_count_bins.py`) + phase prep (`prep_phase_bins.py`), N-class trainer with noise-augmentation knobs (`train_tex.py` → `runs/`), paired eval (`eval_compare.py`), sweeps (`sweep.sh`, `sweep_noise.sh`). **RESULTS.md = the experiment map.** See its README |
 | `PROJECT_STATUS.md` | Detailed progress report (architecture, quantization, deploy notes) |
 | `LIVE_STATUS.md` | Auto-updating training dashboard snapshot |
 
