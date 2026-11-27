@@ -80,6 +80,8 @@ def main():
     ap.add_argument("--src", required=True, help="dataset_tex_raw/<condition> dir")
     ap.add_argument("--dst", required=True, help="output npz dir (per condition)")
     ap.add_argument("--bins", type=int, default=166)
+    ap.add_argument("--max_per_class", type=int, default=20,
+                    help="cap clips per class (first N chronologically; filenames are date-prefixed so sorted == chronological)")
     ap.add_argument("--slice", dest="slc", default="touch",
                     choices=["touch", "contact", "all"],
                     help="phase window to bin (default: touch)")
@@ -104,8 +106,11 @@ def main():
         raise FileNotFoundError(f"No .h5 under {args.src}")
 
     n_done = n_skip = 0
+    per_class_count = {}
     for path in h5s:
         cls = os.path.basename(os.path.dirname(path))
+        if args.max_per_class and per_class_count.get(cls, 0) >= args.max_per_class:
+            continue
         if cls not in label_of:
             print(f"  skip (class '{cls}' not in label map): {path}")
             n_skip += 1
@@ -123,6 +128,7 @@ def main():
         os.makedirs(out_dir, exist_ok=True)
         out = os.path.join(out_dir, os.path.basename(path).replace(".h5", ".npz"))
         np.savez_compressed(out, frames=frames, label=np.int64(label_of[cls]))
+        per_class_count[cls] = per_class_count.get(cls, 0) + 1
         n_done += 1
         print(f"  {os.path.basename(path)} -> {out}  ({len(x):,} events sliced, label={label_of[cls]})")
 
